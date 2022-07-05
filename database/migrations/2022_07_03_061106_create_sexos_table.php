@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('sexos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string("nombre", 20);
             $table->timestamps();
         });
-        
+        Schema::table('personas',function (Blueprint $table){
+            $table->unsignedBigInteger("sexo_id")->nullable(); 
+            $table->foreign('sexo_id')->references('id')->on('sexos');
+        });
     }
 
     /**
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('sexos');
     }
 };

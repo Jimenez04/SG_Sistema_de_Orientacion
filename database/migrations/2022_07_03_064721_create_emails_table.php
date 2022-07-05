@@ -13,15 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('emails', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string("email", 50)->unique();
+            //FK
             $table->timestamps();
+            $table->string('persona_cedula',20);
         });
-        
+        Schema::table('emails',function (Blueprint $table){
+            $table->foreign('persona_cedula')->references('cedula')->on('personas');
+        });
     }
 
     /**
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('emails');
     }
 };
