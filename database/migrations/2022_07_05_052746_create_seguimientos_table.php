@@ -13,11 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('curso_u_c_r_s', function (Blueprint $table) {
+        Schema::create('seguimientos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nombre');
-            $table->integer('creditos');
+            $table->longText('descripcion_Seguimiento');
+            $table->longText('descripcion_Atencion');
             $table->timestamps();
+            $table->unsignedBigInteger('N_id')->nullable();
+        });
+
+        Schema::table('seguimientos',function (Blueprint $table){
+           $table->foreign('N_id')->references('id')->on('necesidad__y__apoyos');
         });
     }
 
@@ -28,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('curso_u_c_r_s');
+        Schema::dropIfExists('seguimientos');
     }
 };

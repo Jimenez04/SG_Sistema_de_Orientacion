@@ -14,8 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('becas', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id_Beca');
+            $table->integer('categoria_Beca');
+            $table->string('asistencia_Socioeconomica')->nullable();
+            $table->string('participacion')->nullable();
             $table->timestamps();
+            $table->string('estudiante_carnet');        
+        });
+        Schema::table('becas',function (Blueprint $table){
+            $table->foreign('estudiante_carnet')->references('carnet')->on('estudiantes');
         });
     }
 

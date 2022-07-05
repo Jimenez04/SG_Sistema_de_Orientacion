@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('curso_u_c_r_s', function (Blueprint $table) {
+        Schema::create('necesidad__y__apoyos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nombre');
-            $table->integer('creditos');
+            $table->longText('diagnostico');
+            $table->string('profesional_Que_Diagnostico');
+            $table->date('area_Profesional');
             $table->timestamps();
         });
+
+    
     }
 
     /**
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('curso_u_c_r_s');
+        Schema::dropIfExists('necesidad__y__apoyos');
     }
 };
