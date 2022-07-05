@@ -26,7 +26,7 @@ class Estudiante extends Model
         return $this->hasOne(Persona::class);
     }
     public function Beca()
-    {
+    { 
         return $this->hasOne(Beca::class);
     }
 }

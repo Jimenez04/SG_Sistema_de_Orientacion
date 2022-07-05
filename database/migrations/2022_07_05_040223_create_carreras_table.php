@@ -14,8 +14,17 @@ return new class extends Migration
     public function up()
     {
         Schema::create('carreras', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->datetime('ano_Ingreso');
+            $table->integer('nivel_Carrera');
+            $table->boolean('estado');
+            $table->integer('orden');
             $table->timestamps();
+
+            $table->string('estudiante_carnet');        
+        });
+        Schema::table('carreras',function (Blueprint $table){
+            $table->foreign('estudiante_carnet')->references('carnet')->on('estudiantes');
         });
     }
 
