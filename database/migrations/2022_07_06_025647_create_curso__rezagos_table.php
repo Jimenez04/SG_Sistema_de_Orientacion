@@ -35,7 +35,6 @@ return new class extends Migration
             $table->foreign('curso__Rezago_Id')->references('id')->on('curso__rezagos');
 
        });
-      // DB::unprepared('ALTER TABLE `formulario__valoracion__academicas` DROP PRIMARY KEY, ADD PRIMARY KEY (  `pregunta_Id` ,  `curso__Rezago_Id` )');
 
        Schema::table('actitud__estudiantes', function (Blueprint $table) {
         $table->unsignedBigInteger('curso_Rezago_Id');

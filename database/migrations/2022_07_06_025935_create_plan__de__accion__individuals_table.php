@@ -33,6 +33,11 @@ return new class extends Migration
             $table->string('estudiante_Carnet');
             $table->foreign('estudiante_Carnet')->references('carnet')->on('estudiantes');
         });
+
+        Schema::table('salud__fisica__emocionals',function (Blueprint $table){
+            $table->string('plan_De_Accion_N_Solicitud');
+            $table->foreign('plan_De_Accion_N_Solicitud')->references('numero_Solicitud')->on('plan__de__accion__individuals');
+        });
     }
 
     /**
