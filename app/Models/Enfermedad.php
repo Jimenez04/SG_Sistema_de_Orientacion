@@ -11,6 +11,7 @@ class Enfermedad extends Model
 
     protected $fillable = [
         'id',
+        'persona_cedula',
         'tipo_Enfermedad',
         'descripcion',
         'tratamiento',
@@ -18,6 +19,7 @@ class Enfermedad extends Model
     ];
 
     protected $id;
+    protected $persona_cedula;
     protected $tipo_Enfermedad;
     protected $descripcion;
     protected $tratamiento;

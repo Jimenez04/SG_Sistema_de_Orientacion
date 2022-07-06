@@ -8,4 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class CursoUCR extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'id',  
+        'id_Carrera',
+        'nombre',
+        'creditos', 
+    ];
+
+    protected $id;
+    protected $id_Carrera;
+    protected $nombre;
+    protected $creditos;
+
+    public function carrera_UCR()
+    {
+        return $this->belongsTo(Persona::class);
+    }
+
+    // public function Curso_Rezago()
+    // {
+    //     return $this->hasOne(Curso_Rezago::class);
+    // }
 }

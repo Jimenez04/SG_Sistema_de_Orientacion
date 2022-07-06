@@ -17,6 +17,8 @@ class Persona extends Model
             'apellido2',
             'fecha_Nacimiento',
             'id_Sexo',
+            'user_id',
+            'trabajo_id',
         ];
         protected $cedula;
         protected $nombre1;
@@ -24,6 +26,9 @@ class Persona extends Model
         protected $apellido1;
         protected $apellido2;
         protected $fecha_Nacimiento;
+        protected $id_Sexo;
+        protected $user_id;
+        protected $trabajo_id;
 
         public function User()
         {

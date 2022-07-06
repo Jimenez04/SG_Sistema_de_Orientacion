@@ -18,11 +18,11 @@ return new class extends Migration
             $table->longText('descripcion_Seguimiento');
             $table->longText('descripcion_Atencion');
             $table->timestamps();
-            $table->unsignedBigInteger('N_id')->nullable();
+            $table->unsignedBigInteger('necesidad_Y_Apoyo_id')->nullable();
         });
 
         Schema::table('seguimientos',function (Blueprint $table){
-           $table->foreign('N_id')->references('id')->on('necesidad__y__apoyos');
+           $table->foreign('necesidad_Y_Apoyo_id')->references('id')->on('necesidad__y__apoyos');
         });
     }
 
