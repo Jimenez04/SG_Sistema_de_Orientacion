@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('salud__fisica__emocionals', function (Blueprint $table) {
             $table->id();
+            $table->longText('descipcion');
             $table->timestamps();
         });
     }

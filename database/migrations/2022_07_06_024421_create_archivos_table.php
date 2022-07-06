@@ -14,9 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('archivos', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->string('url');
+            $table->string('expedido_Por',50);
             $table->timestamps();
         });
+        Schema::table('archivos', function (Blueprint $table) {
+            $table->string('solicitud_Numero');
+            $table->foreign('solicitud_Numero')->references('numero_solicitud')->on('solicitud_de_adecuacions');
+       });
     }
 
     /**
