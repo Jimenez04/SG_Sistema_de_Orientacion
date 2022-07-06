@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('necesidad__y__apoyos', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->longText('diagnostico');
-            $table->string('profesional_Que_Diagnostica');
-            $table->date('area_Profesional');
+        Schema::create('vida__estudiantils', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
         });
-
-    
     }
 
     /**
@@ -31,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('necesidad__y__apoyos');
+        Schema::dropIfExists('vida__estudiantils');
     }
 };
