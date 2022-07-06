@@ -19,8 +19,8 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('grupo__familiars', function (Blueprint $table) {
-            $table->string('solicitud_Numero');
-            $table->foreign('solicitud_Numero')->references('numero_solicitud')->on('solicitud_de_adecuacions');
+            $table->string('adecuacion_Solicitud_Numero')->nullable();
+            $table->foreign('adecuacion_Solicitud_Numero')->references('numero_solicitud')->on('solicitud_de_adecuacions');
        });
     }
 

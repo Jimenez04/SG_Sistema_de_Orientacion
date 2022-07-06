@@ -14,7 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('item__bitacoras', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->longText('descripcion');
+            $table->dateTime('fecha');
             $table->timestamps();
         });
     }

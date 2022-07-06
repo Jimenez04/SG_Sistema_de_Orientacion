@@ -14,9 +14,23 @@ return new class extends Migration
     public function up()
     {
         Schema::create('bitacoras', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->dateTime('fecha');
             $table->timestamps();
         });
+        Schema::table('bitacoras', function (Blueprint $table) {
+            $table->unsignedBigInteger('revision_Solicitud_Id')->nullable();
+            $table->foreign('revision_Solicitud_Id')->references('id')->on('revision__solicituds');
+
+            $table->unsignedBigInteger('expediente_Solicitud_Id')->nullable();
+            $table->foreign('expediente_Solicitud_Id')->references('id')->on('expediente__plan__de__accions');
+       });
+
+            Schema::table('item__bitacoras', function (Blueprint $table) {
+            $table->unsignedBigInteger('bitacora_Id')->nullable();
+            $table->foreign('bitacora_Id')->references('id')->on('bitacoras');
+        });
+
     }
 
     /**
