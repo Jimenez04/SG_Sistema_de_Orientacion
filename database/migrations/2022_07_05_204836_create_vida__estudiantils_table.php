@@ -14,8 +14,19 @@ return new class extends Migration
     public function up()
     {
         Schema::create('vida__estudiantils', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->string('profesional_Encargado',50);
+            $table->string('horario_Atencion',50);
             $table->timestamps();
+        });
+        Schema::table('contactos', function (Blueprint $table) {
+            $table->unsignedBigInteger('vida_Estudiantil_Id');
+            $table->foreign('vida_Estudiantil_Id')->references('id')->on('vida__estudiantils');
+        });
+
+        Schema::table('emails', function (Blueprint $table) {
+            $table->unsignedBigInteger('vida_Estudiantil_Id');
+            $table->foreign('vida_Estudiantil_Id')->references('id')->on('vida__estudiantils');
         });
     }
 
