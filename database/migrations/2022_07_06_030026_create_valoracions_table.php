@@ -14,7 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('valoracions', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->dateTime('fecha');
+            $table->string('persona_Solicitante_Plan_DeAccion',50);
+            $table->longText('motivo_Intervencion');
+            $table->longText('resumen_Valoracion');
             $table->timestamps();
         });
     }

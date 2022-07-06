@@ -14,9 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('informe__solicituds', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->dateTime('fecha');
+            $table->longText('descripcion');
             $table->timestamps();
         });
+        Schema::table('item__informes', function (Blueprint $table) {
+            $table->unsignedBigInteger('informe_Solicitud_Id');
+            $table->foreign('informe_Solicitud_Id')->references('id')->on('informe__solicituds');
+       });
     }
 
     /**

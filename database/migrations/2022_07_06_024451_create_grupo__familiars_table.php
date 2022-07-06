@@ -14,9 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('grupo__familiars', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->longText('descripcion_De_Discapacidades');
             $table->timestamps();
         });
+        Schema::table('grupo__familiars', function (Blueprint $table) {
+            $table->string('adecuacion_Solicitud_Numero')->nullable();
+            $table->foreign('adecuacion_Solicitud_Numero')->references('numero_solicitud')->on('solicitud_de_adecuacions');
+       });
     }
 
     /**

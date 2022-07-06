@@ -14,9 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('cierre__intervencions', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->longText('especificacion_De_Cierre');
+            $table->longText('conclusiones_finales');
+            $table->longText('recomendaciones');
+            $table->dateTime('fecha');
             $table->timestamps();
         });
+        
     }
 
     /**

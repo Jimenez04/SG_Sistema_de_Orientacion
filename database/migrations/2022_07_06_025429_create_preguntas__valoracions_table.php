@@ -14,9 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('preguntas__valoracions', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->longText('pregunta');
             $table->timestamps();
         });
+        Schema::table('preguntas__valoracions', function (Blueprint $table) {
+            $table->unsignedBigInteger('categoria_Id');
+            $table->foreign('categoria_Id')->references('id')->on('categorias');
+       });
     }
 
     /**

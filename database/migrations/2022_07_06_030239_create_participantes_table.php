@@ -14,8 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('participantes', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->string('relacion');
             $table->timestamps();
+        });
+        Schema::table('participantes', function (Blueprint $table) {
+            $table->string('persona_Cedula');
+            $table->foreign('persona_Cedula')->references('cedula')->on('personas');
         });
     }
 
