@@ -16,8 +16,6 @@ return new class extends Migration
     {
         Schema::create('curso__rezagos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('solicitud_Numero');
-            $table->unsignedBigInteger('curso_Id');
             $table->string('grupo');
             $table->string('docente');
             $table->integer('numero_De_Matriculas');
