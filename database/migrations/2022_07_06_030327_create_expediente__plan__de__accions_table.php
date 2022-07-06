@@ -14,8 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('expediente__plan__de__accions', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->dateTime('fecha');
             $table->timestamps();
+        });
+
+        Schema::table('expediente__plan__de__accions', function (Blueprint $table) {
+            $table->string('solicitud_Numero');
+            $table->foreign('solicitud_Numero')->references('numero_Solicitud')->on('plan__de__accion__individuals');
         });
     }
 

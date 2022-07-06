@@ -14,7 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('referencias__especialistas', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->longText('referencias');
+            $table->longText('descripcion');
             $table->timestamps();
         });
     }
