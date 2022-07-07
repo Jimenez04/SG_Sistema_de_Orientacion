@@ -17,7 +17,11 @@ class EnfermedadFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'id' => $this->faker->unique()->numberBetween(1, 100),
+            'tipo_Enfermedad' => $this->faker->word,
+            'descripcion' => $this->faker->sentence,
+            'tratamiento' => $this->faker->sentence,
+            'rutina_Tratamiento' => $this->faker->word,
         ];
     }
 }

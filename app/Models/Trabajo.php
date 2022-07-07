@@ -10,7 +10,7 @@ class Trabajo extends Model
     use HasFactory;
 
 protected $fillable = [
-    'id_trabajo',
+    'id',
     'trabajo_Actual',
     'actividad_Que_Desempena',
     'lugar_De_Trabajo',
@@ -18,7 +18,7 @@ protected $fillable = [
     'horario_Laboral',
 ];
 
-    protected $id_trabajo;
+    protected $id;
     protected $trabajo_Actual;
     protected $actividad_Que_Desempena;
     protected $lugar_De_Trabajo;
@@ -27,6 +27,10 @@ protected $fillable = [
 
     public function Persona()
     {
-        return $this->belongsTo(Persona::class);
+        return $this->hasOne(Persona::class, 'trabajo_id', 'id');
+    }
+
+    public function addperson($persona){
+        $this->Persona()->save($persona);
     }
 }

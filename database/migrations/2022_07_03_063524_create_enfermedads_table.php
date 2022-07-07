@@ -20,7 +20,7 @@ return new class extends Migration
             $table->longText("tratamiento");
             $table->longText("rutina_Tratamiento");
             $table->timestamps();
-            $table->string('persona_cedula',20);
+            $table->string('persona_cedula',20)->nullable();
 
         });
         Schema::table('enfermedads',function (Blueprint $table){

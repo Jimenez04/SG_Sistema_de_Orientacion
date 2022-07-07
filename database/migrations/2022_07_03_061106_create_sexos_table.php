@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('sexos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string("nombre", 20);
+            $table->string('nombre');
             $table->timestamps();
         });
         Schema::table('personas',function (Blueprint $table){
