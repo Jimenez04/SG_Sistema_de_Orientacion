@@ -52,8 +52,27 @@ class Persona extends Model
         {
             return $this->Enfermedad()->count();
         }
+        //endsickness
 
+         //contact
+         public function addContact($contacto){
+            $this->Contacto()->save($contacto);
+        }
+        public function countContact()
+        {
+            return $this->Contacto()->count();
+        }
+        //endcontact
 
+         //email
+         public function addEmail($contacto){
+            $this->Email()->save($contacto);
+        }
+        public function countEmail()
+        {
+            return $this->Email()->count();
+        }
+        //endEmail
 
         public function User()
         {
@@ -74,11 +93,11 @@ class Persona extends Model
         }
         public function Contacto()
         {
-            return $this->hasMany(Contacto::class);
+            return $this->hasMany(Contacto::class, 'persona_cedula', 'cedula');
         }
         public function Email()
         {
-            return $this->hasMany(Email::class);
+            return $this->hasMany(Email::class, 'persona_cedula', 'cedula');
         }
         public function Administrador()
         {

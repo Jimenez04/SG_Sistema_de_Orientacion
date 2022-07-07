@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Models;
 
+use App\Models\Contacto;
+use App\Models\Email;
 use App\Models\Enfermedad;
 use App\Models\Persona;
 use App\Models\Sexo;
@@ -102,6 +104,30 @@ class PersonaTest extends TestCase
         $this->assertEquals(2, $persona->countSickness());
     } */
 
-    
+    public function test_UnaPersonaAgreganUnaOMasContactos()
+    {
+        Persona::factory()->create(['cedula' => '504250352'])->save();
+        $contacto1 = Contacto::factory()->create();
+        $contacto2 = Contacto::factory()->create();
+        
+        $persona = Persona::find('504250352');
+        $persona->addContact($contacto1);
+        $persona->addContact($contacto2);
+
+        $this->assertEquals(2, $persona->countContact());
+    }
+
+    public function test_UnaPersonaAgreganUnaOMasEmail()
+    {
+        Persona::factory()->create(['cedula' => '504250352'])->save();
+        $email1 = Email::factory()->create();
+        $email2 = Email::factory()->create();
+        
+        $persona = Persona::find('504250352');
+        $persona->addEmail($email1);
+        $persona->addEmail($email2);
+
+        $this->assertEquals(2, $persona->countContact());
+    }
 
 }
