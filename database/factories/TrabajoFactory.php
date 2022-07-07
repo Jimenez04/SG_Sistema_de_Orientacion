@@ -17,7 +17,12 @@ class TrabajoFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'id' => $this->faker->unique()->numberBetween(1, 100),
+            'trabajo_Actual' => $this->faker->word,
+            'actividad_Que_Desempena' => $this->faker->sentence,
+            'lugar_De_Trabajo' => 'Liberia',
+            'jornada_Trabajo' => 'Como Burro',
+            'horario_Laboral' => 'full',
         ];
     }
 }

@@ -16,35 +16,61 @@ class Persona extends Model
             'apellido1',
             'apellido2',
             'fecha_Nacimiento',
-            'id_Sexo',
+            'sexo_id',
             'user_id',
             'trabajo_id',
         ];
+        protected $primaryKey = 'cedula';
         protected $cedula;
         protected $nombre1;
         protected $nombre2;
         protected $apellido1;
         protected $apellido2;
         protected $fecha_Nacimiento;
-        protected $id_Sexo;
+        protected $sexo_id;
         protected $user_id;
         protected $trabajo_id;
 
+
+        public function getNameSex()
+        {
+            $sexo =  $this->Sexo;
+            return  $sexo->nombre;
+        }
+
+        public function updateSex($id_Sexo){
+           $this->sexo_id = $id_Sexo;
+           $this->save();
+        }
+
+
+        //sickness
+        public function addSickness($enfermedad){
+            $this->Enfermedad()->save($enfermedad);
+        }
+        public function countSickness()
+        {
+            return $this->Enfermedad()->count();
+        }
+
+
+
         public function User()
         {
-            return $this->hasOne(User::class);
+            return $this->belongsTo(User::class);
         }
+
         public function Sexo()
         {
-            return $this->hasOne(Sexo::class);
+            return $this->belongsTo(Sexo::class);
         }
         public function Trabajo()
         {
-            return $this->hasOne(Trabajo::class);
+            return $this->belongsTo(Trabajo::class);
         }
         public function Enfermedad()
         {
-            return $this->hasMany(Enfermedad::class);
+            return $this->hasMany(Enfermedad::class, 'persona_cedula', 'cedula');
         }
         public function Contacto()
         {
