@@ -20,8 +20,8 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('archivos', function (Blueprint $table) {
-            $table->string('solicitud_Numero');
-            $table->foreign('solicitud_Numero')->references('numero_solicitud')->on('solicitud_de_adecuacions');
+            $table->unsignedBigInteger('adecuacion_Solicitud_Id')->nullable();
+            $table->foreign('adecuacion_Solicitud_Id')->references('id')->on('solicitud_de_adecuacions');
        });
     }
 

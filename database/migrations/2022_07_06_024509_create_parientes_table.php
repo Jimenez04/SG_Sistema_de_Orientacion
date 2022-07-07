@@ -22,6 +22,9 @@ return new class extends Migration
         Schema::table('parientes', function (Blueprint $table) {
             $table->string('persona_cedula',20);
             $table->foreign('persona_cedula')->references('cedula')->on('personas');
+
+            $table->unsignedBigInteger('grupo_Familiar_Id');
+            $table->foreign('grupo_Familiar_Id')->references('id')->on('grupo__familiars');
        });
     }
 

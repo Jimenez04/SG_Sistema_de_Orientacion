@@ -20,8 +20,8 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('item__informes', function (Blueprint $table) {
-            $table->unsignedBigInteger('informe_Solicitud_Id');
-            $table->foreign('informe_Solicitud_Id')->references('id')->on('informe__solicituds');
+            $table->unsignedBigInteger('informe_Id');
+            $table->foreign('informe_Id')->references('id')->on('informe__solicituds');
        });
     }
 

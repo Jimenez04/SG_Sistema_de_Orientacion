@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('numero_solicitud')->unique();
             $table->string('razon_Solicitud');
             $table->integer('carrera_Empadronada');
-            $table->boolean('carrera_Solicitada');
+            $table->boolean('carreras_simultaneas');
             $table->boolean('realizo_Traslado_Carrera');
             $table->longText('descripcion');
             $table->string('url_Archivo_Situacion_Academica_Actual');
