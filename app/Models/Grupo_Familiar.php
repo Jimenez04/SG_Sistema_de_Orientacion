@@ -11,14 +11,15 @@ class Grupo_Familiar extends Model
 
     protected $fillable = [
         'id',
-        'numero_solicitud',
         'descripcion_De_Discapacidades',
+        'adecuacion_Solicitud_Id',
+        'expediente_Solicitud_Id'
     ];
 
-
     protected $id;
-    protected $numero_solicitud;
     protected $descripcion_De_Discapacidades;
+    protected $adecuacion_Solicitud_Id;
+    protected $expediente_Solicitud_Id;
 
     public function Expediente_Plan_De_Accion()
     {
