@@ -46,6 +46,17 @@ return new class extends Migration
             $table->string('plan_De_Accion_N_Solicitud');
             $table->foreign('plan_De_Accion_N_Solicitud')->references('numero_Solicitud')->on('plan__de__accion__individuals');
         });
+
+        
+        Schema::table('archivos', function (Blueprint $table) {
+            $table->unsignedBigInteger('plan_De_Accion_Id')->nullable();
+            $table->foreign('plan_De_Accion_Id')->references('id')->on('plan__de__accion__individuals');
+       });
+       
+       Schema::table('vida__estudiantils', function (Blueprint $table) {
+            $table->unsignedBigInteger('plan_De_Accion_Id')->nullable();
+            $table->foreign('plan_De_Accion_Id')->references('id')->on('plan__de__accion__individuals');
+       });
     }
 
     /**

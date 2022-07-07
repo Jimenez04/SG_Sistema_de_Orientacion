@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('becas', function (Blueprint $table) {
-            $table->bigIncrements('id_Beca');
+            $table->bigIncrements('id');
             $table->integer('categoria_Beca');
             $table->string('asistencia_Socioeconomica')->nullable();
             $table->string('participacion')->nullable();
