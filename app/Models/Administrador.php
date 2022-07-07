@@ -24,3 +24,5 @@ class Administrador extends Model
         return $this->hasOne(Persona::class);
     }
 }
+
+

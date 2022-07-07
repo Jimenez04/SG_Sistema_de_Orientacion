@@ -10,12 +10,10 @@ class Actitud_Estudiante extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
         'infliencia_En_El_Curso',
         'descripcion'
     ];
 
-    protected $id;
     protected $influencia_En_El_Curso;
     protected $descripcion;
 
@@ -24,3 +22,4 @@ class Actitud_Estudiante extends Model
         return $this->belongsTo(Curso_Rezago::class);
     }
 }
+

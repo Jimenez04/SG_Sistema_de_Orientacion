@@ -10,7 +10,7 @@ class Proceso_Intervencion extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',  
+        'iproceso__Intervencion_idd',  
         'id_Plan_Intervencion',
         'area_Intervencion',
         'descripcion',  
@@ -18,7 +18,7 @@ class Proceso_Intervencion extends Model
       
     ];
 
-    protected $id;
+    protected $proceso__Intervencion_id;
     protected $id_Plan_Intervencion;
     protected $area_Intervencion;
     protected $descripcion;

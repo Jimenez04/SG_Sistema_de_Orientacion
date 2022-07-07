@@ -12,7 +12,7 @@ class Curso_Rezago extends Model
     protected $fillable = [
         'id',  
         'numero_Solicitud',
-        'id_Curso',
+        'curso_Id',
         'grupo',  
         'docente',
         'numero_De_Matriculas',
@@ -25,7 +25,7 @@ class Curso_Rezago extends Model
 
     protected $id;
     protected $numero_Solicitud;
-    protected $id_Curso;
+    protected $curso_Id;
     protected $grupo;
     protected $docente;
     protected $numero_De_Matriculas;

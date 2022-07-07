@@ -13,7 +13,7 @@ class Valoracion extends Model
         'id',  
         'id_Expediente_Plan_De_Accion',
         'fecha',
-        'persona_Solicitante_Plan_De_Accion', 
+        'persona_Solicitante_Plan_DeAccion', 
         'motivo_Intervencion', 
         'resumen_Valoracion', 
     ];
@@ -21,7 +21,7 @@ class Valoracion extends Model
     protected $id;
     protected $id_Expediente_Plan_De_Accion;
     protected $fecha;
-    protected $persona_Solicitante_Plan_De_Accion;
+    protected $persona_Solicitante_Plan_DeAccion;
     protected $motivo_Intervencion;
     protected $resumen_Valoracion;
 

@@ -11,13 +11,13 @@ class Categoria extends Model
 
     protected $fillable = [
         'id',  
-        'nombre_Categoria',
+        'nombre',
 
     ];
 
 
     protected $id;
-    protected $nombre_Categoria;
+    protected $nombre;
 
 
     public function Preguntas_Valoracion()

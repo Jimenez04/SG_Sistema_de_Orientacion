@@ -18,7 +18,6 @@ class Carrera_UCR extends Model
         'creditos',
     ];
 
-
     protected $id;
     protected $nombre;
     protected $coordinador;
