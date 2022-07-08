@@ -12,15 +12,15 @@ class Participante extends Model
     
     protected $fillable = [
         'id',  
-        'id_Plan_Intervencion',
-        'cedula',
+        'plan__Intervencion_Id',
+        'persona_Cedula',
         'relacion',
 
     ];
 
     protected $id;
-    protected $id_Plan_Intervencion;
-    protected $cedula;
+    protected $plan__Intervencion_Id;
+    protected $persona_Cedula;
     protected $relacion;
 
     public function Persona()

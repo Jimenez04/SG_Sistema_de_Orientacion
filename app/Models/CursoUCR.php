@@ -11,7 +11,7 @@ class CursoUCR extends Model
 
     protected $fillable = [
         'id',  
-        'id_Carrera',
+        'carrera_id',
         'nombre',
         'creditos', 
     ];

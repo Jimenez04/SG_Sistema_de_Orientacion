@@ -15,6 +15,8 @@ class Carrera extends Model
         'nivel_Carrera',
         'estado',
         'orden', 
+        'estudiante_carnet ',
+        'carrera_id'
     ];
 
 
@@ -23,6 +25,8 @@ class Carrera extends Model
     protected $nivel_Carrera;
     protected $estado;
     protected $orden;
+    protected $estudiante_carnet ;
+    protected $carrera_id;
 
     public function Estudiante()
     {

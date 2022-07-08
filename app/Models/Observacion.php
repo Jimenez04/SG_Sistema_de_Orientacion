@@ -12,11 +12,13 @@ class Observacion extends Model
         'id',
         'nombre',
         'descripcion',
+        'revision_Solicitud_id',
     ];
 
     protected $id;
     protected $nombre;
     protected $descripcion;
+    protected $revision_Solicitud_id;
 
 
     public function Revision_Solicitud()
