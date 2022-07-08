@@ -30,6 +30,12 @@ jobs:
         touch database/database.sqlite
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
-        DB_CONNECTION: mysql
-        DB_DATABASE: database/database.sqlite
+      MYSQL_DATABASE: mysql
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: admin
+          MYSQL_PASSWORD: rootpass
+          MYSQL_ROOT_PASSWORD: rootpass
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       run: vendor/bin/phpunit
