@@ -72,15 +72,15 @@ class Estudiante extends Model
         //SolicitudPAI
         public function addSolicitudPAI($carrera)
         {
-          return $this->SolicitudDeAdecuacion()->save($carrera);
+          return $this->SolicitudPAI()->save($carrera);
         }
         public function getSolicitudPAI()
         {
-          return $this->SolicitudDeAdecuacion()->get()->first();
+          return $this->SolicitudPAI()->get()->first();
         }
         public function countSolicitudPAI()
         {
-            return $this->SolicitudDeAdecuacion()->count();
+            return $this->SolicitudPAI()->count();
         }
         //EndSolicitudDeAdecuacion
 
