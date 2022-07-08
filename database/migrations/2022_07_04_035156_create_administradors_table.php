@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->integer('id_Rol');
             $table->timestamps();
-            $table->string('persona_cedula',20);
+            $table->string('persona_cedula',20)->nullable();
         });
         Schema::table('administradors',function (Blueprint $table){
             $table->foreign('persona_cedula')->references('cedula')->on('personas');

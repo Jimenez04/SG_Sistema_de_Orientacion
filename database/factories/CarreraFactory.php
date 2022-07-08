@@ -17,7 +17,11 @@ class CarreraFactory extends Factory
     public function definition()
     {
         return [
-            //
+        'id' => '1',
+        'ano_Ingreso' => $this->faker->dateTime(),
+        'nivel_Carrera' => '90',
+        'estado' => '1',
+        'orden' => '1',
         ];
     }
 }

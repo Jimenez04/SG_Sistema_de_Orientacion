@@ -17,7 +17,10 @@ class BecaFactory extends Factory
     public function definition()
     {
         return [
-            //
+        'id' => $this->faker->numberBetween(1, 100),
+        'categoria_Beca' => '5',
+        'asistencia_Socioeconomica' => $this->faker->word,
+        'participacion' => $this->faker->word,
         ];
     }
 }

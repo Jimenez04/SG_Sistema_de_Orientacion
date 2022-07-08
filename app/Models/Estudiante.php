@@ -26,12 +26,42 @@ class Estudiante extends Model
 
 
 
+    //Beca
+    public function addbeca($beca)
+    {
+      return $this->Beca()->save($beca);
+    }
+    public function getBeca()
+    {
+      return $this->Beca()->get()->first();
+    }
+
+    //endbeca
+
+    //Beca
+    public function addcarrera($carrera)
+    {
+      return $this->Carrera()->save($carrera);
+    }
+    public function getcarrera()
+    {
+      return $this->Carrera()->get()->first();
+    }
+
+    //endbeca
+
+
     public function Persona()
     {
         return $this->belongsTo(Persona::class);	
     }
     public function Beca()
     { 
-        return $this->hasOne(Beca::class);
+        return $this->hasOne(Beca::class, 'estudiante_carnet', 'carnet');	
+    }
+
+    public function Carrera()
+    {
+        return $this->hasMany(Carrera::class, 'estudiante_carnet', 'carnet');
     }
 }

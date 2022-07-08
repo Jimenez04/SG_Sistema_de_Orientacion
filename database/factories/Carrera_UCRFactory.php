@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CursoUCR>
+ * \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Carrera_UCR>
  */
-class CursoUCRFactory extends Factory
+class Carrera_UCRFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,9 +17,12 @@ class CursoUCRFactory extends Factory
     public function definition()
     {
         return [
-            'id' => $this->faker->id,  
+            'id' => '1',  
             'nombre'=> $this->faker->name,
-            'creditos'=> '5', 
+            'coordinador'=> '5', 
+            'telefono'=> '5', 
+            'bloques'=> '5', 
+            'creditos'=> '125',
         ];
     }
 }

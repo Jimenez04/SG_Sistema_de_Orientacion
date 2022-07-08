@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamps();
             $table->integer('carrera_id');
 
-            $table->string('estudiante_carnet');        
+            $table->string('estudiante_carnet')->nullable();        
         });
         Schema::table('carreras',function (Blueprint $table){
             $table->foreign('estudiante_carnet')->references('carnet')->on('estudiantes');

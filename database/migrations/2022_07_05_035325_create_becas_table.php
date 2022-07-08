@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('asistencia_Socioeconomica')->nullable();
             $table->string('participacion')->nullable();
             $table->timestamps();
-            $table->string('estudiante_carnet');        
         });
         Schema::table('becas',function (Blueprint $table){
+            $table->string('estudiante_carnet')->nullable();        
             $table->foreign('estudiante_carnet')->references('carnet')->on('estudiantes');
         });
     }
