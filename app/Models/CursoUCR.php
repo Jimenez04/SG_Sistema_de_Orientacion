@@ -17,13 +17,13 @@ class CursoUCR extends Model
     ];
 
     protected $id;
-    protected $id_Carrera;
+    protected $carrera_id;
     protected $nombre;
     protected $creditos;
 
     public function carrera_UCR()
     {
-        return $this->belongsTo(Persona::class);
+        return $this->belongsTo(carrera_UCR::class);
     }
 
     // public function Curso_Rezago()

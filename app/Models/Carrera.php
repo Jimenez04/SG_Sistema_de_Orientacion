@@ -16,12 +16,9 @@ class Carrera extends Model
         'ano_Ingreso',
         'nivel_Carrera',
         'estado',
-        'orden', 
-        'estudiante_carnet ',
-        'carrera_id'
+        'orden',
     ];
-
-
+    
     protected $id;
     protected $ano_Ingreso;
     protected $nivel_Carrera;
