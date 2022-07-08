@@ -39,5 +39,4 @@ class PersonaTest extends TestCase
         $persona = new Persona(['apellido2' => 'Del Carmen']);
         $this->assertEquals("Del Carmen" , $persona->apellido2);
     }
-    
 }
