@@ -34,19 +34,20 @@ class Persona extends Model
 
         public function getNameSex()
         {
-            $sexo =  $this->Sexo;
-            return  $sexo->nombre;
+            return $this->Sexo()->get()->first()->nombre;
         }
 
         public function updateSex($id_Sexo){
-           $this->sexo_id = $id_Sexo;
-           $this->save();
+           $this->update(['sexo_id' => $id_Sexo]);
         }
 
 
         //sickness
         public function addSickness($enfermedad){
             $this->Enfermedad()->save($enfermedad);
+        }
+        public function deletesickness($enfermedad){
+            $this->Enfermedad()->find($enfermedad->id)->delete();
         }
         public function countSickness()
         {

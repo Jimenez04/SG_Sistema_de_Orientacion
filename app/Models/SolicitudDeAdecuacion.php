@@ -10,10 +10,9 @@ class SolicitudDeAdecuacion extends Model
     use HasFactory;
     protected $fillable = [
         'id',
-        'numero_Solicitud',
-        'razon_Solicitud',
+        'razon_solicitud',
         'carrera_Empadronada',
-        'carrera_Solicitada',
+        'carreras_simultaneas',
         'realizo_Traslado_Carrera',
         'descripcion',
         'url_Archivo_Situacion_Academica_Actual',
@@ -21,24 +20,52 @@ class SolicitudDeAdecuacion extends Model
         'url_Archivo_Diagnostico',
         'fecha',
         'estudiante_carnet',
-        'solicitud_numero',
-    
+        'numero_solicitud '
     ];
-
+    protected $primarykey = ['id','numero_solicitud'];
     protected $id;
-    protected $numero_Solicitud;
+    protected $numero_solicitud;
     protected $razon_Solicitud;
     protected $carrera_Empadronada;
-    protected $carrera_Solicitada;
     protected $realizo_Traslado_Carrera;
+    protected $carreras_simultaneas;
     protected $descripcion;
     protected $url_Archivo_Situacion_Academica_Actual;
     protected $url_Archivo_Dictamen_Medicon;
     protected $url_Archivo_Diagnostico;
     protected $fecha;
     protected $estudiante_carnet;
-    protected $solicitud_numero;
 
+
+  //Archivos
+  public function addArhivos($arhivo)
+  {
+    return $this->Archivos()->save($arhivo);
+  }
+  public function getArhivos()
+  {
+    return $this->Archivos()->get()->first();
+  }
+  public function countArchivos()
+  {
+      return $this->Archivos()->count();
+  }
+  //EndArchivos
+
+  //Revision_Solicitud
+  public function addRevisionSolicitud($revision)
+  {
+    return $this->Revision_Solicitud()->save($revision);
+  }
+  public function getRevisionSolicitudId()
+  {
+    return $this->Revision_Solicitud()->get()->first()->id;
+  }
+  public function countRevisionSolicitud()
+  {
+      return $this->Revision_Solicitud()->count();
+  }
+  //EndRevision_Solicitud
 
    
     public function Estudiante()
@@ -55,10 +82,10 @@ class SolicitudDeAdecuacion extends Model
     }
     public function Revision_Solicitud()
     {
-        return $this->hasOne(Revision_Solicitud::class);
+        return $this->hasOne(Revision_Solicitud::class, 'solicitud_Numero', 'numero_solicitud');
     }
     public function Archivos(){
-        return $this->hasMany(Archivos::class);
+        return $this->hasMany(Archivos::class, 'adecuacion_Solicitud_Id', 'id');
     }
     public function Grupo_Familiar(){
         return $this->hasOne(Grupo_Familiar::class);

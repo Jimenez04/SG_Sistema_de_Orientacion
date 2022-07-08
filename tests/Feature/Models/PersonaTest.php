@@ -35,7 +35,7 @@ class PersonaTest extends TestCase
         $this->assertEquals('Masculino', $persona->getNameSex());
     }
 
-   /*  public function test_UnaPersonaActualizaSuSexo()
+    public function test_UnaPersonaActualizaSuSexo()
     {
         Persona::factory()->create(['cedula' => '504250352']);
         Sexo::factory()->create(['id' => '1', 'nombre' => 'Masculino']);
@@ -50,11 +50,8 @@ class PersonaTest extends TestCase
         $sexo2 =  Sexo::find('3');
         $sexo2->updatePersonSex($persona,$sexo2->id);
 
-        dd($persona);
-
         $this->assertEquals('NoBinario', $persona->getNameSex());
-
-    } */
+    } 
 
     public function test_UnaPersonaAgreganUnUsuario()
     {
@@ -93,7 +90,7 @@ class PersonaTest extends TestCase
         $this->assertEquals(2, $persona->countSickness());
     }
 
-/*     public function test_UnaPersonaEliminaUnaOMasEnfermedades()
+     public function test_UnaPersonaEliminaUnaOMasEnfermedades()
     {
         Persona::factory()->create(['cedula' => '504250352'])->save();
         $enfermedad1 = Enfermedad::factory()->create();
@@ -104,7 +101,10 @@ class PersonaTest extends TestCase
         $persona->addsickness($enfermedad2);
 
         $this->assertEquals(2, $persona->countSickness());
-    } */
+        $persona->deletesickness($enfermedad1);
+
+        $this->assertEquals(1, $persona->countSickness());
+    } 
 
     public function test_UnaPersonaAgreganUnaOMasContactos()
     {
