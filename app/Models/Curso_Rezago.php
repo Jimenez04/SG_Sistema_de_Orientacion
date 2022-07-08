@@ -11,7 +11,7 @@ class Curso_Rezago extends Model
 
     protected $fillable = [
         'id',  
-        'numero_Solicitud',
+        'solicitud_Numero',
         'curso_Id',
         'grupo',  
         'docente',
@@ -24,7 +24,7 @@ class Curso_Rezago extends Model
     ];
 
     protected $id;
-    protected $numero_Solicitud;
+    protected $solicitud_Numero;
     protected $curso_Id;
     protected $grupo;
     protected $docente;

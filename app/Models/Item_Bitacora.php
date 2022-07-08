@@ -17,7 +17,7 @@ class Item_Bitacora extends Model
     protected $id;
     protected $fecha;
     protected $descripcion;
-
+   
     public function Bitacora()
     {
         return $this->belongsTo(Bitacora::class);
