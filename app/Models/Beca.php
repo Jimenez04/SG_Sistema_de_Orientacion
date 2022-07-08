@@ -11,7 +11,7 @@ class Beca extends Model
 
     protected $fillable = [
         'id_Beca',
-        'carnet',
+        'estudiante_carnet',
         'categoria_Beca',
         'asistencia_Socieoeconomica',
         'participacion',
@@ -19,7 +19,7 @@ class Beca extends Model
 
 
     protected $id_Beca;
-    protected $carnet;
+    protected $estudiante_carnet;
     protected $categoria_Beca;
     protected $asistencia_Socieoeconomica;
     protected $participacion;

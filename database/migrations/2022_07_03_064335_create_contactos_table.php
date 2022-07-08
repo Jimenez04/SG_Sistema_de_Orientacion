@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("numero", 40);
             //fk
             $table->timestamps();
-            $table->string('persona_cedula',20);
+            $table->string('persona_cedula',20)->nullable();
         });
         Schema::table('contactos',function (Blueprint $table){
             $table->foreign('persona_cedula')->references('cedula')->on('personas');

@@ -11,13 +11,15 @@ class Archivos extends Model
 
     protected $fillable = [
         'id',
-        'numero_solicitud',
+        'adecuacion_Solicitud_Id',
+        'plan_De_Accion_Id',
         'url',
         'expedido_Por',
     ];
 
     protected $id;
-    protected $numero_solicitud;
+    protected $adecuacion_Solicitud_Id;
+    protected $plan_De_Accion_Id;
     protected $url;
     protected $expedido_Por;
 
@@ -31,3 +33,4 @@ class Archivos extends Model
         return $this->hasOne(Plan_De_Accion_Individual::class);
     }
 }
+

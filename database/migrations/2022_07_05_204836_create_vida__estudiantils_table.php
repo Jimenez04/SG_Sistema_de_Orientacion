@@ -20,12 +20,12 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('contactos', function (Blueprint $table) {
-            $table->unsignedBigInteger('vida_Estudiantil_Id');
+            $table->unsignedBigInteger('vida_Estudiantil_Id')->nullable();
             $table->foreign('vida_Estudiantil_Id')->references('id')->on('vida__estudiantils');
         });
 
         Schema::table('emails', function (Blueprint $table) {
-            $table->unsignedBigInteger('vida_Estudiantil_Id');
+            $table->unsignedBigInteger('vida_Estudiantil_Id')->nullable();
             $table->foreign('vida_Estudiantil_Id')->references('id')->on('vida__estudiantils');
         });
     }

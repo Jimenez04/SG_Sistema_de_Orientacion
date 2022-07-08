@@ -19,7 +19,7 @@ return new class extends Migration
             $table->dateTime("ano_Ingreso");
             $table->string("profesor_Consejero");
             $table->timestamps();
-            $table->string('persona_cedula',20);
+            $table->string('persona_cedula',20)->nullable();
         });
         Schema::table('estudiantes',function (Blueprint $table){
             $table->foreign('persona_cedula')->references('cedula')->on('personas');

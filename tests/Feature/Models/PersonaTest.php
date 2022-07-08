@@ -2,7 +2,10 @@
 
 namespace Tests\Feature\Models;
 
+use App\Models\Contacto;
+use App\Models\Email;
 use App\Models\Enfermedad;
+use App\Models\Estudiante;
 use App\Models\Persona;
 use App\Models\Sexo;
 use App\Models\Trabajo;
@@ -102,6 +105,40 @@ class PersonaTest extends TestCase
         $this->assertEquals(2, $persona->countSickness());
     } */
 
-    
+    public function test_UnaPersonaAgreganUnaOMasContactos()
+    {
+        Persona::factory()->create(['cedula' => '504250352'])->save();
+        $contacto1 = Contacto::factory()->create();
+        $contacto2 = Contacto::factory()->create();
+        
+        $persona = Persona::find('504250352');
+        $persona->addContact($contacto1);
+        $persona->addContact($contacto2);
 
+        $this->assertEquals(2, $persona->countContact());
+    }
+
+    public function test_UnaPersonaAgreganUnaOMasEmail()
+    {
+        Persona::factory()->create(['cedula' => '504250352'])->save();
+        $email1 = Email::factory()->create();
+        $email2 = Email::factory()->create();
+        
+        $persona = Persona::find('504250352');
+        $persona->addEmail($email1);
+        $persona->addEmail($email2);
+
+        $this->assertEquals(2, $persona->countEmail());
+    }
+
+    public function test_UnaPersonaPuedeSerUnEstudiante()
+    {
+        //Persona::factory()->make(['cedula' => '504250352'])->save();
+       // Estudiante::factory()->make(['carnet' => 'B84135'])->save();
+
+       // $persona = Persona::find('504250352');
+       // $persona->associateStudent(Estudiante::find('B84135'));
+
+       // $this->assertEquals('B84135', $persona->getStudentCarnet());
+    }
 }
