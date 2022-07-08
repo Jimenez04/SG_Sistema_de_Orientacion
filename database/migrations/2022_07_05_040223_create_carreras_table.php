@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('estado');
             $table->integer('orden');
             $table->timestamps();
+            $table->integer('carrera_id');
 
             $table->string('estudiante_carnet')->nullable();        
         });

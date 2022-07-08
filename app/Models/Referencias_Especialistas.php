@@ -11,7 +11,7 @@ class Referencias_Especialistas extends Model
 
     protected $fillable = [
         'id',  
-        'id_Proceso_Intervencion',
+        'proceso_Intervencion_id',
         'referencias',
         'descripcion',  
        
@@ -19,7 +19,7 @@ class Referencias_Especialistas extends Model
     ];
 
     protected $id;
-    protected $id_Proceso_Intervencion;
+    protected $proceso_Intervencion_id;
     protected $referencias;
     protected $descripcion;
 

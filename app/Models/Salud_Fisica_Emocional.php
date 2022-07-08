@@ -12,13 +12,13 @@ class Salud_Fisica_Emocional extends Model
     protected $fillable = [
         'id',  
         'numero_Solicitud',
-        'descripcion',
+        'descipcion',
     
     ];
 
     protected $id;
     protected $numero_Solicitud;
-    protected $descripcion;
+    protected $descipcion;
 
     public function Plan_De_Accion_Individual()
     {

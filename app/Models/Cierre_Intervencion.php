@@ -11,18 +11,18 @@ class Cierre_Intervencion extends Model
 
     protected $fillable = [
         'id',  
-        'id_Plan_Intervencion',
+        'plan_Intervencions_Id',
         'especificacion_De_Cierre',
-        'conclusiones_Finales',  
+        'conclusiones_finales',  
         'recomendaciones',
         'fecha',
       
     ];
 
     protected $id;
-    protected $id_Plan_Intervencion;
+    protected $plan_Intervencions_Id;
     protected $especificacion_De_Cierre;
-    protected $conclusiones_Finales;
+    protected $conclusiones_finales;
     protected $recomendaciones;
     protected $fecha;
 
