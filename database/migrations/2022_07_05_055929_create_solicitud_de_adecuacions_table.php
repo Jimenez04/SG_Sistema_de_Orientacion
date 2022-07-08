@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('url_Archivo_Diagnostico');
             $table->datetime('fecha');
             $table->timestamps();
-            $table->string('estudiante_carnet',20);
+            $table->string('estudiante_carnet',20)->nullable();
         });
 
         Schema::table('solicitud_de_adecuacions',function (Blueprint $table){
@@ -36,7 +36,7 @@ return new class extends Migration
         //DB::unprepared('ALTER TABLE `solicitud_de_adecuacions` DROP PRIMARY KEY, ADD PRIMARY KEY (  `id` ,  `numero_solicitud` )');
         
         Schema::table('necesidad__y__apoyos',function (Blueprint $table){
-            $table->string('solicitud_numero');
+            $table->string('solicitud_numero')->nullable();
             $table->foreign('solicitud_numero')->references('numero_solicitud')->on('solicitud_de_adecuacions');
         });
         
