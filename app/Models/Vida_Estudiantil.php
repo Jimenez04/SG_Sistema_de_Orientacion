@@ -23,7 +23,7 @@ class Vida_Estudiantil extends Model
     
     public function Plan_De_Accion_Individual()
     {
-        return $this->belongsTo(Plan_De_Accion_Individual::class);
+        return $this->hasMany(Plan_De_Accion_Individual::class);
     }
 
     public function Contacto()

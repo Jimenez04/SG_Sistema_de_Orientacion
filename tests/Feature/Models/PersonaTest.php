@@ -5,6 +5,7 @@ namespace Tests\Feature\Models;
 use App\Models\Contacto;
 use App\Models\Email;
 use App\Models\Enfermedad;
+use App\Models\Estudiante;
 use App\Models\Persona;
 use App\Models\Sexo;
 use App\Models\Trabajo;
@@ -127,7 +128,17 @@ class PersonaTest extends TestCase
         $persona->addEmail($email1);
         $persona->addEmail($email2);
 
-        $this->assertEquals(2, $persona->countContact());
+        $this->assertEquals(2, $persona->countEmail());
     }
 
+    public function UnaPersonaPuedeSerUnEstudiante()
+    {
+        Persona::factory()->create(['cedula' => '504250352'])->save();
+        Estudiante::factory()->create(['carnet' => 'B84135'])->save();
+
+        $persona = Persona::find('504250352');
+        $persona->associateStudent(Estudiante::find('B84135'));
+
+        $this->assertEquals('B84135', $persona->getStudentCarnet());
+    }
 }

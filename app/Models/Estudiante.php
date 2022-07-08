@@ -17,11 +17,14 @@ class Estudiante extends Model
         'profesor_Consejero',
     ];
 
+    protected $primaryKey = 'carnet';
     protected $carnet;
     protected $persona_cedula;
     protected $id_Rol;
     protected $ano_Ingreso;
     protected $profesor_Consejero;
+
+
 
     public function Persona()
     {

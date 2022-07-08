@@ -29,7 +29,7 @@ class Email extends Model
 
      public function vida_Estudiantil()
     {
-         return $this->hasMany(vida_Estudiantil::class);
+         return $this->belongsTo(vida_Estudiantil::class);
     }
 
 }
