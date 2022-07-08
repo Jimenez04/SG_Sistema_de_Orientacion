@@ -22,6 +22,11 @@ return new class extends Migration
             $table->unsignedBigInteger('adecuacion_Solicitud_Id')->nullable();
             $table->foreign('adecuacion_Solicitud_Id')->references('id')->on('solicitud_de_adecuacions');
        });
+
+       Schema::table('grupo__familiars', function (Blueprint $table) {
+        $table->unsignedBigInteger('expediente_Solicitud_Id')->nullable();
+        $table->foreign('expediente_Solicitud_Id')->references('id')->on('Expediente_Plan_De_Accion');
+   });
     }
 
     /**

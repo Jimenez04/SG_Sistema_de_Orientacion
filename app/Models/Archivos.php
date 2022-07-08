@@ -11,13 +11,15 @@ class Archivos extends Model
 
     protected $fillable = [
         'id',
-        'solicitud_Numero',
+        'adecuacion_Solicitud_Id',
+        'plan_De_Accion_Id',
         'url',
         'expedido_Por',
     ];
 
     protected $id;
-    protected $solicitud_Numero;
+    protected $adecuacion_Solicitud_Id;
+    protected $plan_De_Accion_Id;
     protected $url;
     protected $expedido_Por;
 
