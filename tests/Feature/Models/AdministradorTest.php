@@ -11,11 +11,13 @@ use Tests\TestCase;
 class AdministradorTest extends TestCase
 {
     use RefreshDatabase;
+    
     /**
      * A basic feature test example.
      *
      * @return void
      */
+
      public function test_UnAdministradorAgregaUnaOMasRevisionesDeSolicitud()
     {
         $admin = Administrador::factory()->create(['id' => '1', 'persona_cedula' => '123456789']);
