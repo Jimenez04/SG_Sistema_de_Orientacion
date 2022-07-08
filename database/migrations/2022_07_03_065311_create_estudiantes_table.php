@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('estudiantes', function (Blueprint $table) {
-            $table->string("carnet")->primary();
+            $table->string("carnet")->primary()->unique();
             $table->integer("id_Rol");
             $table->dateTime("ano_Ingreso");
             $table->string("profesor_Consejero");

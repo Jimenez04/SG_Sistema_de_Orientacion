@@ -11,13 +11,13 @@ class Vida_Estudiantil extends Model
 
     protected $fillable = [
         'id',
-        'numero_Solicitud',
+        'plan_De_Accion_Id ',
         'profesional_Encargado',
         'horario_Atencion',
     ];
 
     protected $id;
-    protected $numero_Solicitud;
+    protected $plan_De_Accion_Id ;
     protected $profesional_Encargado;
     protected $horario_Atencion;
     

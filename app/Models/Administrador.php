@@ -21,7 +21,7 @@ class Administrador extends Model
 
     public function Persona()
     {
-        return $this->hasOne(Persona::class);
+        return $this->belongsTo(Persona::class);
     }
 }
 

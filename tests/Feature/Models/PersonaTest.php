@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Models;
 
+use App\Models\Administrador;
 use App\Models\Contacto;
 use App\Models\Email;
 use App\Models\Enfermedad;
@@ -131,7 +132,7 @@ class PersonaTest extends TestCase
         $this->assertEquals(2, $persona->countEmail());
     }
 
-    public function UnaPersonaPuedeSerUnEstudiante()
+    public function test_UnaPersonaPuedeSerUnEstudiante()
     {
         Persona::factory()->create(['cedula' => '504250352'])->save();
         Estudiante::factory()->create(['carnet' => 'B84135'])->save();
@@ -140,5 +141,16 @@ class PersonaTest extends TestCase
         $persona->associateStudent(Estudiante::find('B84135'));
 
         $this->assertEquals('B84135', $persona->getStudentCarnet());
+    }
+
+    public function test_UnaPersonaPuedeSerUnAdministrador()
+    {
+        Persona::factory()->create(['cedula' => '504250352'])->save();
+        Administrador::factory()->create(['id' => '1'])->save();
+
+        $persona = Persona::find('504250352');
+        $persona->associateAdmin(Administrador::find(1));
+
+        $this->assertEquals($persona->cedula, $persona->getAdminCedula());
     }
 }

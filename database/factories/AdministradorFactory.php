@@ -17,7 +17,8 @@ class AdministradorFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'id'=>$this->faker->unique()->numberBetween(1,100),
+            'id_Rol'=>$this->faker->numberBetween(1,100),
         ];
     }
 }

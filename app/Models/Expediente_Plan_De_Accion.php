@@ -11,12 +11,14 @@ class Expediente_Plan_De_Accion extends Model
     
     protected $fillable = [
         'id',
-        'numero_Solicitud',
+        'solicitud_Numero',
+        'administrador_Cedula',
         'fecha',
     ];
 
     protected $id;
-    protected $numero_Solicitud;
+    protected $solicitud_Numero;
+    protected $administrador_Cedula;
     protected $fecha;
 
     public function Administrador()

@@ -10,14 +10,14 @@ class Formulario_Valoracion_Academica extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_Curso_Rezago',  
-        'id_Pregunta',
+        'curso_Rezago_Id',  
+        'pregunta_Id',
         'respuesta',
 
     ];
 
-    protected $id_Curso_Rezago;
-    protected $id_Pregunta;
+    protected $curso_Rezago_Id;
+    protected $pregunta_Id;
     protected $respuesta;
 
     public function Curso_Rezago()
