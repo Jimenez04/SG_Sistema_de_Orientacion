@@ -10,17 +10,19 @@ class Pariente extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_Pariente',
-        'cedula',
+        'id',
+        'persona_cedula',
         'tipo_Pariente',
         'discapacidad_Si_Presenta', 
+        'grupo_Familiar_Id ', 
     ];
 
 
-    protected $id_Pariente;
-    protected $cedula;
+    protected $id;
+    protected $persona_cedula;
     protected $tipo_Pariente;
     protected $discapacidad_Si_Presenta;
+    protected $grupo_Familiar_Id ;
 
     public function Grupo_Familiar()
     {

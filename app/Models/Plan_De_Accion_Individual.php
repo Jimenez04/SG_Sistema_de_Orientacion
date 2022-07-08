@@ -16,7 +16,7 @@ class Plan_De_Accion_Individual extends Model
         'carrera_Id',  
         'que_Espera_Del_Plan',
         'nombre_Oficina',
-        'carnet',  
+        'estudiante_Carnet',  
         'Salud_Como_Impedimento',
         'comentarios_Presentes_Reunion',
     
@@ -28,7 +28,7 @@ class Plan_De_Accion_Individual extends Model
     protected $carrera_Id;
     protected $que_Espera_Del_Plan;
     protected $nombre_Oficina;
-    protected $carnet;
+    protected $estudiante_Carnet;
     protected $Salud_Como_Impedimento;
     protected $comentarios_Presentes_Reunion;
 

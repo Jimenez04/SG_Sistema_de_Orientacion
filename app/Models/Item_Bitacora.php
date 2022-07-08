@@ -12,11 +12,14 @@ class Item_Bitacora extends Model
         'id',
         'descripcion',
         'fecha',
+        'bitacora_Id',
+        
     ];
 
     protected $id;
     protected $fecha;
     protected $descripcion;
+    protected $bitacora_Id;
    
     public function Bitacora()
     {
