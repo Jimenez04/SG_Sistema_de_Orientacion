@@ -28,7 +28,7 @@ return new class extends Migration
             $table->unsignedBigInteger("carrera_id")->nullable(); 
             $table->foreign('carrera_id')->references('id')->on('carrera__u_c_r_s');
         });
-        DB::unprepared('ALTER TABLE `curso_u_c_r_s` DROP PRIMARY KEY, ADD PRIMARY KEY (  `id` ,  `carrera_id` )');
+        //DB::unprepared('ALTER TABLE `curso_u_c_r_s` DROP PRIMARY KEY, ADD PRIMARY KEY (  `id` ,  `carrera_id` )');
 
 
         Schema::table('carreras',function (Blueprint $table){
