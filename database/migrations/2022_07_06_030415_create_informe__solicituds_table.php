@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('item__informes', function (Blueprint $table) {
-            $table->unsignedBigInteger('informe_Id');
+            $table->unsignedBigInteger('informe_Id')->nullable();
             $table->foreign('informe_Id')->references('id')->on('informe__solicituds');
        });
     }

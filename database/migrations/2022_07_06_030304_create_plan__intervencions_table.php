@@ -22,18 +22,18 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('proceso__intervencions', function (Blueprint $table) {
-            $table->unsignedBigInteger('plan__Intervencions_Id');
+            $table->unsignedBigInteger('plan__Intervencions_Id')->nullable();
             $table->foreign('plan__intervencions_Id')->references('id')->on('plan__intervencions');
         });
 
         Schema::table('cierre__intervencions', function (Blueprint $table) {
-            $table->unsignedBigInteger('plan__Intervencions_Id');
+            $table->unsignedBigInteger('plan__Intervencions_Id')->nullable();
             $table->foreign('plan__Intervencions_Id')->references('id')->on('plan__intervencions');
         });
 
 
         Schema::table('participantes', function (Blueprint $table) {
-            $table->unsignedBigInteger('plan__Intervencion_Id');
+            $table->unsignedBigInteger('plan__Intervencion_Id')->nullable();
             $table->foreign('plan__Intervencion_Id')->references('id')->on('plan__intervencions');
         });
     }

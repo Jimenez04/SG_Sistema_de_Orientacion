@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('institucion__procedencias', function (Blueprint $table) {
-            $table->string('solicitud_Numero');
+            $table->string('solicitud_Numero')->nullable();
             $table->foreign('solicitud_Numero')->references('numero_solicitud')->on('solicitud_de_adecuacions');
        });
     }

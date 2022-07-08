@@ -20,10 +20,10 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('parientes', function (Blueprint $table) {
-            $table->string('persona_cedula',20);
+            $table->string('persona_cedula',20)->nullable();
             $table->foreign('persona_cedula')->references('cedula')->on('personas');
 
-            $table->unsignedBigInteger('grupo_Familiar_Id');
+            $table->unsignedBigInteger('grupo_Familiar_Id')->nullable();
             $table->foreign('grupo_Familiar_Id')->references('id')->on('grupo__familiars');
        });
     }

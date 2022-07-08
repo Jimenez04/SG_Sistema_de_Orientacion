@@ -20,20 +20,20 @@ return new class extends Migration
         });
 
         Schema::table('expediente__plan__de__accions', function (Blueprint $table) {
-            $table->string('solicitud_Numero');
+            $table->string('solicitud_Numero')->nullable();
             $table->foreign('solicitud_Numero')->references('numero_Solicitud')->on('plan__de__accion__individuals');
 
-            $table->string('administrador_Cedula',20);
+            $table->string('administrador_Cedula',20)->nullable();
             $table->foreign('administrador_Cedula')->references('persona_cedula')->on('administradors');
         });
 
         Schema::table('valoracions', function (Blueprint $table) {
-            $table->unsignedBigInteger('expediente_Plan_De_Accion_Id');
+            $table->unsignedBigInteger('expediente_Plan_De_Accion_Id')->nullable();
             $table->foreign('expediente_Plan_De_Accion_Id')->references('id')->on('expediente__plan__de__accions');
         });
 
         Schema::table('plan__intervencions', function (Blueprint $table) {
-            $table->unsignedBigInteger('expediente_Plan_De_Accion_Id');
+            $table->unsignedBigInteger('expediente_Plan_De_Accion_Id')->nullable();
             $table->foreign('expediente_Plan_De_Accion_Id')->references('id')->on('expediente__plan__de__accions');
         });
 
