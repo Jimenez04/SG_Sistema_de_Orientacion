@@ -33,7 +33,7 @@ return new class extends Migration
         Schema::table('solicitud_de_adecuacions',function (Blueprint $table){
             $table->foreign('estudiante_carnet')->references('carnet')->on('estudiantes');
         });
-        DB::unprepared('ALTER TABLE `solicitud_de_adecuacions` DROP PRIMARY KEY, ADD PRIMARY KEY (  `id` ,  `numero_solicitud` )');
+        //DB::unprepared('ALTER TABLE `solicitud_de_adecuacions` DROP PRIMARY KEY, ADD PRIMARY KEY (  `id` ,  `numero_solicitud` )');
         
         Schema::table('necesidad__y__apoyos',function (Blueprint $table){
             $table->string('solicitud_numero');

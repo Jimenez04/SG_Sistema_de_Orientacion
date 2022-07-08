@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('comentarios_Presentes_Reunion');
             $table->timestamps();
         });
-            DB::unprepared('ALTER TABLE `plan__de__accion__individuals` DROP PRIMARY KEY, ADD PRIMARY KEY (  `id` ,  `numero_Solicitud` )');
+            //DB::unprepared('ALTER TABLE `plan__de__accion__individuals` DROP PRIMARY KEY, ADD PRIMARY KEY (  `id` ,  `numero_Solicitud` )');
             
         Schema::table('plan__de__accion__individuals',function (Blueprint $table){
             $table->unsignedBigInteger('carrera_Id');
