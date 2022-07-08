@@ -33,12 +33,11 @@ class Estudiante extends Model
     }
     public function getBeca()
     {
-      return $this->Beca()->get()->first();
+      return $this->Beca()->get()->first()->id;
     }
-
     //endbeca
-
-    //Beca
+    
+    //carreras
     public function addcarrera($carrera)
     {
       return $this->Carrera()->save($carrera);
@@ -47,9 +46,43 @@ class Estudiante extends Model
     {
       return $this->Carrera()->get()->first();
     }
+    public function countCarrera()
+    {
+        return $this->Carrera()->count();
+    }
 
-    //endbeca
+    //endbendcarreras
 
+    //SolicitudDeAdecuacion
+    public function addSolicitudAdecuacion($carrera)
+    {
+      return $this->SolicitudDeAdecuacion()->save($carrera);
+    }
+    public function getSolicitudAdecuacion()
+    {
+      return $this->SolicitudDeAdecuacion()->get()->first();
+    }
+    public function countSolicitudAdecuacion()
+    {
+        return $this->SolicitudDeAdecuacion()->count();
+    }
+    //EndSolicitudDeAdecuacion
+
+
+        //SolicitudPAI
+        public function addSolicitudPAI($carrera)
+        {
+          return $this->SolicitudDeAdecuacion()->save($carrera);
+        }
+        public function getSolicitudPAI()
+        {
+          return $this->SolicitudDeAdecuacion()->get()->first();
+        }
+        public function countSolicitudPAI()
+        {
+            return $this->SolicitudDeAdecuacion()->count();
+        }
+        //EndSolicitudDeAdecuacion
 
     public function Persona()
     {
@@ -63,5 +96,13 @@ class Estudiante extends Model
     public function Carrera()
     {
         return $this->hasMany(Carrera::class, 'estudiante_carnet', 'carnet');
+    }
+    public function SolicitudDeAdecuacion()
+    {
+        return $this->hasMany(SolicitudDeAdecuacion::class, 'estudiante_carnet', 'carnet');
+    }
+    public function SolicitudPAI()
+    {
+        return $this->hasMany(Plan_De_Accion_Individual::class, 'estudiante_carnet', 'carnet');
     }
 }
