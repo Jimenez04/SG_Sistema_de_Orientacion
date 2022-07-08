@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('preguntas__valoracions', function (Blueprint $table) {
-            $table->unsignedBigInteger('categoria_Id');
+            $table->unsignedBigInteger('categoria_Id')->nullable();
             $table->foreign('categoria_Id')->references('id')->on('categorias');
        });
     }

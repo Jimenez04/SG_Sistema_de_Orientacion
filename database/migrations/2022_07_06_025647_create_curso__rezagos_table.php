@@ -26,16 +26,16 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('formulario__valoracion__academicas', function (Blueprint $table) {
-            $table->unsignedBigInteger('pregunta_Id');
+            $table->unsignedBigInteger('pregunta_Id')->nullable();
             $table->foreign('pregunta_Id')->references('id')->on('preguntas__valoracions');
             
-            $table->unsignedBigInteger('curso__Rezago_Id');
+            $table->unsignedBigInteger('curso__Rezago_Id')->nullable();
             $table->foreign('curso__Rezago_Id')->references('id')->on('curso__rezagos');
 
        });
 
        Schema::table('actitud__estudiantes', function (Blueprint $table) {
-        $table->unsignedBigInteger('curso_Rezago_Id');
+        $table->unsignedBigInteger('curso_Rezago_Id')->nullable();
         $table->foreign('curso_Rezago_Id')->references('id')->on('curso__rezagos');
         });
     }
