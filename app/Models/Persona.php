@@ -80,9 +80,9 @@ class Persona extends Model
         }
         public function getStudentCarnet()
         {
-            //$student = $this->Estudiante()->get();
-            //dd($student);
-           // dd($student[0]->attributes['carnet']);
+            $student = $this->Estudiante()->get();
+            dd($student);
+            dd($student[0]->attributes['carnet']);
             return ;
         } 
         //endStuden

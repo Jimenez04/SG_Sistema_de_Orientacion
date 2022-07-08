@@ -131,14 +131,14 @@ class PersonaTest extends TestCase
         $this->assertEquals(2, $persona->countEmail());
     }
 
-    public function test_UnaPersonaPuedeSerUnEstudiante()
+    public function UnaPersonaPuedeSerUnEstudiante()
     {
-        //Persona::factory()->make(['cedula' => '504250352'])->save();
-       // Estudiante::factory()->make(['carnet' => 'B84135'])->save();
+        Persona::factory()->create(['cedula' => '504250352'])->save();
+        Estudiante::factory()->create(['carnet' => 'B84135'])->save();
 
-       // $persona = Persona::find('504250352');
-       // $persona->associateStudent(Estudiante::find('B84135'));
+        $persona = Persona::find('504250352');
+        $persona->associateStudent(Estudiante::find('B84135'));
 
-       // $this->assertEquals('B84135', $persona->getStudentCarnet());
+        $this->assertEquals('B84135', $persona->getStudentCarnet());
     }
 }
