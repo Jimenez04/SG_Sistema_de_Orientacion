@@ -11,7 +11,7 @@ class Plan_Intervencion extends Model
 
     protected $fillable = [
         'id',  
-        'id_Expediente_Plan_De_Accion',
+        'expediente_Plan_De_Accion_Id',
         'accion_Planificada',
         'cronograma',  
         'estado',
@@ -20,7 +20,7 @@ class Plan_Intervencion extends Model
     ];
 
     protected $id;
-    protected $id_Expediente_Plan_De_Accion;
+    protected $expediente_Plan_De_Accion_Id;
     protected $accion_Planificada;
     protected $cronograma;
     protected $estado;

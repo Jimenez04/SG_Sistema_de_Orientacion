@@ -10,14 +10,13 @@ class Salud_Fisica_Emocional extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',  
-        'numero_Solicitud',
+
+        'plan_De_Accion_N_Solicitud',
         'descipcion',
     
     ];
 
-    protected $id;
-    protected $numero_Solicitud;
+    protected $plan_De_Accion_N_Solicitud;
     protected $descipcion;
 
     public function Plan_De_Accion_Individual()
