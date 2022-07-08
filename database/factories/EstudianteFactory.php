@@ -17,7 +17,10 @@ class EstudianteFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'carnet' => $this->faker->unique()->randomNumber(8),
+            'id_Rol' => $this->faker->numberBetween(1, 3),
+            'ano_Ingreso' => $this->faker->dateTimeBetween('-1 years', 'now'),
+            'profesor_Consejero' => $this->faker->name,
         ];
     }
 }

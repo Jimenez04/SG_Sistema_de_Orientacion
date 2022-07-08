@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("email", 50)->unique();
             //FK
             $table->timestamps();
-            $table->string('persona_cedula',20);
+            $table->string('persona_cedula',20)->nullable();
         });
         Schema::table('emails',function (Blueprint $table){
             $table->foreign('persona_cedula')->references('cedula')->on('personas');

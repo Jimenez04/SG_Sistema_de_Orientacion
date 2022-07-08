@@ -74,6 +74,19 @@ class Persona extends Model
         }
         //endEmail
 
+        //Studen
+        public function associateStudent($estudiante){
+            $this->Estudiante()->save($estudiante);
+        }
+        public function getStudentCarnet()
+        {
+            //$student = $this->Estudiante()->get();
+            //dd($student);
+           // dd($student[0]->attributes['carnet']);
+            return ;
+        } 
+        //endStuden
+
         public function User()
         {
             return $this->belongsTo(User::class);
@@ -105,7 +118,7 @@ class Persona extends Model
         }
         public function Estudiante()
         {
-            return $this->belongsTo(Estudiante::class);
+            return $this->hasOne(Estudiante::class, 'persona_cedula', 'cedula');
         }
 
 }
