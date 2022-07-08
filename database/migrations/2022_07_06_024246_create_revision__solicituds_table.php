@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('revision__solicituds', function (Blueprint $table) {
-             $table->string('administrador_Cedula',20);
+             $table->string('administrador_Cedula',20)->nullable();
              $table->foreign('administrador_Cedula')->references('persona_cedula')->on('administradors');
 
              $table->string('solicitud_Numero');
