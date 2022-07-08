@@ -11,6 +11,8 @@ class Carrera extends Model
 
     protected $fillable = [
         'id',
+        'estudiante_carnet',
+        'carrera_id',
         'ano_Ingreso',
         'nivel_Carrera',
         'estado',
@@ -23,6 +25,9 @@ class Carrera extends Model
     protected $nivel_Carrera;
     protected $estado;
     protected $orden;
+    protected $estudiante_carnet;
+    protected $carrera_id;
+
 
     public function Estudiante()
     {
@@ -31,6 +36,7 @@ class Carrera extends Model
 
     public function CarreraUCR()
     {
-        return $this->hasOne(CarreraUCR::class);
+        return $this->hasOne(CarreraUCR::class, 'id', 'carrera_id');
     }
+    
 }

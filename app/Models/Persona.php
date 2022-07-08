@@ -80,12 +80,19 @@ class Persona extends Model
         }
         public function getStudentCarnet()
         {
-            $student = $this->Estudiante()->get();
-            dd($student);
-            dd($student[0]->attributes['carnet']);
-            return ;
+            return $this->Estudiante()->get()->first()->attributes['carnet'];
         } 
         //endStuden
+
+        //Admin
+        public function associateAdmin($Admin){
+            $this->Administrador()->save($Admin);
+        }
+        public function getAdminCedula()
+        {
+            return $this->Administrador()->get()->first()->attributes['persona_cedula'];
+        } 
+        //endAdmin
 
         public function User()
         {
@@ -114,7 +121,8 @@ class Persona extends Model
         }
         public function Administrador()
         {
-            return $this->belongsTo(Administrador::class);
+            return $this->hasOne(Administrador::class, 
+            'persona_cedula', 'cedula');
         }
         public function Estudiante()
         {

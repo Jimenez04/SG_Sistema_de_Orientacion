@@ -10,18 +10,17 @@ class Beca extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_Beca',
+        'id',
         'estudiante_carnet',
         'categoria_Beca',
-        'asistencia_Socieoeconomica',
+        'asistencia_Socioeconomica',
         'participacion',
     ];
 
-
-    protected $id_Beca;
+    protected $id;
     protected $estudiante_carnet;
     protected $categoria_Beca;
-    protected $asistencia_Socieoeconomica;
+    protected $asistencia_Socioeconomica;
     protected $participacion;
 
     public function Estudiante()

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('orden');
             $table->timestamps();
 
-            $table->string('estudiante_carnet');        
+            $table->string('estudiante_carnet')->nullable();        
         });
         Schema::table('carreras',function (Blueprint $table){
             $table->foreign('estudiante_carnet')->references('carnet')->on('estudiantes');
