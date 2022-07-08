@@ -18,12 +18,11 @@ class AdministradorTest extends TestCase
      */
      public function test_UnAdministradorAgregaUnaOMasRevisionesDeSolicitud()
     {
-        $admin = Administrador::factory()->create(['id' => '1']);
+        $admin = Administrador::factory()->create(['id' => '1', 'persona_cedula' => '123456789']);
         Revision_Solicitud::factory()->create(['id' => '1'])->save();
         Revision_Solicitud::factory()->create(['id' => '2'])->save();
 
         $admin->addRevision(Revision_Solicitud::find(1));
-        dd(Revision_Solicitud::find(1));
         $admin->addRevision(Revision_Solicitud::find(2));
         
         $this->assertEquals('2', $admin->countRevision());
