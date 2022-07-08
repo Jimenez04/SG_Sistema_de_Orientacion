@@ -45,12 +45,16 @@ class EstudianteTest extends TestCase
         $this->assertEquals(2, $estudiante->countCarrera());
     } 
 
-   /*  public function test_UnEstudianteAgregaUnaO_MasSolicitudDeAdecuacion()
+     public function test_UnEstudianteAgregaUnaO_MasSolicitudDeAdecuacion()
     {
        SolicitudDeAdecuacion::factory()->create(['id' => '1'])->save();
-       Estudiante::factory()->create(['carnet' => 'B84135'])->save();
+        SolicitudDeAdecuacion::factory()->create(['id' => '3'])->save();
+       $estudiante = Estudiante::factory()->create(['carnet' => 'B84135']);
 
-        $estudiante = Estudiante::find('B84135');
-    }  */
+       $estudiante->addSolicitudAdecuacion(SolicitudDeAdecuacion::find(1));
+       $estudiante->addSolicitudAdecuacion(SolicitudDeAdecuacion::find(3));
+       
+       $this->assertEquals(2, $estudiante->countSolicitudAdecuacion());
+    }  
 
 } 

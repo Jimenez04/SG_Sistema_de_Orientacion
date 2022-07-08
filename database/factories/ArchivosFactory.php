@@ -17,7 +17,8 @@ class ArchivosFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'id' => $this->faker->numberBetween(1, 100),
+            'url' => $this->faker->url(),
         ];
     }
 }
