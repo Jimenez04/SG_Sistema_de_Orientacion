@@ -15,7 +15,14 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => [
+        'driver' => 'mysql',
+        'host' => env('TESTING_DB_HOST', '127.0.0.1'),
+        'port' => env('TESTING_DB_PORT', '3306'),
+        'database' => env('TESTING_DB_DATABASE', 'forge'),
+        'username' => env('TESTING_DB_USERNAME', 'forge'),
+        'password' => env('TESTING_DB_PASSWORD', '')
+    ],
 
     /*
     |--------------------------------------------------------------------------
