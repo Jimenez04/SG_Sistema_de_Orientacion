@@ -17,15 +17,8 @@ class Revision_Solicitud extends Model
         
     ];
 
-    protected $id;
-    protected $fecha;
-    protected $estado;
-    protected $administrador_Cedula;
-    protected $solicitud_Numero;
-
-
     public function Solicitud_Adecuacion(){
-        return $this->belongsTo(Solicitud_Adecuacion::class);
+        return $this->belongsTo(Solicitud_Adecuacion::class, 'solicitud_Numero', 'numero_solicitud');
     }
 
     public function Administrador()

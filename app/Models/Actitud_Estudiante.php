@@ -10,16 +10,19 @@ class Actitud_Estudiante extends Model
     use HasFactory;
 
     protected $fillable = [
-        'infliencia_En_El_Curso',
-        'descripcion'
+        'influencia_En_El_Curso',
+        'descripcion',
+        'curso_Rezago_Id',
     ];
 
-    protected $influencia_En_El_Curso;
-    protected $descripcion;
+    protected $primaryKey = 'curso_Rezago_Id';
 
+
+
+    //Relaciones
     public function Curso_Rezago()
     {
-        return $this->belongsTo(Curso_Rezago::class);
+        return $this->belongsTo(Curso_Rezago::class,'curso_Rezago_Id', 'id');
     }
 }
 

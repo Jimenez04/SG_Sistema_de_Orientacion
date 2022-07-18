@@ -15,15 +15,9 @@ class Categoria extends Model
 
     ];
 
-
-    protected $id;
-    protected $nombre;
-
-
+    //relaciones
     public function Preguntas_Valoracion()
     {
-        return $this->belongsTo(Preguntas_Valoracion::class);
+        return $this->hasMany(Preguntas_Valoracion::class, 'categoria_id', 'id');
     }
-
-
 }

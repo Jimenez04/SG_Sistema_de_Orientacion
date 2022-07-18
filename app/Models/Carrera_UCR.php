@@ -18,19 +18,16 @@ class Carrera_UCR extends Model
         'creditos',
     ];
 
-    protected $id;
-    protected $nombre;
-    protected $coordinador;
-    protected $telefono;
-    protected $bloques;
-    protected $creditos;
-
     public function Carrera()
     {
-        return $this->belongsTo(Carrera::class);
+        return $this->hasMany(Carrera::class, 'carrera_id', 'id');
     }
     public function CursosUCR()
     {
-        return $this->hasMany(CursosUCR::class);
+        return $this->hasMany(CursosUCR::class, 'carrera_id', 'id');
+    }
+    public function SolicitudPAI()
+    {
+        return $this->hasMany(Plan_De_Accion_Individual::class, 'carrera_Id', 'id');
     }
 }

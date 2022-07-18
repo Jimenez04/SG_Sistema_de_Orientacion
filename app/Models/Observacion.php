@@ -15,12 +15,6 @@ class Observacion extends Model
         'revision_Solicitud_id',
     ];
 
-    protected $id;
-    protected $nombre;
-    protected $descripcion;
-    protected $revision_Solicitud_id;
-
-
     public function Revision_Solicitud()
     {
         return $this->belongsTo(Revision_Solicitud::class);

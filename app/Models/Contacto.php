@@ -16,20 +16,13 @@ class Contacto extends Model
         'vida_Estudiantil_Id', 
     ];
 
-
-    protected $id;
-    protected $numero;
-    protected $persona_cedula;
-    protected $vida_Estudiantil_Id;
-
-
     public function Persona()
     {
-        return $this->belongsTo(Persona::class);
+        return $this->belongsTo(Persona::class, 'persona_cedula', 'cedula');
     }
 
      public function Vida_Estudiantil()
     {
-         return $this->hasMany(Vida_Estudiantil::class);
+         return $this->hasMany(Vida_Estudiantil::class, 'vida_Estudiantil_Id', 'id');
     }
 }

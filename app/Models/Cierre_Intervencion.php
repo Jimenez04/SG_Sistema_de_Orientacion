@@ -16,19 +16,14 @@ class Cierre_Intervencion extends Model
         'conclusiones_finales',  
         'recomendaciones',
         'fecha',
-      
     ];
+    protected $primaryKey = 'id';
 
-    protected $id;
-    protected $plan_Intervencions_Id;
-    protected $especificacion_De_Cierre;
-    protected $conclusiones_finales;
-    protected $recomendaciones;
-    protected $fecha;
 
+    //relaciones
     public function Plan_De_Intervencion()
     {
-        return $this->belongsTo(Plan_De_Intervencion::class);
+        return $this->belongsTo(Plan_De_Intervencion::class, 'plan_Intervencions_Id', 'id');
     }
 
   

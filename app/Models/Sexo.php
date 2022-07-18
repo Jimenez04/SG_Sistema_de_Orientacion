@@ -14,26 +14,25 @@ class Sexo extends Model
         'nombre'
     ];
     protected $primaryKey = 'id';
-    protected $id;
-    protected $nombre;
     
-    public function Persona()
-    {
-        return $this->hasMany(Persona::class, 'sexo_id', 'id');
-    }
-
+    
     public function getName()
     {
         return $this->nombre;
     }
-
+    
     public function addPersonSex($persona)
     {
         return $this->Persona()->save($persona);
     }
-
+    
     public function updatePersonSex($persona, $id_Sexo)
     {
-         return $persona->updateSex($id_Sexo);
+        return $persona->updateSex($id_Sexo);
+    }
+    
+    public function Persona()
+    {
+        return $this->hasMany(Persona::class, 'sexo_id', 'id');
     }
 }

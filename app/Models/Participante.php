@@ -15,20 +15,14 @@ class Participante extends Model
         'plan__Intervencion_Id',
         'persona_Cedula',
         'relacion',
-
     ];
-
-    protected $id;
-    protected $plan__Intervencion_Id;
-    protected $persona_Cedula;
-    protected $relacion;
 
     public function Persona()
     {
-        return $this->belongsTo(Persona::class);
+        return $this->belongsTo(Persona::class, 'persona_Cedula', 'cedula');
     }
     public function Plan_Intervencion()
     {
-        return $this->hasMany(Plan_Intervencion::class);
+        return $this->belongsTo(Plan_Intervencion::class, 'plan__Intervencion_Id', 'id');
     }
 }

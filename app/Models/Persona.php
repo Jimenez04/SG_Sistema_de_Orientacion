@@ -21,16 +21,6 @@ class Persona extends Model
             'trabajo_id',
         ];
         protected $primaryKey = 'cedula';
-        protected $cedula;
-        protected $nombre1;
-        protected $nombre2;
-        protected $apellido1;
-        protected $apellido2;
-        protected $fecha_Nacimiento;
-        protected $sexo_id;
-        protected $user_id;
-        protected $trabajo_id;
-
 
         public function getNameSex()
         {
@@ -95,18 +85,21 @@ class Persona extends Model
         } 
         //endAdmin
 
+
+
+
+        //relaciones
         public function User()
         {
-            return $this->belongsTo(User::class);
+            return $this->belongsTo(User::class, 'user_id', 'id');
         }
-
         public function Sexo()
         {
-            return $this->belongsTo(Sexo::class);
+            return $this->belongsTo(Sexo::class, 'sexo_id', 'id');
         }
         public function Trabajo()
         {
-            return $this->belongsTo(Trabajo::class);
+            return $this->belongsTo(Trabajo::class, 'trabajo_id', 'id');
         }
         public function Enfermedad()
         {
@@ -129,5 +122,13 @@ class Persona extends Model
         {
             return $this->hasOne(Estudiante::class, 'persona_cedula', 'cedula');
         }
+        public function Participante()
+        {
+        return $this->hasOne(Participante::class, 'persona_Cedula', 'cedula');
+        }
+        public function Pariente()
+    {
+        return $this->hasOne(Pariente::class, 'persona_cedula', 'cedula');
+    }
 
 }

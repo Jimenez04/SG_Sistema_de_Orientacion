@@ -17,18 +17,12 @@ class Necesidad_Y_Apoyo extends Model
         'area_Profesional',
     ];
 
-    protected $id;
-    protected $solicitud_Numero;
-    protected $diagnostico;
-    protected $profesional_Que_Diagnostica;
-    protected $area_Profesional;
-
     public function SolicitudDeAdecuacion()
     {
-        return $this->belongsTo(SolicitudDeAdecuacion::class);	
+        return $this->belongsTo(SolicitudDeAdecuacion::class, 'solicitud_Numero', 'numero_solicitud');	
     }
     public function Seguimiento()
     { 
-        return $this->hasOne(Seguimiento::class);
+        return $this->hasOne(Seguimiento::class, 'necesidad_Y_Apoyo_id', 'id');
     }
 }

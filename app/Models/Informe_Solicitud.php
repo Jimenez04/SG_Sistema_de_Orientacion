@@ -14,18 +14,9 @@ class Informe_Solicitud extends Model
         'descripcion',
         'informe_Solicitud_Id',
     ];
+    protected $primaryKey = 'id';
 
-    protected $id;
-    protected $fecha;
-    protected $descripcion;
-    protected $informe_Solicitud_Id;
-
-
-    public function Revision_Solicitud(){
-        return $this->belongsTo(Revision_Solicitud::class);
-    }
-    public function Expediente_Plan_De_Accion()
-    {
-        return $this->belongsTo(Expediente_Plan_De_Accion::class);
+    public function item_Informe(){
+        return $this->hasMany(Item_Informe::class, 'informe_Id', 'id' );
     }
 }

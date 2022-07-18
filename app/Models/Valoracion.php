@@ -17,17 +17,11 @@ class Valoracion extends Model
         'motivo_Intervencion', 
         'resumen_Valoracion', 
     ];
-
-    protected $id;
-    protected $id_Expediente_Plan_De_Accion;
-    protected $fecha;
-    protected $persona_Solicitante_Plan_DeAccion;
-    protected $motivo_Intervencion;
-    protected $resumen_Valoracion;
+    protected $primaryKey = 'id';
 
     public function Expediente_Plan_De_Accion()
     {
-        return $this->belongsTo(Expediente_Plan_De_Accion::class);
+        return $this->belongsTo(Expediente_Plan_De_Accion::class, 'id_Expediente_Plan_De_Accion' , 'id');
     }
 
 }

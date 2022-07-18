@@ -14,10 +14,8 @@ class Administrador extends Model
         'persona_cedula',
         'id_Rol'
     ];
+    protected $primaryKey = 'id';
 
-    protected $id;
-    protected $persona_cedula;
-    protected $id_Rol;
 
      //Revision_Solicitud
   public function addRevision($revision)
@@ -34,13 +32,20 @@ class Administrador extends Model
   }
   //EndRevision_Solicitud
 
+
+  //relaciones
+  
+  public function Revision_Solicitud(){
+      return $this->hasMany(Revision_Solicitud::class, 'administrador_Cedula', 'persona_cedula');
+    }
+    
+    public function Expediente_PAI()
+    {
+        return $this->hasMany(Expediente_Plan_De_Accion::class, 'administrador_Cedula', 'persona_cedula');	
+    }
     public function Persona()
     {
-        return $this->belongsTo(Persona::class);
-    }
-
-    public function Revision_Solicitud(){
-        return $this->hasMany(Revision_Solicitud::class, 'administrador_Cedula', 'persona_cedula');
+        return $this->belongsTo(Persona::class,'persona_cedula', 'cedula');
     }
 }
 

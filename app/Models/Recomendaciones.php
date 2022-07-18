@@ -16,11 +16,6 @@ class Recomendaciones extends Model
         
     ];
 
-    protected $id;
-    protected $nombre_Especialista;
-    protected $descripcion_Recomendacion;
-    
-
     public function Revision_Solicitud()
     {
         return $this->belongsTo(Revision_Solicitud::class);

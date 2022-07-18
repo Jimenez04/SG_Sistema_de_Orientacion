@@ -15,19 +15,15 @@ class CursoUCR extends Model
         'nombre',
         'creditos', 
     ];
-
-    protected $id;
-    protected $carrera_id;
-    protected $nombre;
-    protected $creditos;
+    //protected $primaryKey = ['id', 'carrera_id'];
 
     public function carrera_UCR()
     {
-        return $this->belongsTo(carrera_UCR::class);
+        return $this->belongsTo(carrera_UCR::class, 'carrera_id', 'id');
     }
 
-    // public function Curso_Rezago()
-    // {
-    //     return $this->hasOne(Curso_Rezago::class);
-    // }
+    public function Curso_Rezago()
+     {
+         return $this->hasMany(Curso_Rezago::class, 'curso_Id', 'id');
+     }
 }
