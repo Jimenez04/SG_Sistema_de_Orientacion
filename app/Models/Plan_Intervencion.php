@@ -18,29 +18,23 @@ class Plan_Intervencion extends Model
         'observaciones',
       
     ];
-
-    protected $id;
-    protected $expediente_Plan_De_Accion_Id;
-    protected $accion_Planificada;
-    protected $cronograma;
-    protected $estado;
-    protected $observaciones;
+    protected $primaryKey = 'id';
 
     public function Expediente_Plan_De_Accion()
     {
-        return $this->belongsTo(Expediente_Plan_De_Accion::class);
+        return $this->belongsTo(Expediente_Plan_De_Accion::class, 'expediente_Plan_De_Accion_Id', 'id' );
     }
 
     public function Participante()
     {
-        return $this->hasOne(Participante::class);
+        return $this->hasMany(Participante::class, 'plan__Intervencion_Id', 'id');
     }
     public function Cierre_Intervencion()
     {
-        return $this->hasOne(Cierre_Intervencion::class);
+        return $this->hasOne(Cierre_Intervencion::class, 'plan_Intervencions_Id', 'id' );
     }
     public function Proceso_Intervencion()
     {
-        return $this->hasOne(Proceso_Intervencion::class);
+        return $this->hasOne(Proceso_Intervencion::class, 'plan__Intervencions_Id', 'id');
     }
 }

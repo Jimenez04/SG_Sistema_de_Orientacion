@@ -15,39 +15,36 @@ class Expediente_Plan_De_Accion extends Model
         'administrador_Cedula',
         'fecha',
     ];
+    protected $primaryKey = 'id';
 
-    protected $id;
-    protected $solicitud_Numero;
-    protected $administrador_Cedula;
-    protected $fecha;
 
+    //relaciones
     public function Administrador()
     {
-        return $this->belongsTo(Administrador::class);	
+        return $this->belongsTo(Administrador::class, 'administrador_Cedula', 'persona_cedula');	
     }
-
     public function Valoracion()
     {
-        return $this->hasOne(Valoracion::class);
+        return $this->hasOne(Valoracion::class, 'id_Expediente_Plan_De_Accion', 'id');
     }
     public function Plan_De_Intervencion()
     {
-        return $this->hasOne(Plan_De_Intervencion::class);
+        return $this->hasOne(Plan_De_Intervencion::class, 'expediente_Plan_De_Accion_Id', 'id');
     }
     public function Plan_De_Accion_Individual()
     {
-        return $this->hasOne(Plan_De_Accion_Individual::class);
+        return $this->belongsTo(Plan_De_Accion_Individual::class, 'solicitud_Numero', 'numero_Solicitud');
     }
-    public function Informe_Solicitud()
+    public function item_Informe()
     {
-        return $this->hasMany(Informe_Solicitud::class);
+        return $this->hasMany(item_Informe::class, 'expediente_Solicitud_Id', 'id');
     }
     public function Bitacora()
     {
-        return $this->hasMany(Bitacora::class);
+        return $this->hasMany(Bitacora::class, 'expediente_Solicitud_Id', 'id');
     }
     public function Grupo_Familiar()
     {
-        return $this->hasMany(Grupo_Familiar::class);
+        return $this->hasOne(Grupo_Familiar::class, 'expediente_Solicitud_Id', 'id');
     }
 }

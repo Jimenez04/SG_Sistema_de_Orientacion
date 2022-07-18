@@ -17,15 +17,9 @@ class Beca extends Model
         'participacion',
     ];
 
-    protected $id;
-    protected $estudiante_carnet;
-    protected $categoria_Beca;
-    protected $asistencia_Socioeconomica;
-    protected $participacion;
-
     public function Estudiante()
     {
-        return $this->belongsTo(Estudiante::class);
+        return $this->belongsTo(Estudiante::class, 'estudiante_carnet', 'carnet');
     }
 
 }

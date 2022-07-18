@@ -15,20 +15,20 @@ class Bitacora extends Model
         'expediente_Solicitud_Id',
         'bitacora_Id'
     ];
+    protected $primaryKey = 'id';
 
-    protected $id;
-    protected $fecha;
-    protected $revision_Solicitud_Id;
-    protected $expediente_Solicitud_Id;
-    protected $bitacora_Id;
-
+    //relaciones
     public function Revision_Solicitud()
     {
-        return $this->belongsTo(Revision_Solicitud::class);
+        return $this->belongsTo(Revision_Solicitud::class, 'revision_Solicitud_Id', 'id');
     }
     public function Expediente_Plan_De_Accion()
     {
-        return $this->belongsTo(Expediente_Plan_De_Accion::class);
+        return $this->belongsTo(Expediente_Plan_De_Accion::class, 'expediente_Solicitud_Id', 'id' );
+    }
+    public function item_Bitacora()
+    {
+        return $this->hasMany(Item_Bitacora::class, 'bitacora_Id', 'id' );
     }
 
 }

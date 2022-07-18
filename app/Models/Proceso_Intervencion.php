@@ -14,18 +14,17 @@ class Proceso_Intervencion extends Model
         'plan__Intervencions_Id',
         'area_Intervencion',
         'descripcion',  
-       
-      
     ];
+    protected $primaryKey = 'id';
 
-    protected $id;
-    protected $plan__Intervencions_Id;
-    protected $area_Intervencion;
-    protected $descripcion;
-
+    //relaciones
     public function Plan_Intervencion()
     {
-        return $this->belongsTo(Plan_Intervencion::class);
+        return $this->belongsTo(Plan_Intervencion::class, 'plan__Intervencions_Id', 'id');
+    }
+    public function referencias_Especialistas()
+    {
+        return $this->hasMany(Plan_Intervencion::class, 'proceso_Intervencion_id', 'id');
     }
 
 }

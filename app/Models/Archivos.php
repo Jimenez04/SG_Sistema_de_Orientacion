@@ -17,20 +17,14 @@ class Archivos extends Model
         'expedido_Por',
     ];
 
-    protected $id;
-    protected $adecuacion_Solicitud_Id;
-    protected $plan_De_Accion_Id;
-    protected $url;
-    protected $expedido_Por;
-
     public function Solicitud_De_Adecuacion()
     {
-        return $this->belongsTo(Solicitud_De_Adecuacion::class);
+        return $this->belongsTo(Solicitud_De_Adecuacion::class,'adecuacion_Solicitud_Id', 'id' );
     }
 
     public function Plan_De_Accion_Individual()
     {
-        return $this->hasOne(Plan_De_Accion_Individual::class);
+        return $this->belongsTo(Plan_De_Accion_Individual::class,'plan_De_Accion_Id', 'id' );
     }
 }
 

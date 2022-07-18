@@ -18,15 +18,8 @@ class Enfermedad extends Model
         'rutina_Tratamiento',
     ];
 
-    protected $id;
-    protected $persona_cedula;
-    protected $tipo_Enfermedad;
-    protected $descripcion;
-    protected $tratamiento;
-    protected $rutina_Tratamiento;
-
     public function Persona()
     {
-        return $this->belongsTo(Persona::class);	
+        return $this->belongsTo(Persona::class,  'persona_cedula', 'cedula');	
     }
 }

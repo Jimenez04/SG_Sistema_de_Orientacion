@@ -16,13 +16,15 @@ class Preguntas_Valoracion extends Model
 
     ];
 
-    protected $id;
-    protected $categoria_id;
-    protected $pregunta;
 
+    //relaciones
     public function Formulario_Valoracion_Academica()
     {
-        return $this->belongsTo(Formulario_Valoracion_Academica::class);
+        return $this->hasMany(Formulario_Valoracion_Academica::class, 'pregunta_Id', 'id');
+    }
+    public function Categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'categoria_id', 'id');
     }
 
 }

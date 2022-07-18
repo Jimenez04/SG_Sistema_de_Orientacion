@@ -16,14 +16,9 @@ class Seguimiento extends Model
         'descripcion_Atencion', 
     ];
 
-    protected $id;
-    protected $necesidad_Y_Apoyo_id;
-    protected $descripcion_Seguimiento;
-    protected $descripcion_Atencion;
-
     public function Necesidad_Y_Apoyo()
     {
-        return $this->belongsTo(Necesidad_Y_Apoyo::class);
+        return $this->belongsTo(Necesidad_Y_Apoyo::class, 'necesidad_Y_Apoyo_id', 'id' );
     }
 
 }

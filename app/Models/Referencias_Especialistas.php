@@ -14,17 +14,13 @@ class Referencias_Especialistas extends Model
         'proceso_Intervencion_id',
         'referencias',
         'descripcion',  
-       
-      
     ];
+    protected $primaryKey = 'id';
 
-    protected $id;
-    protected $proceso_Intervencion_id;
-    protected $referencias;
-    protected $descripcion;
 
+    //relaciones
     public function Proceso_Intervencion()
     {
-        return $this->belongsTo(Proceso_Intervencion::class);
+        return $this->belongsTo(Proceso_Intervencion::class, 'proceso_Intervencion_id', 'id');
     }
 }

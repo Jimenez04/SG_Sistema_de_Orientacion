@@ -15,14 +15,17 @@ class Formulario_Valoracion_Academica extends Model
         'respuesta',
 
     ];
+    protected $primaryKey = ['curso_Rezago_Id', 'pregunta_Id'];
 
-    protected $curso_Rezago_Id;
-    protected $pregunta_Id;
-    protected $respuesta;
+
 
     public function Curso_Rezago()
     {
-        return $this->belongsTo(Curso_Rezago::class);
+        return $this->belongsTo(Curso_Rezago::class, 'curso_Rezago_Id', 'id');
+    }
+    public function Preguntas_Valoracion()
+    {
+        return $this->belongsTo(Preguntas_Valoracion::class, 'pregunta_Id', 'id');
     }
 
 }

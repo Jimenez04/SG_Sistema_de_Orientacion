@@ -15,13 +15,8 @@ class Institucion_Procedencia extends Model
         'solicitud_Numero',
     ];
 
-    protected $id;
-    protected $nombre;
-    protected $ano_egreso;
-    protected $solicitud_Numero;
-
     public function SolicitudDeAdecuacion()
     {
-        return $this->hasMany(SolicitudDeAdecuacion::class);
+        return $this->belongsTo(SolicitudDeAdecuacion::class, 'solicitud_Numero', 'numero_solicitud');
     }
 }

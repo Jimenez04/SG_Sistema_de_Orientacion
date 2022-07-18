@@ -17,20 +17,13 @@ class Pariente extends Model
         'grupo_Familiar_Id ', 
     ];
 
-
-    protected $id;
-    protected $persona_cedula;
-    protected $tipo_Pariente;
-    protected $discapacidad_Si_Presenta;
-    protected $grupo_Familiar_Id ;
-
     public function Grupo_Familiar()
     {
-        return $this->belongsTo(Grupo_Familiar::class);
+        return $this->belongsTo(Grupo_Familiar::class, 'grupo_Familiar_Id', 'id');
     }
 
     public function Persona()
     {
-        return $this->hasMany(Persona::class);
+        return $this->belongsTo(Persona::class,  'persona_cedula', 'cedula');
     }
 }

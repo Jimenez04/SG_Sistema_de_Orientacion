@@ -18,13 +18,6 @@ protected $fillable = [
     'horario_Laboral',
 ];
 
-    protected $id;
-    protected $trabajo_Actual;
-    protected $actividad_Que_Desempena;
-    protected $lugar_De_Trabajo;
-    protected $jornada_Trabajo;
-    protected $horario_Laboral;
-
     public function Persona()
     {
         return $this->hasOne(Persona::class, 'trabajo_id', 'id');

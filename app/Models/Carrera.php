@@ -18,23 +18,15 @@ class Carrera extends Model
         'estado',
         'orden',
     ];
-    
-    protected $id;
-    protected $ano_Ingreso;
-    protected $nivel_Carrera;
-    protected $estado;
-    protected $orden;
-    protected $estudiante_carnet ;
-    protected $carrera_id;
 
     public function Estudiante()
     {
-        return $this->belongsTo(Estudiante::class);
+        return $this->belongsTo(Estudiante::class, 'estudiante_carnet', 'carnet');
     }
 
     public function CarreraUCR()
     {
-        return $this->hasOne(CarreraUCR::class, 'id', 'carrera_id');
+        return $this->belongsTo(CarreraUCR::class, 'carrera_id', 'id');
     }
     
 }

@@ -16,20 +16,14 @@ class Email extends Model
         'vida_Estudiantil_Id', 
     ];
 
-
-    protected $id;
-    protected $email;
-    protected $persona_cedula;
-    protected $vida_Estudiantil_Id;
-
     public function Persona()
     {
-        return $this->belongsTo(Persona::class);
+        return $this->belongsTo(Persona::class, 'persona_cedula', 'cedula');
     }
 
      public function vida_Estudiantil()
     {
-         return $this->belongsTo(vida_Estudiantil::class);
+         return $this->belongsTo(vida_Estudiantil::class, 'vida_Estudiantil_Id', 'id');
     }
 
 }

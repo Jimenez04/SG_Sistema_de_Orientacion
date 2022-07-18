@@ -15,23 +15,19 @@ class Vida_Estudiantil extends Model
         'profesional_Encargado',
         'horario_Atencion',
     ];
-
-    protected $id;
-    protected $plan_De_Accion_Id ;
-    protected $profesional_Encargado;
-    protected $horario_Atencion;
     
+    //relaciones
     public function Plan_De_Accion_Individual()
     {
-        return $this->hasMany(Plan_De_Accion_Individual::class);
+        return $this->belongsTo(Plan_De_Accion_Individual::class, 'plan_De_Accion_Id', 'id');
     }
 
     public function Contacto()
     { 
-        return $this->hasOne(Contacto::class);
+        return $this->hasOne(Contacto::class, 'vida_Estudiantil_Id', 'id' );
     }
     public function Email()
     { 
-        return $this->hasOne(Email::class);
+        return $this->hasOne(Email::class, 'vida_Estudiantil_Id', 'id');
     }
 }

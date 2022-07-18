@@ -18,13 +18,6 @@ class Estudiante extends Model
     ];
 
     protected $primaryKey = 'carnet';
-    protected $carnet;
-    protected $persona_cedula;
-    protected $id_Rol;
-    protected $ano_Ingreso;
-    protected $profesor_Consejero;
-
-
 
     //Beca
     public function addbeca($beca)
@@ -84,25 +77,27 @@ class Estudiante extends Model
         }
         //EndSolicitudDeAdecuacion
 
-    public function Persona()
-    {
-        return $this->belongsTo(Persona::class);	
-    }
-    public function Beca()
-    { 
-        return $this->hasOne(Beca::class, 'estudiante_carnet', 'carnet');	
-    }
 
-    public function Carrera()
-    {
-        return $this->hasMany(Carrera::class, 'estudiante_carnet', 'carnet');
+        //  relaciones
+        public function Beca()
+        { 
+          return $this->hasOne(Beca::class, 'estudiante_carnet', 'carnet');	
+        }
+        
+        public function Carrera()
+        {
+          return $this->hasMany(Carrera::class, 'estudiante_carnet', 'carnet');
     }
     public function SolicitudDeAdecuacion()
     {
-        return $this->hasMany(SolicitudDeAdecuacion::class, 'estudiante_carnet', 'carnet');
+      return $this->hasMany(SolicitudDeAdecuacion::class, 'estudiante_carnet', 'carnet');
     }
     public function SolicitudPAI()
     {
-        return $this->hasMany(Plan_De_Accion_Individual::class, 'estudiante_carnet', 'carnet');
+      return $this->hasMany(Plan_De_Accion_Individual::class, 'estudiante_Carnet', 'carnet');
     }
-}
+    public function Persona()
+    {
+        return $this->belongsTo(Persona::class, 'persona_cedula', 'cedula');	
+    }
+  }
