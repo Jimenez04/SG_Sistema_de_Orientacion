@@ -126,8 +126,8 @@ class PersonaTest extends TestCase
         $email2 = Email::factory()->create();
         
         $persona = Persona::find('504250352');
-        $persona->addEmail($email1);
-        $persona->addEmail($email2);
+        $persona->addEmail('504250352','jose.040199@gmail.com');
+        $persona->addEmail('504250352', 'jose.040199@hotmail.com');
 
         $this->assertEquals(2, $persona->countEmail());
     }

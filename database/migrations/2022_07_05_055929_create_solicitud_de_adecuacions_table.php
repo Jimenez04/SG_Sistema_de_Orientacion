@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('url_Archivo_Situacion_Academica_Actual');
             $table->string('url_Archivo_Dictamen_Medico');
             $table->string('url_Archivo_Diagnostico');
-            $table->datetime('fecha');
+            $table->date('fecha');
             $table->timestamps();
             $table->string('estudiante_carnet',20)->nullable();
         });

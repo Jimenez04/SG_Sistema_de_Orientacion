@@ -3,47 +3,33 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
     /**
          * Registration Req
          */
-        public function register(Request $request)
+        public function User()
         {
-           // dd($request);
-            $this->validate($request, [
-                'email' => 'required|email',
-            ]);
-            // dd($request);
-            $user = User::create([
-                'email' => $request->email,
-                'password' => bcrypt($request->password)
-            ]);
-    
-            $token = $user->createToken('Laravel9PassportAuth')->accessToken;
-   
-            return response()->json(['token' => $token], 200);
+            return $user = new User();
+        }
+
+        public function register(CreateUserRequest $request)
+        {
+             return $this->User()->newUser($request->validated());
         }
     
         /**
          * Login Req
          */
-        public function login(Request $request)
+        public function login(LoginRequest $request)
         {
-            $data = [
-                'email' => $request->email,
-                'password' => $request->password
-            ];
-    
-            if (auth()->attempt($data)) {
-                $token = auth()->user()->createToken('Laravel9PassportAuth')->accessToken;
-                return response()->json(['token' => $token], 200);
-            } else {
-                return response()->json(['error' => 'Unauthorised'], 401);
-            }
+            return $this->User()->login($request->validated());
         }
     
         public function userInfo() 
