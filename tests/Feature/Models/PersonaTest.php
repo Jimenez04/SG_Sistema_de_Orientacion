@@ -122,8 +122,6 @@ class PersonaTest extends TestCase
     public function test_UnaPersonaAgreganUnaOMasEmail()
     {
         Persona::factory()->create(['cedula' => '504250352'])->save();
-        $email1 = Email::factory()->create();
-        $email2 = Email::factory()->create();
         
         $persona = Persona::find('504250352');
         $persona->addEmail('504250352','jose.040199@gmail.com');
