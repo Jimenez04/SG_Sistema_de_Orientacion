@@ -20,8 +20,8 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('revision__solicituds', function (Blueprint $table) {
-             $table->string('administrador_Cedula',20)->nullable();
-             $table->foreign('administrador_Cedula')->references('persona_cedula')->on('administradors');
+             $table->unsignedBigInteger('administrador_Id')->nullable();
+             $table->foreign('administrador_Id')->references('id')->on('administradors');
 
              $table->string('solicitud_Numero')->nullable();
              $table->foreign('solicitud_Numero')->references('numero_solicitud')->on('solicitud_de_adecuacions');

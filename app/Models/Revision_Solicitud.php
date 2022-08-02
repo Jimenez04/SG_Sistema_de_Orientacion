@@ -23,7 +23,7 @@ class Revision_Solicitud extends Model
 
     public function Administrador()
     {
-        return $this->belongsTo(Administrador::class);
+        return $this->belongsTo(Administrador::class, 'administrador_Id', 'id');
     }
 
     public function Observacion()

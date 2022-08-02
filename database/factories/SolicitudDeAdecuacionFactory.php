@@ -19,12 +19,12 @@ class SolicitudDeAdecuacionFactory extends Factory
         return [
             'numero_solicitud' => $this->faker->numberBetween(1, 100),
             'razon_Solicitud' => $this->faker->sentence,
-            'carrera_Empadronada'=> $this->faker->word ,
+            'carrera_Empadronada'=> $this->faker->numberBetween(1, 100),
             'url_Archivo_Situacion_Academica_Actual' => $this->faker->url,'url_Archivo_Dictamen_Medico' => $this->faker->url,'url_Archivo_Diagnostico' => $this->faker->url,
             'carreras_simultaneas' => '1',
             'realizo_Traslado_Carrera' => '1',
             'descripcion' => $this->faker->sentence,
-            'fecha' => $this->faker->datetime,
+            'fecha' => '2020-01-01',
         ];
     }
 }

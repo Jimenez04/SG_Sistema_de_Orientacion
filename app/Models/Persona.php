@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class Persona extends Model
 {
@@ -22,10 +24,81 @@ class Persona extends Model
         ];
         protected $primaryKey = 'cedula';
 
+        public function allPersons(){
+            try {
+                $persons = Persona::all();
+                   return response()->json([
+                   "success" => true,
+                   "message" => "Lista de Personas",
+                   "data" => $persons
+                   ],200);
+            } catch (\Throwable $th) {
+                return response()->json([
+                    "success" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+
+        public function newperson($request)
+        {
+            try {
+                if($this->validate_cedula_DB($request['cedula'])){
+                        if($this->belong_to_user($request['cedula'])){
+                            return response()->json([
+                                "status" => false,
+                                "error" => "La cédula ya esta asociada a un usuario", //Persona ocupada
+                                ],409);
+                        }
+                        return response()->json([
+                            "status" => 3,
+                            "error" => "La cédula ya se encuentra en uso", //persona existente, sin usuario
+                            ],409);
+                }
+                    $persona = Persona::create([
+                        'cedula' => $request['cedula'],
+                        'nombre1' => $request['nombre1'],
+                        'nombre2' => $request['nombre2'],
+                        'apellido1' => $request['apellido1'],
+                        'apellido2' => $request['apellido2'],
+                        'fecha_Nacimiento' => $request['fecha_Nacimiento'],
+                    ]);
+                    $persona->save();
+                    
+                    $persona->addEmail($request['cedula'], $request['email']); //En caso que sea un nuevo usuario
+                    $this->addSex($request['sexo_id'], $persona);
+
+                        return response()->json([
+                            "status" => true,
+                            "message" => "Persona creada correctamente. OK",
+                            ],200);
+            } catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(), 
+                    ],200);
+            }
+        }
+
+        private function belong_to_user($cedula){
+            $persona = Persona::find($cedula);
+            return $persona->User()->exists();
+        }
+
+        private function validate_cedula_DB($cedula){
+                return Persona::where('cedula', $cedula)->exists();
+        }
+
+        //sex
         public function getNameSex()
         {
             return $this->Sexo()->get()->first()->nombre;
         }
+
+        public function addSex($id_Sexo, $persona){
+                $sexo = Sexo::find($id_Sexo);
+                $sexo->addPersonSex($persona);
+         }
 
         public function updateSex($id_Sexo){
            $this->update(['sexo_id' => $id_Sexo]);
@@ -56,8 +129,12 @@ class Persona extends Model
         //endcontact
 
          //email
-         public function addEmail($contacto){
-            $this->Email()->save($contacto);
+         public function addEmail($cedula, $request){
+            $persona = Persona::where('cedula', $cedula)->first();
+            $email = Email::create([
+                'email' => $request,
+            ]);
+            $persona->Email()->save($email);
         }
         public function countEmail()
         {
