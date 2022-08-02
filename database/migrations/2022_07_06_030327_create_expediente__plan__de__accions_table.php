@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('solicitud_Numero')->nullable();
             $table->foreign('solicitud_Numero')->references('numero_Solicitud')->on('plan__de__accion__individuals');
 
-            $table->string('administrador_Cedula',20)->nullable();
-            $table->foreign('administrador_Cedula')->references('persona_cedula')->on('administradors');
+            $table->unsignedBigInteger('administrador_Id')->nullable();
+            $table->foreign('administrador_Id')->references('id')->on('administradors');
         });
 
         Schema::table('valoracions', function (Blueprint $table) {

@@ -21,6 +21,52 @@ class PersonaController extends Controller
             return $this->Persona()->allPersons();
         }
 
+                  /**
+        * @OA\Post(
+        * path="/api/personas",
+        * operationId="Crear Persona",
+        * tags={"Persona"},
+        * security={
+        *  {"api_key": {}},
+        *   },
+        * summary="Registro de personas",
+        * description="Acá se registran las personas familiares de usuarios",
+        *     @OA\RequestBody(
+        *         @OA\JsonContent(),
+        *         @OA\MediaType(
+        *            mediaType="multipart/form-data",
+        *            @OA\Schema(
+        *               type="object",
+        *               required={"cedula", "nombre1", "nombre2", "apellido1", "apellido2", "fecha_Nacimiento", "sexo_id"},
+        *               @OA\Property(property="cedula", type="text"),
+        *               @OA\Property(property="nombre1", type="text"),
+        *               @OA\Property(property="nombre2", type="text"),
+        *               @OA\Property(property="apellido1", type="text"),
+        *               @OA\Property(property="apellido2", type="text"),
+        *               @OA\Property(property="fecha_Nacimiento", type="date", format="date"),
+        *               @OA\Property(property="sexo_id", type="integer"),
+        *            ),
+        *        ),
+        *    ),
+        *      @OA\Response(
+        *          response=201,
+        *          description="Register Successfully",
+        *          @OA\JsonContent()
+        *       ),
+        *      @OA\Response(
+        *          response=200,
+        *          description="Register Successfully",
+        *          @OA\JsonContent()
+        *       ),
+        *      @OA\Response(
+        *          response=422,
+        *          description="Unprocessable Entity",
+        *          @OA\JsonContent()
+        *       ),
+        *      @OA\Response(response=400, description="Bad request"),
+        *      @OA\Response(response=404, description="Resource Not Found"),
+        * )
+        */
         public function Post(CreatePersonRequest $request)
         {
             return $this->Persona()->newPerson($request->validated());

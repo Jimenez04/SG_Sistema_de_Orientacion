@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('emails', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string("email", 50)->unique();
+            $table->string("email", 50);
             //FK
             $table->timestamps();
             $table->string('persona_cedula',20)->nullable();

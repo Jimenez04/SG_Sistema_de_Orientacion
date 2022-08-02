@@ -21,7 +21,7 @@ class Expediente_Plan_De_Accion extends Model
     //relaciones
     public function Administrador()
     {
-        return $this->belongsTo(Administrador::class, 'administrador_Cedula', 'persona_cedula');	
+        return $this->belongsTo(Administrador::class,'administrador_Id', 'id');	
     }
     public function Valoracion()
     {

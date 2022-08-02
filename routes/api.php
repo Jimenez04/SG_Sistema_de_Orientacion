@@ -21,9 +21,11 @@ Route::post('login', [UsuarioController::class, 'login']);
 
 Route::middleware(['auth:api', 'role'])->group(function () {
     Route::get('get-user', [UsuarioController::class, 'userInfo']);
- 
-    Route::get('personas', [PersonaController::class, 'index']);
+    Route::post('user/change_password', [UsuarioController::class, 'change_password']);
+
+    Route::get('personas', [PersonaController::class, 'index'])->middleware('role:Administrador');
     Route::post('personas', [PersonaController::class, 'Post'])->middleware('role:Administrador');
+    Route::post('Admin/Register', [UsuarioController::class, 'registerUserFromAdmin'])->middleware('role:Administrador');
 //  Route::resource('personas', [PersonaController::class]);
 });
 

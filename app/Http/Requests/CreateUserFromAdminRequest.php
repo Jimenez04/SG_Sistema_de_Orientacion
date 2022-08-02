@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rules\Password;
 
-class CreateUserRequest extends FormRequest
+class CreateUserFromAdminRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -36,9 +36,11 @@ class CreateUserRequest extends FormRequest
             'sexo_id' => 'required|integer|min:1|max:2',
 
             //user data
-            'email' => 'required|unique:users|email|regex:/(.*)@ucr.ac.cr/i',
+            'email' => 'required|unique:users|email',
             'password_' => 'required|min:6|max:25|same:c_password',
             'c_password' => 'required|min:6|max:25',
+
+            'is_admin' => 'required|boolean',
         ];
     }
 
@@ -81,7 +83,6 @@ class CreateUserRequest extends FormRequest
 
             //user data
             'email.required' => 'El email es requerido',
-            'email.regex' => 'El email indicado no es valido',
             'email.email' => 'El email no es valido',
             'email.unique' => 'El email ya se encuentra registrado',
 
@@ -93,6 +94,13 @@ class CreateUserRequest extends FormRequest
             'c_password.min' => 'La contraseña debe tener al menos 6 caracteres',
             'c_password.max' => 'La contraseña debe tener menos de 25 caracteres',
             'password_.same' => 'La contraseña y su confirmación deben coincidir',
+
+            //is_Admin
+
+            'is_admin.boolean' => 'El tipo de dato no es valido, "ADMIN"',
+            'is_admin.required' => 'El tipo de dato no es valido, "ADMIN"',
+            'is_admin.min' => 'El tipo de dato no es valido, "ADMIN"',
+            'is_admin.max' => 'El tipo de dato no es valido, "ADMIN"',
         ];
     }
 }

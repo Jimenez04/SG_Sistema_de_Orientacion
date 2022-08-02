@@ -32,6 +32,7 @@ class CreatePersonRequest extends FormRequest
             'apellido2' => 'required|min:3|max:20|string',
             'fecha_Nacimiento' => 'required|date_format:Y-m-d', //investigar
             'sexo_id' => 'required|integer|min:1|max:2',
+            'email' => 'unique:users|email',
         ];
     }
     public function messages()
@@ -69,6 +70,9 @@ class CreatePersonRequest extends FormRequest
             'sexo_id.min' => 'El sexo no es valido',
             'sexo_id.max' => 'El sexo no es valido',
             'sexo_id.integer' => 'El sexo no tiene un formato valido',
+
+            'email.email' => 'El email no es valido',
+            'email.unique' => 'El email ya se encuentra registrado',
 
         ];
     }

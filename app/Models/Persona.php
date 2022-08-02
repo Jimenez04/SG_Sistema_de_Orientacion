@@ -65,6 +65,7 @@ class Persona extends Model
                     ]);
                     $persona->save();
                     
+                    $persona->addEmail($request['cedula'], $request['email']); //En caso que sea un nuevo usuario
                     $this->addSex($request['sexo_id'], $persona);
 
                         return response()->json([

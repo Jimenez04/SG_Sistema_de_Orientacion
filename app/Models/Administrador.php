@@ -36,12 +36,12 @@ class Administrador extends Model
   //relaciones
   
   public function Revision_Solicitud(){
-      return $this->hasMany(Revision_Solicitud::class, 'administrador_Cedula', 'persona_cedula');
+      return $this->hasMany(Revision_Solicitud::class, 'administrador_Id', 'id');
     }
     
     public function Expediente_PAI()
     {
-        return $this->hasMany(Expediente_Plan_De_Accion::class, 'administrador_Cedula', 'persona_cedula');	
+        return $this->hasMany(Expediente_Plan_De_Accion::class, 'administrador_Id', 'id');	
     }
     public function Persona()
     {
