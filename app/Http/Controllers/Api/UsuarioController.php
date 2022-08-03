@@ -82,7 +82,7 @@ class UsuarioController extends Controller
         /**
         * @OA\Post(
         * path="/api/login",
-        * operationId="authLogin",
+        * operationId="login",
         * tags={"Login"},
         * summary="Login de usuario",
         * description="Acá se loguea el usuario de la UCR sede Guanacaste",
