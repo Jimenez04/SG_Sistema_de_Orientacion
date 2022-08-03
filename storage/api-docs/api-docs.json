@@ -219,7 +219,7 @@
                 ],
                 "summary": "Login de usuario",
                 "description": "Acá se loguea el usuario de la UCR sede Guanacaste",
-                "operationId": "authLogin",
+                "operationId": "login",
                 "requestBody": {
                     "content": {
                         "multipart/form-data": {
