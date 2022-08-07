@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreatePersonRequest;
+use App\Http\Requests\emailupdate_admin_request;
+use App\Http\Requests\emailupdate_request;
+use App\Http\Requests\Find_ID_Request;
+use App\Http\Requests\personalEmailRequest;
 use App\Models\Persona;
 use Illuminate\Http\Request;
 
@@ -71,6 +75,64 @@ class PersonaController extends Controller
         {
             return $this->Persona()->newPerson($request->validated());
         } 
+
+
+        //email
+        public function addEmailpersonal(personalEmailRequest $request)
+        {
+            return $this->Persona()->addPersonalEmail($request->validated());
+        } 
+        
+        public function addEmail_Family_Group(CreatePersonRequest $request) //aun no se puede
+        {
+            //return $this->Persona()->newPerson($request->validated());
+        } 
+
+        public function addEmailAdmin(personalEmailRequest $request)
+        {
+            return $this->Persona()->addEmail_Admin($request->validated());
+        } 
+        
+        public function getEmails_Personal()
+        {
+            return $this->Persona()->getEmails_Personal();
+        } 
+        
+        public function getEmail_Personal($id)
+        {
+            return $this->Persona()->getEmail_Personal($id);
+        } 
+        //
+        public function getEmails_Admin($cedula)
+        {
+            return $this->Persona()->getEmails_Admin($cedula);
+        } 
+        public function getEmail_Admin($cedula, $id)
+        {
+            return $this->Persona()->getEmail_Admin($cedula, $id);
+        } 
+
+        public function updateEmail_Personal(emailupdate_request $request)
+        {
+            return $this->Persona()->updateEmail_Personal($request->validated());
+        } 
+
+        public function updateEmail_Admin(emailupdate_admin_request $request)
+        {
+            return $this->Persona()->updateEmail_Admin($request->validated());
+        } 
+        
+        public function deleteEmail_Personal($id)
+        {
+            return $this->Persona()->deleteEmail_Personal($id);
+        } 
+        public function deleteEmail_Admin($cedula, $id)
+        {
+            return $this->Persona()->deleteEmail_Admin($cedula, $id);
+        } 
+
+    	//end email
+
 /**
 * Display the specified resource.
 *
