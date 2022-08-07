@@ -25,14 +25,14 @@ class CreatePersonRequest extends FormRequest
     {
         return [
             //personal data
-            'cedula' => 'required|min:9|max:20',
+            'cedula' => 'required|unique:personas|min:9|max:20',
             'nombre1' => 'required|min:3|max:20|string',
             'nombre2' => 'min:3|max:20|string|nullable',
             'apellido1' => 'required|min:3|max:20|string',
             'apellido2' => 'required|min:3|max:20|string',
             'fecha_Nacimiento' => 'required|date_format:Y-m-d', //investigar
             'sexo_id' => 'required|integer|min:1|max:2',
-            'email' => 'unique:users|email',
+            'email' => 'email',
         ];
     }
     public function messages()

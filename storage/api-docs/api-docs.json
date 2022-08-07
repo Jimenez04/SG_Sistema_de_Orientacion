@@ -14,7 +14,7 @@
     },
     "servers": [
         {
-            "url": "https://my-default-host.com",
+            "url": "http://my-default-host.com",
             "description": "Demo API Server"
         }
     ],

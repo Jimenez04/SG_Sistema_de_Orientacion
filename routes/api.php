@@ -16,25 +16,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('register', [UsuarioController::class, 'register']);
+Route::post('registrar', [UsuarioController::class, 'register']);
 Route::post('login', [UsuarioController::class, 'login']);
 
-Route::middleware(['auth:api', 'role'])->group(function () {
+Route::middleware(['auth:api'])->group(function () {
     Route::get('get-user', [UsuarioController::class, 'userInfo']);
     Route::post('user/change_password', [UsuarioController::class, 'change_password']);
+    Route::post('admin/registrar', [UsuarioController::class, 'registerUserFromAdmin'])->middleware('scopes:Administrador');
 
-    Route::get('personas', [PersonaController::class, 'index'])->middleware('role:Administrador');
-    Route::post('personas', [PersonaController::class, 'Post'])->middleware('role:Administrador');
-    Route::post('Admin/Register', [UsuarioController::class, 'registerUserFromAdmin'])->middleware('role:Administrador');
+    Route::get('persona', [PersonaController::class, 'index'])->middleware('scopes:Administrador');
+    Route::post('persona', [PersonaController::class, 'Post'])->middleware('scopes:Administrador');
+    
+    ///////////////Email
+    Route::post('admin/persona/email/agregar', [PersonaController::class, 'addEmailAdmin'])->middleware('scopes:Administrador');
+    Route::post('user/email/agregar', [PersonaController::class, 'addEmailpersonal'])->middleware('scopes:Estudiante');
+    //Route::post('persona/Email/Family/add', [PersonaController::class, 'addEmail_Family_Group'])->middleware('scopes:Estudiante');
+    Route::get('user/email/{id}', [PersonaController::class, 'getEmail_Personal'])->middleware('scopes:Estudiante');
+    Route::get('user/email', [PersonaController::class, 'getEmails_Personal'])->middleware('scopes:Estudiante');
+
+    Route::get('admin/persona/email/{cedula}', [PersonaController::class, 'getEmails_Admin'])->middleware('scopes:Administrador');
+    Route::get('admin/persona/email/{cedula}/{id}', [PersonaController::class, 'getEmail_Admin'])->middleware('scopes:Administrador');
+
+    Route::patch('user/update/email', [PersonaController::class, 'updateEmail_Personal'])->middleware('scopes:Estudiante');
+     Route::patch('admin/update/email', [PersonaController::class, 'updateEmail_Admin'])->middleware('scopes:Administrador');
+
+    Route::delete('user/delete/email/{id}', [PersonaController::class, 'deleteEmail_Personal'])->middleware('scopes:Estudiante');
+     Route::delete('admin/delete/email/{cedula}/{id}', [PersonaController::class, 'deleteEmail_Admin'])->middleware('scopes:Administrador');
+
+     /////////////EndEmail
 //  Route::resource('personas', [PersonaController::class]);
 });
-
-
-  /*   Route::post('register', [UsuarioController::class, 'register']);
-    Route::post('login', [UsuarioController::class, 'login']);
-
-    Route::group(['middleware' => 'auth:api'], function () {
-        Route::get('get-user', [UsuarioController::class, 'userInfo']);
- 
-    Route::get('personas', [PersonaController::class, 'index']);
-}); */

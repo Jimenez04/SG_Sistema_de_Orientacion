@@ -99,9 +99,9 @@ class User extends Authenticatable
                     $user = Auth::user();
                     $userRole = $user->Role()->first();
                         if ($userRole) {
-                            $this->scope = $userRole->role;
+                            $user->scope = $userRole->role;
                         }
-                            $token = $user->createToken($user->email.'-'.now(), [$this->scope]);
+                            $token = $user->createToken($user->email.'-'.now(), [$user->scope]);
                             return response()->json($token->accessToken, 200);
                 } else {
                     return response()->json(['error' => 'Unauthorised'], 401); //Usuario o contraseña incorrectos o no existe

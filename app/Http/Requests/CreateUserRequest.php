@@ -27,7 +27,7 @@ class CreateUserRequest extends FormRequest
     {
         return [
             //personal data
-            'cedula' => 'required|min:9|max:20',
+            'cedula' => 'required|unique:personas|min:9|max:20',
             'nombre1' => 'required|min:3|max:20|string',
             'nombre2' => 'min:3|max:20|string|nullable',
             'apellido1' => 'required|min:3|max:20|string',

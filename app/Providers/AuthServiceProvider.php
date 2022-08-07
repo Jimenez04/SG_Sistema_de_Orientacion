@@ -33,12 +33,12 @@ class AuthServiceProvider extends ServiceProvider
         //Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(100));
 
         Passport::tokensCan([
-            'Administrador' => 'Add/Edit/Delete Users',
-            'Estudiante' => 'Add/Edit Users',
+            'Administrador' => 'Usuario administrador del sistema (Orientador)',
+            'Estudiante' => 'Usuarios que usaran el sistema',
         ]);
     
         Passport::setDefaultScope([
-            'user'
+            'Estudiante'
         ]);
     }
 }
