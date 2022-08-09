@@ -7,7 +7,9 @@ use App\Http\Requests\CreatePersonRequest;
 use App\Http\Requests\emailupdate_admin_request;
 use App\Http\Requests\emailupdate_request;
 use App\Http\Requests\Find_ID_Request;
+use App\Http\Requests\newnum__request;
 use App\Http\Requests\personalEmailRequest;
+use App\Http\Requests\updateNumber__request;
 use App\Models\Persona;
 use Illuminate\Http\Request;
 
@@ -41,7 +43,7 @@ class PersonaController extends Controller
         *            mediaType="multipart/form-data",
         *            @OA\Schema(
         *               type="object",
-        *               required={"cedula", "nombre1", "nombre2", "apellido1", "apellido2", "fecha_Nacimiento", "sexo_id"},
+        *               required={"cedula", "nombre1", "apellido1", "apellido2", "fecha_Nacimiento", "sexo_id"},
         *               @OA\Property(property="cedula", type="text"),
         *               @OA\Property(property="nombre1", type="text"),
         *               @OA\Property(property="nombre2", type="text"),
@@ -75,63 +77,93 @@ class PersonaController extends Controller
         {
             return $this->Persona()->newPerson($request->validated());
         } 
-
-
         //email
         public function addEmailpersonal(personalEmailRequest $request)
         {
-            return $this->Persona()->addPersonalEmail($request->validated());
+            return $this->Persona()->addPersonalEmail('Estudiante', $request->validated());
         } 
-        
-        public function addEmail_Family_Group(CreatePersonRequest $request) //aun no se puede
-        {
-            //return $this->Persona()->newPerson($request->validated());
-        } 
-
         public function addEmailAdmin(personalEmailRequest $request)
         {
-            return $this->Persona()->addEmail_Admin($request->validated());
+            return $this->Persona()->addPersonalEmail('Administrador', $request->validated());
         } 
-        
         public function getEmails_Personal()
         {
-            return $this->Persona()->getEmails_Personal();
+            return $this->Persona()->getEmails_Personal('Estudiante', '');
         } 
-        
-        public function getEmail_Personal($id)
-        {
-            return $this->Persona()->getEmail_Personal($id);
-        } 
-        //
         public function getEmails_Admin($cedula)
         {
-            return $this->Persona()->getEmails_Admin($cedula);
+            return $this->Persona()->getEmails_Personal('Administrador',$cedula);
+        } 
+        public function getEmail_Personal($id)
+        {
+            return $this->Persona()->getEmail_Personal('Estudiante', '', $id);
         } 
         public function getEmail_Admin($cedula, $id)
         {
-            return $this->Persona()->getEmail_Admin($cedula, $id);
+            return $this->Persona()->getEmail_Personal('Administrador' ,$cedula , $id);
         } 
-
         public function updateEmail_Personal(emailupdate_request $request)
         {
-            return $this->Persona()->updateEmail_Personal($request->validated());
-        } 
-
+            return $this->Persona()->updateEmail_Personal('Estudiante', $request->validated());
+        }
         public function updateEmail_Admin(emailupdate_admin_request $request)
         {
-            return $this->Persona()->updateEmail_Admin($request->validated());
+            return $this->Persona()->updateEmail_Personal('Administrador', $request->validated());
         } 
-        
         public function deleteEmail_Personal($id)
         {
-            return $this->Persona()->deleteEmail_Personal($id);
+            return $this->Persona()->deleteEmail_Personal('Estudiante','',$id);
         } 
         public function deleteEmail_Admin($cedula, $id)
         {
-            return $this->Persona()->deleteEmail_Admin($cedula, $id);
+            return $this->Persona()->deleteEmail_Personal('Administrador', $cedula, $id);
+        } 
+    	//end email
+
+        //Contacto Telefono
+        public function add_NumberPersonal(newnum__request $request)
+        {
+            return $this->Persona()->addPersonalNumber('Estudiante' ,$request->validated());
+        }
+        public function add_NumberAdmin(newnum__request $request)
+        {
+            return $this->Persona()->addPersonalNumber('Administrador' ,$request->validated());
+        } 
+        public function getNumbers_Personal()
+        {
+            return $this->Persona()->getnumbers_Personal('Estudiante');
+        } 
+        public function getNumbers_Admin($cedula)
+        {
+            return $this->Persona()->getnumbers_Personal('Administrador',$cedula);
+        } 
+        public function getnumber_Personal($id)
+        {
+            return $this->Persona()->getnumber_Personal('Estudiante','',$id);
+        } 
+        public function get_number_Admin($cedula, $id)
+        {
+            return $this->Persona()->getnumber_Personal('Administrador',$cedula, $id);
+        } 
+        public function update_Number_Personal(updateNumber__request $request)
+        {
+            return $this->Persona()->updatenumber_Personal('Estudiante',$request->validated());
+        }
+        public function update_Number_Admin(updateNumber__request $request)
+        {
+            return $this->Persona()->updatenumber_Personal('Administrador', $request->validated());
+        } 
+        public function delete_Number_Personal($id)
+        { 
+            return $this->Persona()->deletenumber_Personal('Estudiante','', $id);
+        } 
+        public function delete_Number_Admin($cedula, $id)
+        {
+            return $this->Persona()->deletenumber_Admin('Administrador', $cedula, $id);
         } 
 
-    	//end email
+        //End Contacto Telefono
+
 
 /**
 * Display the specified resource.

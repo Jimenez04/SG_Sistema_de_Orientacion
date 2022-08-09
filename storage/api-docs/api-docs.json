@@ -34,7 +34,6 @@
                                 "required": [
                                     "cedula",
                                     "nombre1",
-                                    "nombre2",
                                     "apellido1",
                                     "apellido2",
                                     "fecha_Nacimiento",

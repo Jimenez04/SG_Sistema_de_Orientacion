@@ -81,427 +81,6 @@ class Persona extends Model
             }
         }
 
-        private function belong_to_user($cedula){
-            $persona = Persona::find($cedula);
-            return $persona->User()->exists();
-        }
-
-        public function addPersonalEmail($request){
-            try{
-                if($request['cedula'] == Auth::user()->Persona->cedula){
-                    if(Auth::user()->Persona->Email->where('email', $request['email'])->first() == null){
-                        if($this->addEmail($request['cedula'],$request['email'])){
-                                    return response()->json([
-                                        "status" => true,
-                                        "Message" => "El email fue agregado correctamente al usuario",
-                                    ],200);
-                            }else{
-                                return response()->json([
-                                "status" => false,
-                                "error" => "Ocurrio un problema al agregar el email",
-                            ],500);
-                        }
-                    }else{
-                        return response()->json([
-                            "status" => false,
-                            "error" => "Este email ya esta asociado a su cuenta",
-                        ],409);
-                    }
-                }else{
-                    return response()->json([
-                        "status" => false,
-                        "error" => "No tiene permisos para editar esta persona",
-                    ],403);
-                }
-            }catch (\Throwable $th) {
-                return response()->json([
-                    "status" => false,
-                    "error" => $th->getMessage(),
-                    ],500);
-            }
-        }
-
-        public function addEmail_Admin($request){ //El admin le agrega EMAIL a cualquier persona
-            try{
-                if("Administrador" == Auth::user()->role->role){
-                    if(Persona::find($request['cedula'])->Email->where('email', $request['email'])->first() == null){
-                        if($this->addEmail($request['cedula'],$request['email'])){
-                                    return response()->json([
-                                        "status" => true,
-                                        "Message" => "El email fue agregado correctamente a la persona",
-                                    ],200);
-                            }else{
-                                return response()->json([
-                                "status" => false,
-                                "error" => "Ocurrio un problema al agregar el email",
-                            ],500);
-                        }
-                    }else{
-                        return response()->json([
-                            "status" => false,
-                            "error" => "Este email ya esta asociado a la persona",
-                        ],409);
-                    }
-                }else{
-                    return response()->json([
-                        "status" => false,
-                        "error" => "No tiene permisos para editar esta persona",
-                    ],403);
-                }
-            }catch (\Throwable $th) {
-                return response()->json([
-                    "status" => false,
-                    "error" => $th->getMessage(),
-                    ],500);
-            }
-        }
-        
-        public function getEmails_Personal(){ 
-            try{
-                if("Estudiante" == Auth::user()->role->role){
-                    $emails = Persona::find(Auth::user()->Persona->cedula)->Email;    
-                    if($emails != null){
-                        return response()->json([
-                            "success" => true,
-                            "message" => "Lista de emails",
-                            "data" => $emails
-                            ],200);
-                    }else{
-                        return response()->json([
-                            "status" => false,
-                            "error" => "No tiene ningun email asociado a su cuenta",
-                        ],409);
-                    }
-
-                }else{
-                    return response()->json([
-                        "status" => false,
-                        "error" => "No tiene permisos para acceder a los datos de esta persona",
-                    ],403);
-                }
-            }catch (\Throwable $th) {
-                return response()->json([
-                    "status" => false,
-                    "error" => $th->getMessage(),
-                    ],500);
-            }
-        }
-
-        public function getEmail_Personal($id){ 
-            try{
-                $isnumeric = json_decode($this->verificarID($id)->getContent());
-                if(!$isnumeric->status){
-                    return response()->json($isnumeric,400);
-                }
-
-                if("Estudiante" == Auth::user()->role->role){
-                    $email = Auth::user()->Persona->Email->find($id);    
-                    if($email != null){
-                        return response()->json([
-                            "success" => true,
-                            "message" => "Email",
-                            "data" => $email
-                            ],200);
-                    }else{
-                        return response()->json([
-                            "status" => false,
-                            "error" => "El email no existe en su perfil",
-                        ],404);
-                    }
-
-                }else{
-                    return response()->json([
-                        "status" => false,
-                        "error" => "No tiene permisos para acceder a los datos",
-                    ],403);
-                }
-            }catch (\Throwable $th) {
-                return response()->json([
-                    "status" => false,
-                    "error" => $th->getMessage(),
-                    ],500);
-            }
-        }
-
-        public function getEmails_Admin($cedula){ 
-            try{
-                $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
-                $data = $this->validate_cedula_DB($cedula, true);
-                if(!$data['status']){
-                    return response()->json($data,400);
-                }
-                if("Administrador" == Auth::user()->role->role){
-                    $emails = Persona::find($cedula)->Email;    
-                    if($emails != null){
-                        return response()->json([
-                            "success" => true,
-                            "message" => "Lista de emails",
-                            "data" => $emails
-                            ],200);
-                    }else{
-                        return response()->json([
-                            "status" => false,
-                            "error" => "La cuenta no tiene ningun email asociado",
-                        ],409);
-                    }
-                }else{
-                    return response()->json([
-                        "status" => false,
-                        "error" => "No tiene permisos para acceder a los datos de esta persona",
-                    ],403);
-                }
-            }catch (\Throwable $th) {
-                return response()->json([
-                    "status" => false,
-                    "error" => $th->getMessage(),
-                    ],500);
-            }
-        }
-
-        public function getEmail_Admin($cedula, $id){ 
-            try{
-                $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
-                $data = $this->validate_cedula_DB($cedula, true);
-                if(!$data['status']){
-                    return response()->json($data,400);
-                }
-               
-                $isnumeric = json_decode($this->verificarID($id)->getContent());
-                if(!$isnumeric->status){
-                    return response()->json($isnumeric,400);
-                }
-
-                if("Administrador" == Auth::user()->role->role){
-                    $email = Persona::find($cedula)->Email->find($id);    
-                    if($email != null){
-                        return response()->json([
-                            "success" => true,
-                            "message" => "Email",
-                            "data" => $email
-                            ],200);
-                    }else{
-                        return response()->json([
-                            "status" => false,
-                            "error" => "El email no existe en este perfil",
-                        ],404);
-                    }
-
-                }else{
-                    return response()->json([
-                        "status" => false,
-                        "error" => "No tiene permisos para acceder a los datos",
-                    ],403);
-                }
-            }catch (\Throwable $th) {
-                return response()->json([
-                    "status" => false,
-                    "error" => $th->getMessage(),
-                    ],500);
-            }
-        }
-        public function updateEmail_Personal($request){ 
-            try{
-                $isnumeric = json_decode($this->verificarID($request['id'])->getContent());
-                if(!$isnumeric->status){
-                    return response()->json($isnumeric,400);
-                }
-
-                if("Estudiante" == Auth::user()->role->role){
-                    $email = Auth::user()->Persona->Email->find($request['id']);    
-                    if($email != null){
-                        if($email->email == Auth::user()->email){
-                            return response()->json([
-                                "success" => false,
-                                "message" => "Imposible actualizar el email principal",
-                                ],400);
-                        }
-                        Auth::user()->Persona->Email->find($request['id'])->update($request);
-                        return response()->json([
-                            "success" => true,
-                            "message" => "Email actualizado correctamente",
-                            ],200);
-                    }else{
-                        return response()->json([
-                            "status" => false,
-                            "error" => "El email no existe en su perfil",
-                        ],404);
-                    }
-
-                }else{
-                    return response()->json([
-                        "status" => false,
-                        "error" => "No tiene permisos para acceder a los datos",
-                    ],403);
-                }
-            }catch (\Throwable $th) {
-                return response()->json([
-                    "status" => false,
-                    "error" => $th->getMessage(),
-                    ],500);
-            }
-        }
-
-        public function updateEmail_Admin($request){ 
-            try{
-                $isnumeric = json_decode($this->verificarID($request['id'])->getContent());
-                    if(!$isnumeric->status){
-                        return response()->json($isnumeric,400);
-                    }
-
-                if("Administrador" == Auth::user()->role->role){
-                    $email = Persona::find($request['cedula'])->Email->find($request['id']);    
-                    if($email != null){
-                        if($email->email == Persona::find($request['cedula'])->Email->first()->email){
-                            return response()->json([
-                                "success" => false,
-                                "message" => "Imposible actualizar el email principal de esta persona",
-                            ],400);
-                        }
-                        Persona::find($request['cedula'])->Email->find($request['id'])->update($request);
-                        return response()->json([
-                            "success" => true,
-                            "message" => "Email actualizado correctamente",
-                            ],200);
-                    }else{
-                        return response()->json([
-                            "status" => false,
-                            "error" => "El email no existe en su perfil",
-                        ],404);
-                    }
-
-                }else{
-                    return response()->json([
-                        "status" => false,
-                        "error" => "No tiene permisos para acceder a los datos",
-                    ],403);
-                }
-            }catch (\Throwable $th) {
-                return response()->json([
-                    "status" => false,
-                    "error" => $th->getMessage(),
-                    ],500);
-            }
-        }
-
-        public function deleteEmail_Personal($id){ 
-            try{
-                $isnumeric = json_decode($this->verificarID($id)->getContent());
-                if(!$isnumeric->status){
-                    return response()->json($isnumeric,400);
-                }
-
-                if("Estudiante" == Auth::user()->role->role){
-                    $email = Auth::user()->Persona->Email->find($id);    
-                    if($email != null){
-                        if($email->email == Auth::user()->email){
-                            return response()->json([
-                                "success" => false,
-                                "message" => "Imposible eliminar el email principal",
-                                ],400);
-                        }
-                        Auth::user()->Persona->Email->find($id)->delete();
-                        return response()->json([
-                            "success" => true,
-                            "message" => "Email eliminado correctamente",
-                            ],200);
-                    }else{
-                        return response()->json([
-                            "status" => false,
-                            "error" => "El email no existe en su perfil",
-                        ],404);
-                    }
-
-                }else{
-                    return response()->json([
-                        "status" => false,
-                        "error" => "No tiene permisos para acceder a los datos",
-                    ],403);
-                }
-            }catch (\Throwable $th) {
-                return response()->json([
-                    "status" => false,
-                    "error" => $th->getMessage(),
-                    ],500);
-            }
-        }
-
-        public function deleteEmail_Admin($cedula, $id){ 
-            try{
-                $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
-                $data = $this->validate_cedula_DB($cedula, true);
-                    if(!$data['status']){
-                        return response()->json($data,400);
-                    }
-                $isnumeric = json_decode($this->verificarID($id)->getContent());
-                    if(!$isnumeric->status){
-                        return response()->json($isnumeric,400);
-                    }
-
-                if("Administrador" == Auth::user()->role->role){
-                    $email = Persona::find($cedula)->Email->find($id);    
-                    if($email != null){
-                        if($email->email == Persona::find($cedula)->Email->first()->email){
-                            return response()->json([
-                                "success" => false,
-                                "message" => "Imposible eliminar el email principal de esta persona",
-                            ],400);
-                        }
-                        Persona::find($cedula)->Email->find($id)->delete();
-                        return response()->json([
-                            "success" => true,
-                            "message" => "Email eliminado correctamente",
-                            ],200);
-                    }else{
-                        return response()->json([
-                            "status" => false,
-                            "error" => "El email no existe en su perfil",
-                        ],404);
-                    }
-
-                }else{
-                    return response()->json([
-                        "status" => false,
-                        "error" => "No tiene permisos para acceder a los datos",
-                    ],403);
-                }
-            }catch (\Throwable $th) {
-                return response()->json([
-                    "status" => false,
-                    "error" => $th->getMessage(),
-                    ],500);
-            }
-        }
-
-        public function verificarID($id){
-            if(!is_numeric($id)){
-                return response()->json([
-                    "status" => false,
-                    "error" => "El id debe ser un número",
-                ],400);
-            }else{return response()->json([
-                "status" => true,
-            ],200);}
-        }
-
-        private function validate_cedula_DB($cedula, $json = false){
-            $data = Persona::where('cedula', $cedula)->exists();
-                if(!$json){
-                    return $data;
-                }else{
-                    if($data){
-                        return [
-                            "status" => $data,
-                        ];
-                    }
-                        return [
-                            "status" => $data,
-                            "error" => "La persona no existe en la base de datos",
-                        ];
-                }
-                
-               
-        }
-
         //sex
         public function getNameSex()
         {
@@ -532,8 +111,154 @@ class Persona extends Model
         //endsickness
 
          //contact
-         public function addContact($contacto){
-            $this->Contacto()->save($contacto);
+         public function addPersonalNumber($user,$request){
+            try{
+                $contacto =  new Contacto();
+                $validated = $user == 'Estudiante' ?  $this->user_validated($request) : $this->admin_validatedRol();
+                if($user == 'Estudiante'){
+                    if($validated['status']){ 
+                        return  $contacto->add(Auth::user()->Persona, $request);
+                    }
+                }else if($user == 'Administrador'){ //El admin le agrega números a cualquier persona
+                    if($validated['status']){ 
+                            $data = $this->validate_cedula_DB($request['cedula'], true);
+                                if(!$data['status']){
+                                    return response()->json($data,400);
+                                }
+                        return  $contacto->add(Persona::find($request['cedula']), $request);
+                    }
+                }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function getnumbers_Personal($user, $cedula = null){ 
+            try{
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $contacto =  new Contacto();
+                if($user == 'Estudiante'){
+                    if($validated['status']){
+                        return $contacto->get_all(Persona::find(Auth::user()->Persona->cedula));    
+                    }
+                }else if($user == 'Administrador'){ 
+                    if($validated['status']){ 
+                        $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                        $data = $this->validate_cedula_DB($cedula, true);
+                            if(!$data['status']){
+                                return response()->json($data,400);
+                            }
+                        return  $contacto->get_all(Persona::find($cedula));
+                    }
+                }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function getnumber_Personal($user, $cedula = null, $id){ 
+            try{
+                $isnumeric = json_decode($this->verificarID($id)->getContent());
+                if(!$isnumeric->status){
+                    return response()->json($isnumeric,400);
+                }
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $contacto =  new Contacto();
+                    if($user == 'Estudiante'){
+                        if($validated['status']){
+                            return $contacto->get(Persona::find(Auth::user()->Persona->cedula), $id);    
+                        }
+                    }else if($user == 'Administrador'){ 
+                        if($validated['status']){ 
+                            $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                            $data = $this->validate_cedula_DB($cedula, true);
+                                if(!$data['status']){
+                                    return response()->json($data,400);
+                                }
+                            return $contacto->get(Persona::find($cedula), $id);    
+                        }
+                    }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function updatenumber_Personal($user, $request){ 
+            try{
+                $isnumeric = json_decode($this->verificarID($request['id'])->getContent());
+                if(!$isnumeric->status){
+                    return response()->json($isnumeric,400);
+                }
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $contacto =  new Contacto();
+                    if($user == 'Estudiante'){
+                        if($validated['status']){
+                            return $contacto->update_e(Auth::user()->Persona, $request);
+                        }
+                }else if($user == 'Administrador'){ 
+                    if($validated['status']){ 
+                        $cedula = (trim(stripslashes(htmlspecialchars($request['cedula'])))); 
+                        $data = $this->validate_cedula_DB($cedula, true);
+                        if(!$data['status']){
+                            return response()->json($data,400);
+                        }
+                        return $contacto->update_e(Persona::find($cedula), $request);    
+                    }
+                }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function deletenumber_Personal($user, $cedula = null, $id){ 
+            try{
+                $isnumeric = json_decode($this->verificarID($id)->getContent());
+                if(!$isnumeric->status){
+                    return response()->json($isnumeric,400);
+                }
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $contacto =  new Contacto();
+                    if($user == 'Estudiante'){
+                            if($validated['status']){
+                                return $contacto->delete_e(Auth::user()->Persona, $id);
+                            }
+                    }else if($user == 'Administrador'){ 
+                        if($validated['status']){ 
+                            $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                            $data = $this->validate_cedula_DB($cedula, true);
+                            if(!$data['status']){
+                                return response()->json($data,400);
+                            }
+                            return $contacto->delete_e(Persona::find($cedula), $id); 
+                        }
+                    }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+
+         public function addContact($cedula, $numero){
+            $persona = Persona::where('cedula', $cedula)->first();
+            $contacto = Contacto::create([
+                'numero' => $numero,
+            ]);
+            return $persona->Contacto()->save($contacto);
         }
         public function countContact()
         {
@@ -542,6 +267,147 @@ class Persona extends Model
         //endcontact
 
          //email
+         public function addPersonalEmail($user, $request){
+            try{
+                $email =  new Email();
+                $validated = $user == 'Estudiante' ?  $this->user_validated($request) : $this->admin_validatedRol();
+                if($user == 'Estudiante'){
+                    if($validated['status']){ 
+                        return  $email->add(Auth::user()->Persona, $request);
+                    }
+                }else if($user == 'Administrador'){ //El admin le agrega email a cualquier persona
+                    if($validated['status']){ 
+                            $data = $this->validate_cedula_DB($request['cedula'], true);
+                                if(!$data['status']){
+                                    return response()->json($data,400);
+                                }
+                        return  $email->add(Persona::find($request['cedula']), $request);
+                    }
+                }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function getEmails_Personal($user, $cedula = null){ 
+            try{
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $email =  new Email();
+                if($user == 'Estudiante'){
+                        if($validated['status']){
+                            return $email->get_all(Persona::find(Auth::user()->Persona->cedula));    
+                        }
+                }else if($user == 'Administrador'){ 
+                    if($validated['status']){ 
+                        $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                        $data = $this->validate_cedula_DB($cedula, true);
+                            if(!$data['status']){
+                                return response()->json($data,400);
+                            }
+                        return  $email->get_all(Persona::find($cedula));
+                    }
+                }
+                    return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function getEmail_Personal($user, $cedula = null,  $id){ 
+            try{
+                $isnumeric = json_decode($this->verificarID($id)->getContent());
+                if(!$isnumeric->status){
+                    return response()->json($isnumeric,400);
+                }
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $email =  new Email();
+                if($user == 'Estudiante'){
+                        if($validated['status']){
+                            return $email->get(Persona::find(Auth::user()->Persona->cedula), $id);    
+                        }
+                }else if($user == 'Administrador'){ 
+                    if($validated['status']){ 
+                        $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                        $data = $this->validate_cedula_DB($cedula, true);
+                            if(!$data['status']){
+                                return response()->json($data,400);
+                            }
+                        return $email->get(Persona::find($cedula), $id);    
+                    }
+                }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function updateEmail_Personal($user, $request){ 
+            try{
+                $isnumeric = json_decode($this->verificarID($request['id'])->getContent());
+                if(!$isnumeric->status){
+                    return response()->json($isnumeric,400);
+                }
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $email =  new Email();
+                if($user == 'Estudiante'){
+                        if($validated['status']){
+                            return $email->update_e(Auth::user()->Persona, $request);
+                        }
+                }else if($user == 'Administrador'){ 
+                    if($validated['status']){ 
+                        $cedula = (trim(stripslashes(htmlspecialchars($request['cedula'])))); 
+                        $data = $this->validate_cedula_DB($cedula, true);
+                        if(!$data['status']){
+                            return response()->json($data,400);
+                        }
+                        return $email->update_e(Persona::find($cedula), $request);    
+                    }
+                }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function deleteEmail_Personal($user, $cedula = null, $id){ 
+            try{
+                $isnumeric = json_decode($this->verificarID($id)->getContent());
+                if(!$isnumeric->status){
+                    return response()->json($isnumeric,400);
+                }
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $email =  new Email();
+                    if($user == 'Estudiante'){
+                        if($validated['status']){
+                            return $email->delete_e(Auth::user()->Persona, $id);
+                        }
+                    }else if($user == 'Administrador'){ 
+                        if($validated['status']){ 
+                            $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                            $data = $this->validate_cedula_DB($cedula, true);
+                            if(!$data['status']){
+                                return response()->json($data,400);
+                            }
+                            return $email->delete_e(Persona::find($cedula), $id); 
+                        }
+                    }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
          public function addEmail($cedula, $request){
             $persona = Persona::where('cedula', $cedula)->first();
             $email = Email::create([
@@ -555,7 +421,7 @@ class Persona extends Model
         }
         //endEmail
 
-        //Studen
+        //Student
         public function associateStudent($estudiante){
             $this->Estudiante()->save($estudiante);
         }
@@ -563,7 +429,7 @@ class Persona extends Model
         {
             return $this->Estudiante()->get()->first()->attributes['carnet'];
         } 
-        //endStuden
+        //endStudent
 
         //Admin
         public function associateAdmin($Admin){
@@ -574,10 +440,6 @@ class Persona extends Model
             return $this->Administrador()->get()->first()->attributes['persona_cedula'];
         } 
         //endAdmin
-
-
-
-
         //relaciones
         public function User()
         {
@@ -620,5 +482,67 @@ class Persona extends Model
     {
         return $this->hasOne(Pariente::class, 'persona_cedula', 'cedula');
     }
-
+//validaciones
+    private function belong_to_user($cedula){
+        $persona = Persona::find($cedula);
+        return $persona->User()->exists();
+    }
+    public function user_validated($request){
+        if($request['cedula'] == Auth::user()->Persona->cedula){ 
+            return  ['status'=>true];
+        }else{
+            return [
+                "status" => false,
+                "error" => "No tiene permisos para editar esta persona",
+                    ];
+        }
+    }
+     public function admin_validatedRol(){
+        if("Administrador" == Auth::user()->role->role){
+            return  ['status'=>true];
+        }else{
+            return [
+                "status" => false,
+                "error" => "No tiene permisos para gestionar esta persona",
+                    ];
+        }
+    }
+    public function user_validatedRol(){
+        if("Estudiante" == Auth::user()->role->role){
+            return  ['status'=>true];
+        }else{
+            return [
+                "status" => false,
+                "error" => "No tiene permisos para gestionar esta persona",
+                    ];
+        }
+    }
+    public function verificarID($id){
+        if(!is_numeric($id)){
+            return response()->json([
+                "status" => false,
+                "error" => "El id debe ser un número",
+            ],400);
+        }else{return response()->json([
+            "status" => true,
+        ],200);}
+    }
+    private function validate_cedula_DB($cedula, $json = false){
+        $data = Persona::where('cedula', $cedula)->exists();
+            if(!$json){
+                return $data;
+            }else{
+                if($data){
+                    return [
+                        "status" => $data,
+                    ];
+                }
+                    return [
+                        "status" => $data,
+                        "error" => "La persona no existe en la base de datos",
+                    ];
+            }
+            
+           
+    }
 }
