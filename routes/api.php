@@ -30,7 +30,7 @@ Route::middleware(['auth:api'])->group(function () {
     ///////////////Email
     Route::post('admin/persona/email/agregar', [PersonaController::class, 'addEmailAdmin'])->middleware('scopes:Administrador');
     Route::post('user/email/agregar', [PersonaController::class, 'addEmailpersonal'])->middleware('scopes:Estudiante');
-    //Route::post('persona/Email/Family/add', [PersonaController::class, 'addEmail_Family_Group'])->middleware('scopes:Estudiante');
+
     Route::get('user/email/{id}', [PersonaController::class, 'getEmail_Personal'])->middleware('scopes:Estudiante');
     Route::get('user/email', [PersonaController::class, 'getEmails_Personal'])->middleware('scopes:Estudiante');
 
@@ -42,7 +42,23 @@ Route::middleware(['auth:api'])->group(function () {
 
     Route::delete('user/delete/email/{id}', [PersonaController::class, 'deleteEmail_Personal'])->middleware('scopes:Estudiante');
      Route::delete('admin/delete/email/{cedula}/{id}', [PersonaController::class, 'deleteEmail_Admin'])->middleware('scopes:Administrador');
+    ///////////////End Email
 
-     /////////////EndEmail
-//  Route::resource('personas', [PersonaController::class]);
+    ///////////////Contacto Telefono
+    Route::post('admin/persona/telefono/agregar', [PersonaController::class, 'add_NumberAdmin'])->middleware('scopes:Administrador');
+    Route::post('user/telefono/agregar', [PersonaController::class, 'add_NumberPersonal'])->middleware('scopes:Estudiante');
+
+    Route::get('admin/persona/telefono/{cedula}', [PersonaController::class, 'getNumbers_Admin'])->middleware('scopes:Administrador');
+    Route::get('admin/persona/telefono/{cedula}/{id}', [PersonaController::class, 'get_number_Admin'])->middleware('scopes:Administrador');
+
+    Route::get('user/telefono/{id}', [PersonaController::class, 'getnumber_Personal'])->middleware('scopes:Estudiante');
+    Route::get('user/telefono', [PersonaController::class, 'getNumbers_Personal'])->middleware('scopes:Estudiante');
+
+    Route::patch('user/update/telefono', [PersonaController::class, 'update_Number_Personal'])->middleware('scopes:Estudiante');
+     Route::patch('admin/update/telefono', [PersonaController::class, 'update_Number_Admin'])->middleware('scopes:Administrador');
+
+    Route::delete('user/delete/telefono/{id}', [PersonaController::class, 'delete_Number_Personal'])->middleware('scopes:Estudiante');
+     Route::delete('admin/delete/telefono/{cedula}/{id}', [PersonaController::class, 'delete_Number_Admin'])->middleware('scopes:Administrador');
+
+    ///////////////End Contacto Telefono
 });
