@@ -13,6 +13,7 @@ class Plan_De_Accion_Individual extends Model
         'id',  
         'numero_Solicitud',
         'semestre',
+        'nombre_Carrera',
         'carrera_Id',  
         'que_Espera_Del_Plan',
         'nombre_Oficina',

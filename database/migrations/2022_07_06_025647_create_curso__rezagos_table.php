@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('grupo');
             $table->string('docente');
+            $table->string('nombre_Curso');
             $table->integer('numero_De_Matriculas');
             $table->integer('numero_De_Culminaciones');
             $table->longText('aspectos_Y_Condiciones_Rezago');

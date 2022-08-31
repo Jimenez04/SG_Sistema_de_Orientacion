@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('curso_u_c_r_s', function (Blueprint $table) {
+        Schema::create('jobs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nombre');
-            $table->integer('creditos');
-            $table->timestamps();
+            $table->string('queue')->index();
+            $table->longText('payload');
+            $table->unsignedTinyInteger('attempts');
+            $table->unsignedInteger('reserved_at')->nullable();
+            $table->unsignedInteger('available_at');
+            $table->unsignedInteger('created_at');
         });
     }
 
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('curso_u_c_r_s');
+        Schema::dropIfExists('jobs');
     }
 };

@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
+use App\Events\StudentSaved;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 //use Laravel\Sanctum\HasApiTokens;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -57,7 +56,7 @@ class User extends Authenticatable
                     "status" => false,
                     "error" => "El Email ya se encuentra en uso",
                     ],409);
-            }
+                }
                 $user = User::make([
                     'email' => $request['email'],
                     'password' => bcrypt($request['password_'])
@@ -74,6 +73,7 @@ class User extends Authenticatable
                                     $user->addperson($persona);
                                 $user->save();
                         }         
+                        StudentSaved::dispatch($request);
                             if($is_Admin){
                                 return response()->json([
                                     "status" => true,
@@ -114,13 +114,12 @@ class User extends Authenticatable
         }
     }
 
-    public function change_password($request){
+    public function change_password($user, $request){
         try{
-            if($request['email'] == Auth::user()['email']){
+            if($request['email'] == Auth::user()['email'] || $user == "Administrador"){
                 $user = User::where('email', $request['email'])->first();
                     if($user instanceof User){
-                            if($this->passwordCorrect($request['old_password_'])){
-
+                            if($this->passwordCorrect($request['old_password_']) || $user == "Administrador"){
                                 $user->password = bcrypt($request['new_password_']);
                                 $user->save();
                                 return response()->json([
