@@ -41,10 +41,39 @@ class Persona extends Model
             }
         }
 
+        public function GetPerson($cedula){
+            try {
+                $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                $data = $this->validate_cedula_DB($cedula, true);
+                    if(!$data['status']){
+                        return response()->json($data,400);
+                    }
+                    if($this->validate_cedula_DB($cedula)){
+                        $person = Persona::find($cedula);
+                        return response()->json([
+                        "success" => true,
+                        "message" => "Persona",
+                        "data" => $person
+                        ],200);
+            }else{
+                return response()->json([
+                    "status" => false,
+                    "error" => "La persona no existe", 
+                    ],400);
+            }
+            } catch (\Throwable $th) {
+                return response()->json([
+                    "success" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+
         public function newperson($request)
         {
             try {
-                if($this->validate_cedula_DB($request['cedula'])){
+                $cedula = (trim(stripslashes(htmlspecialchars($request['cedula'])))); 
+                if($this->validate_cedula_DB($cedula)){
                         if($this->belong_to_user($request['cedula'])){
                             return response()->json([
                                 "status" => false,
@@ -66,8 +95,8 @@ class Persona extends Model
                     ]);
                     $persona->save();
                     
-                    $persona->addEmail($request['cedula'], $request['email']); //En caso que sea un nuevo usuario
-                    $this->addSex($request['sexo_id'], $persona);
+                    $persona->addEmail($cedula, $request['email']); //En caso que sea un nuevo usuario
+                    $persona->addSex($request['sexo_id'], $cedula);
 
                         return response()->json([
                             "status" => true,
@@ -81,25 +110,336 @@ class Persona extends Model
             }
         }
 
+        public function update_personal_information($user, $request){
+                try{
+                    $code = 403;
+                    $data = $this->validate_cedula_DB($request['cedula'], true);
+                        if(!$data['status']){
+                            return response()->json($data,400);
+                        }
+                            $persona = Persona::find($request['cedula']);
+                            $validated = $user == 'Estudiante' ?  $this->user_validated($request) : $this->admin_validatedRol();
+                                if($user == 'Estudiante' || $user == 'Administrador'){
+                                    if($validated['status']){ 
+                                        $persona->update($request);
+                                        $code = 200;
+                                        $validated = ['status' => true, 'message' => 'Actualizado correctamente'];
+                                    }
+                                }
+                        return response()->json($validated,$code);
+                }catch (\Throwable $th) {
+                    return response()->json([
+                        "status" => false,
+                        "error" => $th->getMessage(),
+                        ],500);
+                }
+        }
+
         //sex
         public function getNameSex()
         {
             return $this->Sexo()->get()->first()->nombre;
         }
 
-        public function addSex($id_Sexo, $persona){
-                $sexo = Sexo::find($id_Sexo);
-                $sexo->addPersonSex($persona);
+        public function addSex($id_Sexo, $cedula){
+            $persona = Persona::where('cedula', $cedula)->first();
+            $sexo = Sexo::find($id_Sexo);
+            return $sexo->addPersonSex($persona);
          }
 
         public function updateSex($id_Sexo){
            $this->update(['sexo_id' => $id_Sexo]);
         }
 
+        //Work
+        public function addPersonal_Job($user,$request){
+            try{
+                $trabajo =  new Trabajo();
+                $validated = $user == 'Estudiante' ?  $this->user_validated($request) : $this->admin_validatedRol();
+                if($user == 'Estudiante'){
+                    if($validated['status']){ 
+                        return  $trabajo->add(Auth::user()->Persona, $request);
+                    }
+                }else if($user == 'Administrador'){ 
+                    if($validated['status']){ 
+                            $data = $this->validate_cedula_DB($request['cedula'], true);
+                                if(!$data['status']){
+                                    return response()->json($data,400);
+                                }
+                        return  $trabajo->add(Persona::find($request['cedula']), $request);
+                    }
+                }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function getAllJobs_Personal($user, $cedula = null){ 
+            try{
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $trabajo =  new Trabajo();
+                if($user == 'Estudiante'){
+                    if($validated['status']){
+                        return $trabajo->get_all(Persona::find(Auth::user()->Persona->cedula));    
+                    }
+                }else if($user == 'Administrador'){ 
+                    if($validated['status']){ 
+                        $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                        $data = $this->validate_cedula_DB($cedula, true);
+                            if(!$data['status']){
+                                return response()->json($data,400);
+                            }
+                        return  $trabajo->get_all(Persona::find($cedula));
+                    }
+                }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function getJob_Personal($user, $cedula = null, $id){ 
+            try{
+                $isnumeric = json_decode($this->verificarID($id)->getContent());
+                if(!$isnumeric->status){
+                    return response()->json($isnumeric,400);
+                }
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $trabajo =  new Trabajo();
+                    if($user == 'Estudiante'){
+                        if($validated['status']){
+                            return $trabajo->get(Persona::find(Auth::user()->Persona->cedula), $id);    
+                        }
+                    }else if($user == 'Administrador'){ 
+                        if($validated['status']){ 
+                            $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                            $data = $this->validate_cedula_DB($cedula, true);
+                                if(!$data['status']){
+                                    return response()->json($data,400);
+                                }
+                            return $trabajo->get(Persona::find($cedula), $id);    
+                        }
+                    }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function updateJob_Personal($user, $request){ 
+            try{
+                $isnumeric = json_decode($this->verificarID($request['id'])->getContent());
+                if(!$isnumeric->status){
+                    return response()->json($isnumeric,400);
+                }
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $trabajo =  new Trabajo();
+                    if($user == 'Estudiante'){
+                        if($validated['status']){
+                            return $trabajo->update_e(Auth::user()->Persona, $request);
+                        }
+                }else if($user == 'Administrador'){ 
+                    if($validated['status']){ 
+                        $cedula = (trim(stripslashes(htmlspecialchars($request['cedula'])))); 
+                        $data = $this->validate_cedula_DB($cedula, true);
+                        if(!$data['status']){
+                            return response()->json($data,400);
+                        }
+                        return $trabajo->update_e(Persona::find($cedula), $request);    
+                    }
+                }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function deleteJob_Personal($user, $cedula = null, $id){ 
+            try{
+                $isnumeric = json_decode($this->verificarID($id)->getContent());
+                if(!$isnumeric->status){
+                    return response()->json($isnumeric,400);
+                }
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $trabajo =  new Trabajo();
+                    if($user == 'Estudiante'){
+                            if($validated['status']){
+                                return $trabajo->delete_e(Auth::user()->Persona, $id);
+                            }
+                    }else if($user == 'Administrador'){ 
+                        if($validated['status']){ 
+                            $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                            $data = $this->validate_cedula_DB($cedula, true);
+                            if(!$data['status']){
+                                return response()->json($data,400);
+                            }
+                            return $trabajo->delete_e(Persona::find($cedula), $id); 
+                        }
+                    }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        //endWork
 
         //sickness
-        public function addSickness($enfermedad){
-            $this->Enfermedad()->save($enfermedad);
+        public function addPersonal_Sickness($user,$request){
+            try{
+                $enfermedad =  new Enfermedad();
+                $validated = $user == 'Estudiante' ?  $this->user_validated($request) : $this->admin_validatedRol();
+                if($user == 'Estudiante'){
+                    if($validated['status']){ 
+                        return  $enfermedad->add(Auth::user()->Persona, $request);
+                    }
+                }else if($user == 'Administrador'){ 
+                    if($validated['status']){ 
+                            $data = $this->validate_cedula_DB($request['cedula'], true);
+                                if(!$data['status']){
+                                    return response()->json($data,400);
+                                }
+                        return  $enfermedad->add(Persona::find($request['cedula']), $request);
+                    }
+                }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function getAllSickness_Personal($user, $cedula = null){ 
+            try{
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $enfermedad =  new Enfermedad();
+                if($user == 'Estudiante'){
+                    if($validated['status']){
+                        return $enfermedad->get_all(Persona::find(Auth::user()->Persona->cedula));    
+                    }
+                }else if($user == 'Administrador'){ 
+                    if($validated['status']){ 
+                        $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                        $data = $this->validate_cedula_DB($cedula, true);
+                            if(!$data['status']){
+                                return response()->json($data,400);
+                            }
+                        return  $enfermedad->get_all(Persona::find($cedula));
+                    }
+                }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function getSickness_Personal($user, $cedula = null, $id){ 
+            try{
+                $isnumeric = json_decode($this->verificarID($id)->getContent());
+                if(!$isnumeric->status){
+                    return response()->json($isnumeric,400);
+                }
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $enfermedad =  new Enfermedad();
+                    if($user == 'Estudiante'){
+                        if($validated['status']){
+                            return $enfermedad->get(Persona::find(Auth::user()->Persona->cedula), $id);    
+                        }
+                    }else if($user == 'Administrador'){ 
+                        if($validated['status']){ 
+                            $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                            $data = $this->validate_cedula_DB($cedula, true);
+                                if(!$data['status']){
+                                    return response()->json($data,400);
+                                }
+                            return $enfermedad->get(Persona::find($cedula), $id);    
+                        }
+                    }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function updateSickness_Personal($user, $request){ 
+            try{
+                $isnumeric = json_decode($this->verificarID($request['id'])->getContent());
+                if(!$isnumeric->status){
+                    return response()->json($isnumeric,400);
+                }
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $enfermedad =  new Enfermedad();
+                    if($user == 'Estudiante'){
+                        if($validated['status']){
+                            return $enfermedad->update_e(Auth::user()->Persona, $request);
+                        }
+                }else if($user == 'Administrador'){ 
+                    if($validated['status']){ 
+                        $cedula = (trim(stripslashes(htmlspecialchars($request['cedula'])))); 
+                        $data = $this->validate_cedula_DB($cedula, true);
+                        if(!$data['status']){
+                            return response()->json($data,400);
+                        }
+                        return $enfermedad->update_e(Persona::find($cedula), $request);    
+                    }
+                }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function deleteSickness_Personal($user, $cedula = null, $id){ 
+            try{
+                $isnumeric = json_decode($this->verificarID($id)->getContent());
+                if(!$isnumeric->status){
+                    return response()->json($isnumeric,400);
+                }
+                $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
+                $enfermedad =  new Enfermedad();
+                    if($user == 'Estudiante'){
+                            if($validated['status']){
+                                return $enfermedad->delete_e(Auth::user()->Persona, $id);
+                            }
+                    }else if($user == 'Administrador'){ 
+                        if($validated['status']){ 
+                            $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                            $data = $this->validate_cedula_DB($cedula, true);
+                            if(!$data['status']){
+                                return response()->json($data,400);
+                            }
+                            return $enfermedad->delete_e(Persona::find($cedula), $id); 
+                        }
+                    }
+                return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+        public function addSickness($request){
+            $enfermedad = new Enfermedad($request);
+            return $this->Enfermedad()->save($enfermedad);
         }
         public function deletesickness($enfermedad){
             $this->Enfermedad()->find($enfermedad->id)->delete();
@@ -111,7 +451,7 @@ class Persona extends Model
         //endsickness
 
          //contact
-         public function addPersonalNumber($user,$request){
+        public function addPersonalNumber($user,$request){
             try{
                 $contacto =  new Contacto();
                 $validated = $user == 'Estudiante' ?  $this->user_validated($request) : $this->admin_validatedRol();
@@ -542,7 +882,5 @@ class Persona extends Model
                         "error" => "La persona no existe en la base de datos",
                     ];
             }
-            
-           
     }
 }

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\change_password_admin__request;
 use App\Http\Requests\changePasswordRequest;
 use App\Http\Requests\CreateUserFromAdminRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
@@ -69,9 +69,9 @@ class UsuarioController extends Controller
         *      @OA\Response(response=404, description="Resource Not Found"),
         * )
         */
-        public function register(CreateUserRequest $request)
+        public function register(CreateUserRequest $request) //CreateUserRequest
         {
-             return $this->User()->newUser($request->validated());
+            return $this->User()->newUser($request->validated());
         }
 
         public function registerUserFromAdmin(CreateUserFromAdminRequest $request)
@@ -124,9 +124,12 @@ class UsuarioController extends Controller
 
         public function change_password(changePasswordRequest $request)
         {
-            return $this->User()->change_password($request->validated());
+            return $this->User()->change_password('Estudiante',$request->validated());
         }
-
+        public function change_password_admin(change_password_admin__request $request)
+        {
+            return $this->User()->change_password('Administrador', $request->validated());
+        }
         public function forget_account(LoginRequest $request)
         {
             return $this->User()->login($request->validated());
@@ -134,10 +137,7 @@ class UsuarioController extends Controller
     
         public function userInfo() 
         {
-    
         $user = auth()->user();
-        
         return response()->json(['user' => $user], 200);
-    
         }
 }

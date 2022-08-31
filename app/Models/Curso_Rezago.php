@@ -13,6 +13,7 @@ class Curso_Rezago extends Model
         'id',  
         'solicitud_Numero',
         'curso_Id',
+        'nombre_Curso',
         'grupo',  
         'docente',
         'numero_De_Matriculas',

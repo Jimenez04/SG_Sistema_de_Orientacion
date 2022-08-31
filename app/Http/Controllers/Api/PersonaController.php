@@ -3,17 +3,21 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\addEnfermedad__request;
+use App\Http\Requests\addJob__request;
 use App\Http\Requests\CreatePersonRequest;
 use App\Http\Requests\emailupdate_admin_request;
 use App\Http\Requests\emailupdate_request;
 use App\Http\Requests\Find_ID_Request;
 use App\Http\Requests\newnum__request;
 use App\Http\Requests\personalEmailRequest;
+use App\Http\Requests\update_Personal_Information_request;
+use App\Http\Requests\updateEnfermedad__request;
+use App\Http\Requests\updateJob_request;
 use App\Http\Requests\updateNumber__request;
 use App\Models\Persona;
 use Illuminate\Http\Request;
-
-
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class PersonaController extends Controller
@@ -26,6 +30,11 @@ class PersonaController extends Controller
         {
             return $this->Persona()->allPersons();
         }
+        public function get($cedula)
+        {
+            return $this->Persona()->GetPerson($cedula);
+        }
+
 
                   /**
         * @OA\Post(
@@ -76,7 +85,15 @@ class PersonaController extends Controller
         public function Post(CreatePersonRequest $request)
         {
             return $this->Persona()->newPerson($request->validated());
-        } 
+        }
+        public function Pacth(update_Personal_Information_request $request)
+        {
+            return $this->Persona()->update_personal_information('Estudiante', $request->validated());
+        }  
+        public function Pacth_Admin(update_Personal_Information_request $request)
+        {
+            return $this->Persona()->update_personal_information('Administrador', $request->validated());
+        }  
         //email
         public function addEmailpersonal(personalEmailRequest $request)
         {
@@ -92,6 +109,7 @@ class PersonaController extends Controller
         } 
         public function getEmails_Admin($cedula)
         {
+            dd(Auth::user()->Persona);
             return $this->Persona()->getEmails_Personal('Administrador',$cedula);
         } 
         public function getEmail_Personal($id)
@@ -161,8 +179,93 @@ class PersonaController extends Controller
         {
             return $this->Persona()->deletenumber_Admin('Administrador', $cedula, $id);
         } 
-
         //End Contacto Telefono
+
+        //Enfermedad
+        public function add_SicknessPersonal(addEnfermedad__request $request)
+        {
+            return $this->Persona()->addPersonal_Sickness('Estudiante' ,$request->validated());
+        }
+        public function add_SicknessAdmin(addEnfermedad__request $request)
+        {
+            return $this->Persona()->addPersonal_Sickness('Administrador', $request->validated());
+        } 
+        public function getSickness_Personal()
+        {
+            return $this->Persona()->getAllSickness_Personal('Estudiante');
+        } 
+        public function getSickness_Admin($cedula)
+        {
+            return $this->Persona()->getAllSickness_Personal('Administrador',$cedula);
+        } 
+        public function get_Sickness_Personal($id)
+        {
+            return $this->Persona()->getSickness_Personal('Estudiante','',$id);
+        } 
+        public function get_Sickness_Admin($cedula, $id)
+        {
+            return $this->Persona()->getSickness_Personal('Administrador',$cedula, $id);
+        } 
+        public function updateSickness_Personal(updateEnfermedad__request $request)
+        {
+            return $this->Persona()->updateSickness_Personal('Estudiante',$request->validated());
+        }
+        public function update_Sickness_Admin(updateEnfermedad__request  $request)
+        {
+            return $this->Persona()->updateSickness_Personal('Administrador', $request->validated());
+        } 
+        public function delete_Sickness_Personal($id)
+        { 
+            return $this->Persona()->deleteSickness_Personal('Estudiante','', $id);
+        } 
+        public function delete_Sickness_Admin($cedula, $id)
+        {
+            return $this->Persona()->deleteSickness_Personal('Administrador', $cedula, $id);
+        } 
+        //End Enfermedad
+
+        //trabajo
+        public function add_JobPersonal(addJob__request $request)
+        {
+            return $this->Persona()->addPersonal_Job('Estudiante' ,$request->validated());
+        }
+        public function add_JobAdmin(addJob__request $request)
+        {
+            return $this->Persona()->addPersonal_Job('Administrador', $request->validated());
+        } 
+        public function getJobs_Personal()
+        {
+            return $this->Persona()->getAllJobs_Personal('Estudiante');
+        } 
+        public function getJobs_Admin($cedula)
+        {
+            return $this->Persona()->getAllJobs_Personal('Administrador',$cedula);
+        } 
+        public function get_Job_Personal($id)
+        {
+            return $this->Persona()->getJob_Personal('Estudiante','',$id);
+        } 
+        public function get_Job_Admin($cedula, $id)
+        {
+            return $this->Persona()->getJob_Personal('Administrador',$cedula, $id);
+        } 
+        public function updateJob_Personal(updateJob_request $request)
+        {
+            return $this->Persona()->updateJob_Personal('Estudiante',$request->validated());
+        }
+        public function update_Job_Admin(updateJob_request  $request)
+        {
+            return $this->Persona()->updateJob_Personal('Administrador', $request->validated());
+        } 
+        public function delete_Job_Personal($id)
+        { 
+            return $this->Persona()->deleteJob_Personal('Estudiante','', $id);
+        } 
+        public function delete_Job_Admin($cedula, $id)
+        {
+            return $this->Persona()->deleteJob_Personal('Administrador', $cedula, $id);
+        } 
+        //End Trabajo
 
 
 /**
