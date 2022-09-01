@@ -19,9 +19,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('registrar', [UsuarioController::class, 'register']);
 
+    Route::post('login', [UsuarioController::class, 'login']);
+
 Route::middleware(['auth:api', 'verified'])->group(function () {
     //Route::middleware(['auth:api'])->group(function () {
-    Route::post('login', [UsuarioController::class, 'login']);
     Route::get('get-user', [UsuarioController::class, 'userInfo']);
     Route::post('user/change_password', [UsuarioController::class, 'change_password'])->middleware('scopes:Estudiante');
     Route::post('admin/user/change_password', [UsuarioController::class, 'change_password'])->middleware('scopes:Administrador');
@@ -100,5 +101,24 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         Route::delete('user/delete/trabajo/{id}', [PersonaController::class, 'delete_Job_Personal'])->middleware('scopes:Estudiante');
          Route::delete('admin/delete/trabajo/{cedula}/{id}', [PersonaController::class, 'delete_Job_Admin'])->middleware('scopes:Administrador');
         ///////////////End Trabajo
+
+
+
+
+
+
+
+
+
+
+
+        
+
+        //parcial Kryssia
+
+
+
+
+
 
 });
