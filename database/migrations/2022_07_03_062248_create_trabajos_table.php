@@ -24,7 +24,8 @@ return new class extends Migration
         });
         Schema::table('personas',function (Blueprint $table){
             $table->unsignedBigInteger("trabajo_id")->nullable(); 
-            $table->foreign('trabajo_id')->references('id')->on('trabajos');
+            $table->foreign('trabajo_id')->references('id')->on('trabajos')->onUpdate('cascade')
+            ->onDelete('cascade');
         });
     }
 

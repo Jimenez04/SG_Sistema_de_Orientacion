@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('administradors', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('id_Rol');
             $table->timestamps();
             $table->string('persona_cedula',20)->nullable();
         });

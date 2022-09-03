@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('persona_cedula',20)->nullable();
         });
         Schema::table('contactos',function (Blueprint $table){
-            $table->foreign('persona_cedula')->references('cedula')->on('personas');
+            $table->foreign('persona_cedula')->references('cedula')->on('personas')->onUpdate('cascade')
+            ->onDelete('cascade');
         });
     }
 

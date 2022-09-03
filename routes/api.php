@@ -22,9 +22,9 @@ Route::post('registrar', [UsuarioController::class, 'register']);
     Route::post('login', [UsuarioController::class, 'login']);
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
-    //Route::middleware(['auth:api'])->group(function () {
+    // Route::middleware(['auth:api'])->group(function () {
     Route::get('get-user', [UsuarioController::class, 'userInfo']);
-    Route::post('user/change_password', [UsuarioController::class, 'change_password'])->middleware('scopes:Estudiante');
+    Route::post('user/change_password', [UsuarioController::class, 'change_password']);
     Route::post('admin/user/change_password', [UsuarioController::class, 'change_password'])->middleware('scopes:Administrador');
     Route::post('admin/registrar', [UsuarioController::class, 'registerUserFromAdmin'])->middleware('scopes:Administrador');
 
@@ -99,15 +99,32 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
          Route::patch('admin/update/trabajo', [PersonaController::class, 'update_Job_Admin'])->middleware('scopes:Administrador');
     
         Route::delete('user/delete/trabajo/{id}', [PersonaController::class, 'delete_Job_Personal'])->middleware('scopes:Estudiante');
-         Route::delete('admin/delete/trabajo/{cedula}/{id}', [PersonaController::class, 'delete_Job_Admin'])->middleware('scopes:Administrador');
+        Route::delete('admin/delete/trabajo/{cedula}/{id}', [PersonaController::class, 'delete_Job_Admin'])->middleware('scopes:Administrador');
         ///////////////End Trabajo
+        
+        
+        
+        
+        Route::delete('user/delete/{id}', [UsuarioController::class, 'deleteuser_fromAdmin'])->middleware('scopes:Administrador');
+        Route::patch('user/validate/{id}', [UsuarioController::class, 'validate_user'])->middleware('scopes:Administrador');
+        
+        //student
+        Route::get('admin/persona/estudiante', [UsuarioController::class, 'get_students'])->middleware('scopes:Administrador');
+        Route::get('user/persona/estudiante/{carnet}', [UsuarioController::class, 'get_student']);
 
+        Route::patch('usuario/persona/estudiante/actualizar', [UsuarioController::class, 'student_update']);
+    
 
+        //end student
 
+        //Beca //no quitar scope de estudiante...
+            Route::get('admin/persona/estudiante/beca/{carnet}', [UsuarioController::class, 'get_grant']);
 
+            Route::post('user/person/student/beca/add', [UsuarioController::class, 'add_Beca'])->middleware('scopes:Estudiante');
+            Route::post('admin/user/person/student/beca/add', [UsuarioController::class, 'add_Beca_Admin'])->middleware('scopes:Administrador');
 
-
-
+            Route::patch('usuario/persona/estudiante/beca/actualizar', [UsuarioController::class, 'grant_update']);
+        //EndBeca
 
 
 

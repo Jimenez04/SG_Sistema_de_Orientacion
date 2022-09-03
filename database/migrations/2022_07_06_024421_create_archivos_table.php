@@ -21,7 +21,8 @@ return new class extends Migration
         });
         Schema::table('archivos', function (Blueprint $table) {
             $table->unsignedBigInteger('adecuacion_Solicitud_Id')->nullable();
-            $table->foreign('adecuacion_Solicitud_Id')->references('id')->on('solicitud_de_adecuacions');
+            $table->foreign('adecuacion_Solicitud_Id')->references('id')->on('solicitud_de_adecuacions')->onUpdate('cascade')
+            ->onDelete('cascade');
        });
       
     }

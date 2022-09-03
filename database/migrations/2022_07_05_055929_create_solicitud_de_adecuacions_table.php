@@ -31,7 +31,8 @@ return new class extends Migration
         });
 
         Schema::table('solicitud_de_adecuacions',function (Blueprint $table){
-            $table->foreign('estudiante_carnet')->references('carnet')->on('estudiantes');
+            $table->foreign('estudiante_carnet')->references('carnet')->on('estudiantes')->onUpdate('cascade')
+            ->onDelete('cascade');
         });
         //DB::unprepared('ALTER TABLE `solicitud_de_adecuacions` DROP PRIMARY KEY, ADD PRIMARY KEY (  `id` ,  `numero_solicitud` )');
         

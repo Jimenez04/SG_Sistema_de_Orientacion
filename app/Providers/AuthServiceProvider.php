@@ -29,12 +29,12 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //Passport::routes();
-       // Passport::tokensExpireIn(Carbon::now()->addminutes(30));
+        Passport::tokensExpireIn(Carbon::now()->addminutes(30));
         //Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(100));
 
         Passport::tokensCan([
             'Administrador' => 'Usuario administrador del sistema (Orientador)',
-            'Estudiante' => 'Usuarios que usaran el sistema',
+            'Estudiante' => 'Usuarios que usarán el sistema',
         ]);
     
         Passport::setDefaultScope([

@@ -21,6 +21,10 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\StudentSaved::class => [
             \App\Listeners\SendEmailStudent::class,
             \App\Listeners\SendEmailAdmin::class,
+        ],
+        \App\Events\UserValidate::class => [
+            \App\Listeners\ValidateSendEmailUser::class,
+            \App\Listeners\ValidateSendEmailAdmin::class,
         ]
     ];
 

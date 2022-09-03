@@ -21,10 +21,12 @@ return new class extends Migration
         });
         Schema::table('parientes', function (Blueprint $table) {
             $table->string('persona_cedula',20)->nullable();
-            $table->foreign('persona_cedula')->references('cedula')->on('personas');
+            $table->foreign('persona_cedula')->references('cedula')->on('personas')->onUpdate('cascade')
+            ->onDelete('cascade');
 
             $table->unsignedBigInteger('grupo_Familiar_Id')->nullable();
-            $table->foreign('grupo_Familiar_Id')->references('id')->on('grupo__familiars');
+            $table->foreign('grupo_Familiar_Id')->references('id')->on('grupo__familiars')->onUpdate('cascade')
+            ->onDelete('cascade');
        });
     }
 

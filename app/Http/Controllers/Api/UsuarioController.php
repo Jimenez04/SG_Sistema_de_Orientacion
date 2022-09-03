@@ -3,13 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\agregarBeca_AdminRequest;
+use App\Http\Requests\agregarBecaRequest;
 use App\Http\Requests\change_password_admin__request;
 use App\Http\Requests\changePasswordRequest;
 use App\Http\Requests\CreateUserFromAdminRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\update_grantRequest;
+use App\Http\Requests\update_studentRequest;
+use App\Models\Beca;
+use App\Models\Estudiante;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 
 class UsuarioController extends Controller
 {
@@ -19,6 +26,14 @@ class UsuarioController extends Controller
         public function User()
         {
             return $user = new User();
+        }
+        public function Estudiante()
+        {
+            return $estudiante = new Estudiante();
+        }
+        public function Beca()
+        {
+            return $Beca = new Beca();
         }
 
            /**
@@ -130,14 +145,62 @@ class UsuarioController extends Controller
         {
             return $this->User()->change_password('Administrador', $request->validated());
         }
-        public function forget_account(LoginRequest $request)
+       /*  public function forget_account(LoginRequest $request)
         {
             return $this->User()->login($request->validated());
+        } */
+
+        //student
+        public function get_students()
+        {
+            return $this->Estudiante()->get_all();
         }
-    
+        
+        public function get_student($carnet)
+        {
+            return $this->Estudiante()->get($carnet);
+        }
+
+        public function student_update(update_studentRequest $request)
+        {
+            return $this->Estudiante()->update_e($request->validated());
+        }
+       //End student
+        
+       
+        //Grant
+        public function add_Beca(agregarBecaRequest $request)
+        {
+            return $this->Estudiante()->addbeca("",$request->validated());
+        }
+        
+        public function add_Beca_Admin(agregarBeca_AdminRequest $request)
+        {
+            return $this->Estudiante()->addbeca($request->validated()['cedula'],$request->validated());
+        }
+
+        public function get_grant($carnet)
+        {
+            return $this->Beca()->get($carnet);
+        }
+        public function grant_update(update_grantRequest $request)
+        {
+            return $this->Beca()->update_e($request->validated());
+        }
+        //end Grant
+
+        public function validate_user($id)
+        {
+            return $this->User()->email_verified_at($id);
+        }
+
         public function userInfo() 
         {
         $user = auth()->user();
         return response()->json(['user' => $user], 200);
+        }
+        public function deleteuser_fromAdmin($id) 
+        {
+            return $this->User()->delete_user($id);
         }
 }
