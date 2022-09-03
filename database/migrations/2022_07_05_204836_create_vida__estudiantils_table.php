@@ -21,12 +21,14 @@ return new class extends Migration
         });
         Schema::table('contactos', function (Blueprint $table) {
             $table->unsignedBigInteger('vida_Estudiantil_Id')->nullable();
-            $table->foreign('vida_Estudiantil_Id')->references('id')->on('vida__estudiantils');
+            $table->foreign('vida_Estudiantil_Id')->references('id')->on('vida__estudiantils')->onUpdate('cascade')
+            ->onDelete('cascade');
         });
 
         Schema::table('emails', function (Blueprint $table) {
             $table->unsignedBigInteger('vida_Estudiantil_Id')->nullable();
-            $table->foreign('vida_Estudiantil_Id')->references('id')->on('vida__estudiantils');
+            $table->foreign('vida_Estudiantil_Id')->references('id')->on('vida__estudiantils')->onUpdate('cascade')
+            ->onDelete('cascade');
         });
     }
 

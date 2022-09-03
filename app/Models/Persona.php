@@ -94,6 +94,18 @@ class Persona extends Model
                         'fecha_Nacimiento' => $request['fecha_Nacimiento'],
                     ]);
                     $persona->save();
+
+                    $estudiante = new Estudiante();
+                    $response = $estudiante->add($request);
+                    $response = json_decode($response->getContent());
+
+                    if(!$response->status){
+                        $persona->delete();
+                        return response()->json($response);
+                    }else if($response->status == 3 || $response->status){
+                            $estudiante = Estudiante::find($request['carnet']);
+                                $persona->associateStudent($cedula, $estudiante);
+                    }         
                     
                     $persona->addEmail($cedula, $request['email']); //En caso que sea un nuevo usuario
                     $persona->addSex($request['sexo_id'], $cedula);
@@ -169,7 +181,7 @@ class Persona extends Model
                         return  $trabajo->add(Persona::find($request['cedula']), $request);
                     }
                 }
-                return response()->json($validated,403);
+                 
             }catch (\Throwable $th) {
                 return response()->json([
                     "status" => false,
@@ -762,8 +774,9 @@ class Persona extends Model
         //endEmail
 
         //Student
-        public function associateStudent($estudiante){
-            $this->Estudiante()->save($estudiante);
+        public function associateStudent($cedula, $estudiante){
+            $persona = Persona::where('cedula', $cedula)->first();
+            return $persona->Estudiante()->save($estudiante);
         }
         public function getStudentCarnet()
         {
@@ -827,6 +840,10 @@ class Persona extends Model
         $persona = Persona::find($cedula);
         return $persona->User()->exists();
     }
+    public function belong_to_student($cedula){
+        $persona = Persona::find($cedula);
+        return $persona->Estudiante()->exists();
+    }
     public function user_validated($request){
         if($request['cedula'] == Auth::user()->Persona->cedula){ 
             return  ['status'=>true];
@@ -867,7 +884,7 @@ class Persona extends Model
             "status" => true,
         ],200);}
     }
-    private function validate_cedula_DB($cedula, $json = false){
+    public function validate_cedula_DB($cedula, $json = false){
         $data = Persona::where('cedula', $cedula)->exists();
             if(!$json){
                 return $data;

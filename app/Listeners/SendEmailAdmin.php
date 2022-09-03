@@ -30,7 +30,7 @@ class SendEmailAdmin
     {
         $mensaje1 = "Un nuevo usuario ha sido registrado en el sistema, a continuación, un resumen de la información.";
         $mensaje2 = "Se le solicita verificar la cuenta lo antes posible.";
-        Mail::to($event->data['email'])->send(new NotificaciónNuevaCuentaEstudiante($event->data,$mensaje1,$mensaje2));
+        Mail::to(env('MAIL_FROM_ADDRESS'))->send(new NotificaciónNuevaCuentaEstudiante($event->data,$mensaje1,$mensaje2));
         //Mail::to('ISAAC.JIMENEZALFARO@ucr.ac.cr')->send(new NotificaciónNuevaCuentaEstudiante($event->data,$mensaje1,$mensaje2));
     }
 }

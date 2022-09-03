@@ -22,7 +22,8 @@ return new class extends Migration
         });
 
         Schema::table('seguimientos',function (Blueprint $table){
-           $table->foreign('necesidad_Y_Apoyo_id')->references('id')->on('necesidad__y__apoyos');
+           $table->foreign('necesidad_Y_Apoyo_id')->references('id')->on('necesidad__y__apoyos')->onUpdate('cascade')
+           ->onDelete('cascade');
         });
     }
 

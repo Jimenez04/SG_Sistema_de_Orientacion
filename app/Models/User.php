@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Events\StudentSaved;
+use App\Events\UserValidate;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -71,24 +73,40 @@ class User extends Authenticatable implements MustVerifyEmail
                                 $persona = Persona::find($request['cedula']);
                                     $user->add_Rol(2);
                                     $user->addperson($persona);
+
                                 $user->save();
+
+                                StudentSaved::dispatch($request);
+
+                                if($is_Admin){
+                                    return response()->json([
+                                        "status" => true,
+                                        "Message" => "El usuario fue creado correctamente",
+                                        ],200);
+                                }
+                                    return response()->json([
+                                        "status" => true,
+                                        "token" =>$this->generatetoken($request),
+                                        ],200);
                         }         
-                        StudentSaved::dispatch($request);
-                            if($is_Admin){
-                                return response()->json([
-                                    "status" => true,
-                                    "Message" => "El usuario fue creado correctamente",
-                                    ],200);
-                            }
-                                return response()->json([
-                                    "status" => true,
-                                    "token" => $user->createToken('Laravel9PassportAuth')->accessToken,
-                                    ],200);
         }catch (\Throwable $th) {
             return response()->json([
                 "status" => false,
                 "error" => $th->getMessage(),
                 ],500);
+        }
+    }
+
+    public function generatetoken($request){
+        $data = $this->generatedataLogin($request);
+                    if (auth()->attempt($data)) {
+                        $user = Auth::user();
+                        $userRole = $user->Role()->first();
+                            if ($userRole) {
+                                $user->scope = $userRole->role;
+                            }
+                                $token = $user->createToken($user->email.'-'.now(), [$user->scope]);
+                                return $token->accessToken;
         }
     }
 
@@ -162,6 +180,99 @@ class User extends Authenticatable implements MustVerifyEmail
             'email' => $request['email'],
             'password' => $request['password_']
         ];
+    }
+
+    public function delete_user($id) {
+        try{
+            $persona = new Persona();
+            $isnumeric = json_decode($this->verificarID($id)->getContent());
+                if(!$isnumeric->status){
+                    return response()->json($isnumeric,400);
+                }
+                $validated =  $this->admin_validatedRol();
+                    if($validated['status']){ 
+                        $data = $this->validate_user($id, true);
+                            if(!$data){
+                                return response()->json(['message' => "El usuario no existe"],400);
+                            }
+                                $user = User::find($id);
+                                if($user->Role->role != "Administrador"){
+                                    $user->delete();
+                                    return response()->json(['message'=> "Eliminado con exito", 'data' => $user],200);
+                                }else{
+                                    return response()->json(['message'=> "Este usuario no puede ser eliminado"],400);
+                                }
+                        
+                    }
+                return response()->json($validated,403);
+        }catch (\Throwable $th) {
+            return response()->json([
+                "status" => false,
+                "error" => $th->getMessage(),
+                ],500);
+        }
+    }
+
+    public function email_verified_at($id)
+        {
+            try{
+                $isnumeric = json_decode($this->verificarID($id)->getContent());
+                    if(!$isnumeric->status){
+                        return response()->json($isnumeric,400);
+                    }
+                    $validated =  $this->admin_validatedRol();
+                        if($validated['status']){ 
+                            $data = $this->validate_user($id, true);
+                                if(!$data){
+                                    return response()->json(['message' => "El usuario no existe"],400);
+                                }
+                                    $user = User::find($id);
+                                    if($user->Role->role != "Administrador"){
+                                        if($user->email_verified_at != null){
+                                            return response()->json(['message'=> "El usuario ya se encuentra validado"], 409);
+                                        }
+                                        $user->email_verified_at = Carbon::now();
+                                        $user->save();
+                                        UserValidate::dispatch($user);
+                                        return response()->json(['message'=> "El usuario ha sido verificado con éxito ", 'data' => $user],200);
+                                    }else{
+                                        return response()->json(['message'=> "Este usuario no puede ser actualizado"],400);
+                                    }
+                        }
+                    return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+
+    private function validate_user($id){
+        $data = User::where('id', $id)->exists();
+                return $data;
+    }
+
+    public function admin_validatedRol(){
+        if("Administrador" == Auth::user()->role->role){
+            return  ['status'=>true];
+        }else{
+            return [
+                "status" => false,
+                "error" => "No tiene permisos para gestionar esta persona",
+                    ];
+        }
+    }
+
+    public function verificarID($id){
+        if(!is_numeric($id)){
+            return response()->json([
+                "status" => false,
+                "error" => "El id debe ser un número",
+            ],400);
+        }else{return response()->json([
+            "status" => true,
+        ],200);}
     }
 
     private function add_Rol($id_rol) {

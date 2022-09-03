@@ -24,7 +24,8 @@ return new class extends Migration
 
         });
         Schema::table('enfermedads',function (Blueprint $table){
-            $table->foreign('persona_cedula')->references('cedula')->on('personas');
+            $table->foreign('persona_cedula')->references('cedula')->on('personas')->onUpdate('cascade')
+            ->onDelete('cascade');
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -39,6 +40,11 @@ class UserAdminTableSeeder extends Seeder
         DB::table('contactos')->insert([
             'numero' => "123456789",
             'persona_cedula' => "123456789",
+        ]);
+
+        DB::table('administradors')->insert([
+            'persona_cedula' => "123456789",
+            'created_at' => Carbon::now(),
         ]);
     }
 }

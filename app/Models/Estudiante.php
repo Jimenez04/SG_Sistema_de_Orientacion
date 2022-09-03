@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Estudiante extends Model
 {
@@ -12,18 +14,187 @@ class Estudiante extends Model
     protected $fillable = [
         'carnet',
         'persona_cedula',
-        'id_Rol',
         'ano_Ingreso',
         'profesor_Consejero',
+        'carnet_S'
     ];
-
+    public $incrementing = false;
+    
     protected $primaryKey = 'carnet';
 
-    //Beca
-    public function addbeca($beca)
-    {
-      return $this->Beca()->save($beca);
+
+    public function add($request)
+        {
+            try {
+                $cedula = (trim(stripslashes(htmlspecialchars($request['cedula']))));
+                $persona = new Persona(); 
+                if($persona->validate_cedula_DB($cedula)){
+                        if($persona->belong_to_student($request['cedula'])){
+                            return response()->json([
+                                "status" => false,
+                                "error" => "La cédula ya esta asociada a un estudiante", //Persona ocupada
+                                ],400);
+                        }
+                        $estudiante = Estudiante::create([
+                          'carnet' => $request['carnet'],
+                          'carnet_S' => $request['carnet'],
+                        ]);
+                        $estudiante->save();
+                          return response()->json([
+                              "status" => true,
+                              "message" => "Estudiante creado correctamente. OK",
+                              ],200);
+//
+                      }else{
+                        return response()->json([
+                            "status" => 3,
+                            "error" => "Esta persona no existe, 'Estudiante'",
+                            ],400);
+                }
+            } catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(), 
+                    ],200);
+            }
+        }
+
+        public function get_all(){ 
+          if($this->admin_validatedRol()){
+                $list = Estudiante::get();  
+                if($list != null){
+                    return response()->json([
+                        "success" => true,
+                        "message" => "Lista de estudiantes",
+                        "data" => $list
+                        ],200);
+                }else{
+                    return response()->json([
+                        "status" => false,
+                        "error" => "No existen estudiantes",
+                    ],409);
+                }
+          }else{
+            return response()->json(['mesage'=>"No tiene permisos para acceder a este recurso"], 403);
+          }
+  }
+
+      public function get($carnet){ 
+        $data= null;
+        if($this->admin_validatedRol()['status']){
+          $data = Estudiante::find($carnet)->first();
+        }else if($this->user_validatedRol()['status']){
+          $data = Auth::user()->Persona->Estudiante;
+        }
+        if($data != null){
+          return response()->json([
+              "success" => true,
+              "message" => "Estudiante",
+              "data" => $data
+              ],200);
+      }else{
+          return response()->json([
+              "status" => false,
+              "error" => "El estudiante buscado no se encuentra.",
+          ],404);
+      }
     }
+
+    public function update_e($request){ 
+      $object ='';
+      if($this->admin_validatedRol()['status']){
+        $object = Estudiante::find($request['carnet']);
+      }else{
+          $object = Auth::user()->Persona->Estudiante;
+          $request['carnet'] = $object->carnet;
+      }
+      if($object != null){ 
+                      $object->update($request);
+                          return response()->json([
+                              "success" => true,
+                              "message" => "Datos del estudiante actualizados correctamente",
+                              ],200);
+      }else{
+          return response()->json([
+              "status" => false,
+              "error" => "No existe el estudiante",
+          ],404);
+      }
+  }
+
+
+  
+    //Beca
+    public function addbeca($cedula = null, $request)
+    {
+      $beca = new Beca();
+      $error = '';
+      if($this->admin_validatedRol() || $this->user_validatedRol()){
+        
+        $data = $cedula != null ? $this->validate_cedula_DB($request['cedula'], true) : ['status'=>'no'];
+            if(!$data['status']){
+              return response()->json($data,400);
+            }
+        $student = $cedula != null ? Persona::find($cedula)->Estudiante : Auth::user()->Persona->Estudiante;
+            if ($student->Beca === null)
+            {
+              $status = $beca->add($request);
+              $student->Beca()->save($status);
+              return response()->json(['status' => true , 'message' => 'Beca creada correctamente'],200);
+            }else{
+              return response()->json(['status' => false , 'message' => 'Ya dispone de una beca'],400);
+            }
+      }
+      return response()->json(['mesage'=>"No tiene permisos para acceder a este recurso", 'error' => $error], 403);
+    }
+
+    public function user_validated($request){
+      if($request['cedula'] == Auth::user()->Persona->cedula){ 
+          return  ['status'=>true];
+      }else{
+          return [
+              "status" => false,
+              "error" => "No tiene permisos para editar esta persona",
+                  ];
+      }
+  }
+   public function admin_validatedRol(){
+      if("Administrador" == Auth::user()->role->role){
+          return  ['status'=>true];
+      }else{
+          return [
+              "status" => false,
+                  ];
+      }
+  }
+  public function user_validatedRol(){
+      if("Estudiante" == Auth::user()->role->role){
+          return  ['status'=>true];
+      }else{
+          return [
+              "status" => false,
+                  ];
+      }
+  }
+
+
+    public function validate_cedula_DB($cedula, $json = false){
+      $data = Persona::where('cedula', $cedula)->exists();
+          if(!$json){
+              return $data;
+          }else{
+              if($data){
+                  return [
+                      "status" => $data,
+                  ];
+              }
+                  return [
+                      "status" => $data,
+                      "error" => "La persona no existe en la base de datos",
+                  ];
+          }
+  }
+
     public function getBeca()
     {
       return $this->Beca()->get()->first()->id;
@@ -77,6 +248,10 @@ class Estudiante extends Model
         }
         //EndSolicitudDeAdecuacion
 
+        public function primaryKey()
+        {
+            return DB::table("estudiantes")->where('carnet', $this->carnet)->first()->carnet;
+        }
 
         //  relaciones
         public function Beca()

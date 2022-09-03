@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Beca extends Model
 {
@@ -17,9 +18,120 @@ class Beca extends Model
         'participacion',
     ];
 
+    //
+
+    public function add($request){
+            $beca = $this->addBeca($request);
+            if($beca != null){
+                        return $beca;
+                }else{ 
+                        return false;
+            }
+    }
+
+    public function get_all($object){ 
+            $beca = $object->Beca;  
+            if($beca != null){
+                return response()->json([
+                    "success" => true,
+                    "message" => "Lista de becas",
+                    "data" => $beca
+                    ],200);
+            }else{
+                return response()->json([
+                    "status" => false,
+                    "error" => "No tiene ninguna beca asociada",
+                ],409);
+            }
+    }
+
+    public function get($carnet){ 
+        if($this->admin_validatedRol()['status']){
+            $object = Estudiante::find($carnet);
+        }else{
+            $object = Auth::user()->Persona->Estudiante;
+        }
+            $beca = $object->Beca;
+            if($beca != null){
+                return response()->json([
+                    "success" => true,
+                    "message" => "Beca",
+                    "data" => $beca
+                    ],200);
+            }else{
+                return response()->json([
+                    "status" => false,
+                    "error" => "No posee información de beca",
+                ],404);
+            }
+    }
+
+    public function update_e($request){ 
+        $object ='';
+        if($this->admin_validatedRol()['status']){
+          $object = Estudiante::find($request['carnet']);
+        }else{
+            $object = Auth::user()->Persona->Estudiante;
+            $request['carnet'] = $object->carnet;
+        }
+        if($object->Beca != null){ 
+                        $object->Beca->update($request);
+                            return response()->json([
+                                "success" => true,
+                                "message" => "Datos de beca actualizados correctamente",
+                                ],200);
+        }else{
+            return response()->json([
+                "status" => false,
+                "error" => "No tiene ninguna beca asociada",
+            ],404);
+        }
+    }
+
+    public function delete_e($object, $id){ 
+        if($object->Beca != null){
+            $beca = $object->Beca->find($id);
+                if($beca != null){
+                        $beca->delete();
+                        return response()->json([
+                            "success" => true,
+                            "message" => "Beca eliminada correctamente",
+                            ],200);
+                }else{
+                    return response()->json([
+                        "status" => false,
+                        "error" => "El ítem no existe en su perfil.",
+                    ],404);
+                }
+        }else{
+            return response()->json([
+                "status" => false,
+                "error" => "No tiene ninguna beca asociada",
+            ],404);
+        }
+    }
+
+    public function addBeca($request){
+        $beca = Beca::Create($request);
+        $beca->save();
+        return Beca::find($beca->id);
+    }
+
+
+    //
     public function Estudiante()
     {
         return $this->belongsTo(Estudiante::class, 'estudiante_carnet', 'carnet');
+    }
+
+    public function admin_validatedRol(){
+        if("Administrador" == Auth::user()->role->role){
+            return  ['status'=>true];
+        }else{
+            return [
+                "status" => false,
+                    ];
+        }
     }
 
 }
