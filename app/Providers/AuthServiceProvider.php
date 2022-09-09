@@ -29,8 +29,10 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //Passport::routes();
-        Passport::tokensExpireIn(Carbon::now()->addminutes(30));
-        //Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(100));
+        Passport::tokensExpireIn(Carbon::now()->addHours(2));
+        Passport::refreshTokensExpireIn(Carbon::now()->addHours(2));
+        Passport::personalAccessTokensExpireIn(Carbon::now()->addHours(2));
+        Passport::refreshTokensExpireIn(Carbon::now()->addHours(2));
 
         Passport::tokensCan([
             'Administrador' => 'Usuario administrador del sistema (Orientador)',

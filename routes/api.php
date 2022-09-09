@@ -20,9 +20,11 @@ use Illuminate\Support\Facades\Route;
 Route::post('registrar', [UsuarioController::class, 'register']);
 
     Route::post('login', [UsuarioController::class, 'login']);
+    Route::post('usuario/olvidemicontrasena', [UsuarioController::class, 'forget_Account']);
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
     // Route::middleware(['auth:api'])->group(function () {
+    Route::get('usuario/salir', [UsuarioController::class, 'logOut']);
     Route::get('get-user', [UsuarioController::class, 'userInfo']);
     Route::post('user/change_password', [UsuarioController::class, 'change_password']);
     Route::post('admin/user/change_password', [UsuarioController::class, 'change_password'])->middleware('scopes:Administrador');

@@ -840,9 +840,13 @@ class Persona extends Model
         $persona = Persona::find($cedula);
         return $persona->User()->exists();
     }
-    public function belong_to_student($cedula){
+    public function   belong_to_student($cedula){
         $persona = Persona::find($cedula);
         return $persona->Estudiante()->exists();
+    }
+    public function   find_student($cedula){
+        $persona = Persona::find($cedula);
+        return $persona->Estudiante;
     }
     public function user_validated($request){
         if($request['cedula'] == Auth::user()->Persona->cedula){ 

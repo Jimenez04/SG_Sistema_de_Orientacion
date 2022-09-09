@@ -25,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\UserValidate::class => [
             \App\Listeners\ValidateSendEmailUser::class,
             \App\Listeners\ValidateSendEmailAdmin::class,
+        ],
+        \App\Events\User_ForgetAccount::class => [
+            \App\Listeners\UserForgetAccount::class,
         ]
     ];
 

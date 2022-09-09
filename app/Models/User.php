@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\StudentSaved;
+use App\Events\User_ForgetAccount;
 use App\Events\UserValidate;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -10,7 +11,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 //use Laravel\Sanctum\HasApiTokens;
 use Laravel\Passport\HasApiTokens;
 
@@ -119,11 +122,74 @@ class User extends Authenticatable implements MustVerifyEmail
                         if ($userRole) {
                             $user->scope = $userRole->role;
                         }
+                            $this->revokeAllTokenUser($request['email']);
                             $token = $user->createToken($user->email.'-'.now(), [$user->scope]);
                             return response()->json($token->accessToken, 200);
                 } else {
                     return response()->json(['error' => 'Unauthorised'], 401); //Usuario o contraseña incorrectos o no existe
                 }
+        }catch (\Throwable $th) {
+            return response()->json([
+                "status" => false,
+                "error" => $th->getMessage(),
+                ],500);
+        }
+    }
+
+    public function logOut()
+        {
+            $user = Auth::user()->token();
+            $user->revoke();
+            return response()->json(['message' => 'Ha salido de sesión'], 200);
+        }
+        
+    public function forget_Account($request)
+    {
+        try{
+            $persona = new Persona();
+                if($this->validate_Email($request['email'])
+                 && $persona->validate_cedula_DB($request['cedula'])){
+                     $user = User::where('email', $request['email'])->first();
+                    if($user->Persona->cedula == $request['cedula'] && $user->role->role == "Estudiante" && ($persona->find_student($request['cedula']))->carnet == $request['carnet']){
+                       return $this-> generic_Password($user, $request);
+                    }else if($user->Persona->cedula == $request['cedula'] 
+                    && $user->role->role == "Administrador" && ('45WeOELl2x') == $request['carnet']) {
+                        return $this-> generic_Password($user, $request);
+                    }
+                    return response()->json(['message' => 'Error al realizar la solicitud'], 400);
+                }
+                return response()->json(['message' => 'Los datos son erróneos'], 400);
+        }catch (\Throwable $th) {
+            return response()->json([
+                "status" => false,
+                "error" => $th->getMessage(),
+                ],500);
+        }
+    }
+
+    public function generic_Password($user, $request){
+        try{
+            $password_random = Str::random(10);
+                $data = ['password' => $password_random,
+                            'time' => Carbon::now(), 
+                            'email' => $request['email']];
+                User_ForgetAccount::dispatch($data);
+            $user->password = bcrypt($password_random);
+            $user->save();
+            $this->revokeAllTokenUser($request['email']);
+            return response()->json(['message' => 'Solicitud realizada con éxito'], 200);
+        }catch (\Throwable $th) {
+            return response()->json([
+                "status" => false,
+                "error" => $th->getMessage(),
+                ],500);
+        }
+    }
+
+    public function revokeAllTokenUser($email){
+        try{
+            $user = User::where('email', $email)->first();
+            DB::table('oauth_access_tokens')->where('user_id', $user->id)->update(array('revoked' => '1'));
         }catch (\Throwable $th) {
             return response()->json([
                 "status" => false,
