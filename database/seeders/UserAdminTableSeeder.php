@@ -34,7 +34,7 @@ class UserAdminTableSeeder extends Seeder
             'user_id' => 1,
         ]);
         DB::table('emails')->insert([
-            'email' => "coordinador22@ucr.ac.cr",
+            'email' => "ISAAC.JIMENEZALFARO@ucr.ac.cr",
             'persona_cedula' => "123456789",
         ]);
         DB::table('contactos')->insert([

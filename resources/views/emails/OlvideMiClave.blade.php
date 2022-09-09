@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>Verificación de cuenta</title>
+ <title>Contraseña temporal</title>
 </head>
 <body>
 
@@ -21,12 +21,8 @@ padding:2rem;
 class="datospersonales ">
     <h1 style="margin-bottom: 1rem " class="titulo titulo_info_personal">Información</h1>
         <div>
-            <h2 class="subtitulo">Nombre: <span>{{$data->Persona['nombre1']}} {{$data['nombre2']}}</span></h2>
-            <h2 class="subtitulo">Apellidos: <span>{{$data->Persona['apellido1']}} {{$data['apellido2']}}</span></h2>
-            <h2 class="subtitulo">Cédula: <span>{{$data->Persona['cedula']}}</span></h2>
-            <h2 class="subtitulo">Carnet: <span>{{$data->Persona->Estudiante->primaryKey()}}</span></h2>
-            <h2 class="subtitulo">Correo: <span>{{$data['email']}}</span></h2>
-            <h2 class="subtitulo">Fecha de nacimiento: <span>{{$data->Persona['fecha_Nacimiento']}}</span></h2>
+            <h2 class="subtitulo">Contraseña Temporal: <span>{{$data['password']}}</span></h2>
+            <h2 class="subtitulo">Fecha y Hora: <span>{{$data['time']}}</span></h2>
 
         </div>
 </div>

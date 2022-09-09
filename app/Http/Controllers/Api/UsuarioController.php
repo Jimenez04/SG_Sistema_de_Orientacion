@@ -9,6 +9,7 @@ use App\Http\Requests\change_password_admin__request;
 use App\Http\Requests\changePasswordRequest;
 use App\Http\Requests\CreateUserFromAdminRequest;
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\forgetAccountRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\update_grantRequest;
 use App\Http\Requests\update_studentRequest;
@@ -17,6 +18,7 @@ use App\Models\Estudiante;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
@@ -145,10 +147,15 @@ class UsuarioController extends Controller
         {
             return $this->User()->change_password('Administrador', $request->validated());
         }
-       /*  public function forget_account(LoginRequest $request)
+        public function forget_Account(forgetAccountRequest $request)
         {
-            return $this->User()->login($request->validated());
-        } */
+            return $this->User()->forget_Account($request->validated());
+        }
+
+        public function logOut()
+        {
+            return $this->User()->logOut();
+        }
 
         //student
         public function get_students()
@@ -171,6 +178,7 @@ class UsuarioController extends Controller
         //Grant
         public function add_Beca(agregarBecaRequest $request)
         {
+            dd(Auth::User()->api_token);
             return $this->Estudiante()->addbeca("",$request->validated());
         }
         
