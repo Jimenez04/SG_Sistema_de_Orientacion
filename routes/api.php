@@ -19,124 +19,114 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('registrar', [UsuarioController::class, 'register']);
 
-    Route::post('login', [UsuarioController::class, 'login']);
-    Route::post('usuario/olvidemicontrasena', [UsuarioController::class, 'forget_Account']);
+Route::post('login', [UsuarioController::class, 'login']);
+Route::post('usuario/olvide-mi-contrasena', [UsuarioController::class, 'forget_Account']);
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
     // Route::middleware(['auth:api'])->group(function () {
     Route::get('usuario/salir', [UsuarioController::class, 'logOut']);
-    Route::get('get-user', [UsuarioController::class, 'userInfo']);
-    Route::post('user/change_password', [UsuarioController::class, 'change_password']);
-    Route::post('admin/user/change_password', [UsuarioController::class, 'change_password'])->middleware('scopes:Administrador');
+    Route::get('obtener-usuarios', [UsuarioController::class, 'userInfo']);
+    Route::post('user/cambiar-contrasena', [UsuarioController::class, 'change_password']);
+    Route::post('admin/user/cambiar-contrasena', [UsuarioController::class, 'change_password'])->middleware('scopes:Administrador');
     Route::post('admin/registrar', [UsuarioController::class, 'registerUserFromAdmin'])->middleware('scopes:Administrador');
 
     Route::get('persona', [PersonaController::class, 'index'])->middleware('scopes:Administrador');
     Route::get('persona/{cedula}', [PersonaController::class, 'get'])->middleware('scopes:Administrador');
     Route::post('persona', [PersonaController::class, 'Post'])->middleware('scopes:Administrador');
-    Route::patch('persona/editar', [PersonaController::class, 'Pacth'])->middleware('scopes:Estudiante');
+    Route::patch('persona/editar', [PersonaController::class, 'Pacth']);
     Route::patch('admin/persona/editar', [PersonaController::class, 'Pacth_Admin'])->middleware('scopes:Administrador');
-    
+
     ///////////////Email
     Route::post('admin/persona/email/agregar', [PersonaController::class, 'addEmailAdmin'])->middleware('scopes:Administrador');
-    Route::post('user/email/agregar', [PersonaController::class, 'addEmailpersonal'])->middleware('scopes:Estudiante');
+    Route::post('user/email/agregar', [PersonaController::class, 'addEmailpersonal']);
 
-    Route::get('user/email/{id}', [PersonaController::class, 'getEmail_Personal'])->middleware('scopes:Estudiante');
-    Route::get('user/email', [PersonaController::class, 'getEmails_Personal'])->middleware('scopes:Estudiante');
+    Route::get('user/obtener-email/{id}', [PersonaController::class, 'getEmail_Personal']);
+    Route::get('user/obtener-emails', [PersonaController::class, 'getEmails_Personal']);
 
     Route::get('admin/persona/email/{cedula}', [PersonaController::class, 'getEmails_Admin'])->middleware('scopes:Administrador');
-    Route::get('admin/persona/email/{cedula}/{id}', [PersonaController::class, 'getEmail_Admin'])->middleware('scopes:Administrador');
+    Route::get('admin/persona/obtener-email/{cedula}/{id}', [PersonaController::class, 'getEmail_Admin'])->middleware('scopes:Administrador');
 
-    Route::patch('user/update/email', [PersonaController::class, 'updateEmail_Personal'])->middleware('scopes:Estudiante');
-     Route::patch('admin/update/email', [PersonaController::class, 'updateEmail_Admin'])->middleware('scopes:Administrador');
+    Route::patch('user/modificar/email', [PersonaController::class, 'updateEmail_Personal'])->middleware('scopes:Estudiante');
+    Route::patch('admin/modificar/email', [PersonaController::class, 'updateEmail_Admin'])->middleware('scopes:Administrador');
 
-    Route::delete('user/delete/email/{id}', [PersonaController::class, 'deleteEmail_Personal'])->middleware('scopes:Estudiante');
-     Route::delete('admin/delete/email/{cedula}/{id}', [PersonaController::class, 'deleteEmail_Admin'])->middleware('scopes:Administrador');
+    Route::delete('user/eliminar/email/{id}', [PersonaController::class, 'deleteEmail_Personal'])->middleware('scopes:Estudiante');
+    Route::delete('admin/eliminar/email/{cedula}/{id}', [PersonaController::class, 'deleteEmail_Admin'])->middleware('scopes:Administrador');
     ///////////////End Email
 
     ///////////////Contacto Telefono
     Route::post('admin/persona/telefono/agregar', [PersonaController::class, 'add_NumberAdmin'])->middleware('scopes:Administrador');
-    Route::post('user/telefono/agregar', [PersonaController::class, 'add_NumberPersonal'])->middleware('scopes:Estudiante');
+    Route::post('user/telefono/agregar', [PersonaController::class, 'add_NumberPersonal']);
 
-    Route::get('admin/persona/telefono/{cedula}', [PersonaController::class, 'getNumbers_Admin'])->middleware('scopes:Administrador');
-    Route::get('admin/persona/telefono/{cedula}/{id}', [PersonaController::class, 'get_number_Admin'])->middleware('scopes:Administrador');
+    Route::get('admin/persona/obtener-telefono/{cedula}', [PersonaController::class, 'getNumbers_Admin'])->middleware('scopes:Administrador');
+    Route::get('admin/persona/obtener-telefono/{cedula}/{id}', [PersonaController::class, 'get_number_Admin'])->middleware('scopes:Administrador');
 
-    Route::get('user/telefono/{id}', [PersonaController::class, 'getnumber_Personal'])->middleware('scopes:Estudiante');
-    Route::get('user/telefono', [PersonaController::class, 'getNumbers_Personal'])->middleware('scopes:Estudiante');
+    Route::get('user/obtener-telefono/{id}', [PersonaController::class, 'getnumber_Personal']);
+    Route::get('user/obtener-telefono', [PersonaController::class, 'getNumbers_Personal']);
 
-    Route::patch('user/update/telefono', [PersonaController::class, 'update_Number_Personal'])->middleware('scopes:Estudiante');
-     Route::patch('admin/update/telefono', [PersonaController::class, 'update_Number_Admin'])->middleware('scopes:Administrador');
+    Route::patch('user/modificar/telefono', [PersonaController::class, 'update_Number_Personal']);
+    Route::patch('admin/modificar/telefono', [PersonaController::class, 'update_Number_Admin'])->middleware('scopes:Administrador');
 
-    Route::delete('user/delete/telefono/{id}', [PersonaController::class, 'delete_Number_Personal'])->middleware('scopes:Estudiante');
-     Route::delete('admin/delete/telefono/{cedula}/{id}', [PersonaController::class, 'delete_Number_Admin'])->middleware('scopes:Administrador');
+    Route::delete('user/eliminar/telefono/{id}', [PersonaController::class, 'delete_Number_Personal']);
+    Route::delete('admin/eliminar/telefono/{cedula}/{id}', [PersonaController::class, 'delete_Number_Admin'])->middleware('scopes:Administrador');
     ///////////////End Contacto Telefono
 
     ///////////////Enfermedad
     Route::post('admin/persona/enfermedad/agregar', [PersonaController::class, 'add_SicknessAdmin'])->middleware('scopes:Administrador');
-    Route::post('user/enfermedad/agregar', [PersonaController::class, 'add_SicknessPersonal'])->middleware('scopes:Estudiante');
+    Route::post('user/enfermedad/agregar', [PersonaController::class, 'add_SicknessPersonal']);
 
-    Route::get('admin/persona/enfermedad/{cedula}', [PersonaController::class, 'getSickness_Admin'])->middleware('scopes:Administrador');
-    Route::get('admin/persona/enfermedad/{cedula}/{id}', [PersonaController::class, 'get_Sickness_Admin'])->middleware('scopes:Administrador');
+    Route::get('admin/persona/obtener-enfermedad/{cedula}', [PersonaController::class, 'getSickness_Admin'])->middleware('scopes:Administrador');
+    Route::get('admin/persona/obtener-enfermedad/{cedula}/{id}', [PersonaController::class, 'get_Sickness_Admin'])->middleware('scopes:Administrador');
 
-    Route::get('user/enfermedad/{id}', [PersonaController::class, 'get_Sickness_Personal'])->middleware('scopes:Estudiante');
-    Route::get('user/enfermedad', [PersonaController::class, 'getSickness_Personal'])->middleware('scopes:Estudiante');
+    Route::get('user/obtener-enfermedad/{id}', [PersonaController::class, 'get_Sickness_Personal']);
+    Route::get('user/obtener-enfermedad', [PersonaController::class, 'getSickness_Personal']);
 
-    Route::patch('user/update/enfermedad', [PersonaController::class, 'updateSickness_Personal'])->middleware('scopes:Estudiante');
-     Route::patch('admin/update/enfermedad', [PersonaController::class, 'update_Sickness_Admin'])->middleware('scopes:Administrador');
+    Route::patch('user/editar/enfermedad', [PersonaController::class, 'updateSickness_Personal']);
+    Route::patch('admin/editar/enfermedad', [PersonaController::class, 'update_Sickness_Admin'])->middleware('scopes:Administrador');
 
-    Route::delete('user/delete/enfermedad/{id}', [PersonaController::class, 'delete_Sickness_Personal'])->middleware('scopes:Estudiante');
-     Route::delete('admin/delete/enfermedad/{cedula}/{id}', [PersonaController::class, 'delete_Sickness_Admin'])->middleware('scopes:Administrador');
+    Route::delete('user/eliminar/enfermedad/{id}', [PersonaController::class, 'delete_Sickness_Personal']);
+    Route::delete('admin/eliminar/enfermedad/{cedula}/{id}', [PersonaController::class, 'delete_Sickness_Admin'])->middleware('scopes:Administrador');
     ///////////////Enfermedad
 
-        ///////////////Trabajo
-        Route::post('admin/persona/trabajo/agregar', [PersonaController::class, 'add_JobAdmin'])->middleware('scopes:Administrador');
-        Route::post('user/trabajo/agregar', [PersonaController::class, 'add_JobPersonal'])->middleware('scopes:Estudiante');
-    
-        Route::get('admin/persona/trabajo/{cedula}', [PersonaController::class, 'getJobs_Admin'])->middleware('scopes:Administrador');
-        Route::get('admin/persona/trabajo/{cedula}/{id}', [PersonaController::class, 'get_Job_Admin'])->middleware('scopes:Administrador');
-    
-        Route::get('user/trabajo/{id}', [PersonaController::class, 'get_Job_Personal'])->middleware('scopes:Estudiante');
-        Route::get('user/trabajo', [PersonaController::class, 'getJobs_Personal'])->middleware('scopes:Estudiante');
-    
-        Route::patch('user/update/trabajo', [PersonaController::class, 'updateJob_Personal'])->middleware('scopes:Estudiante');
-         Route::patch('admin/update/trabajo', [PersonaController::class, 'update_Job_Admin'])->middleware('scopes:Administrador');
-    
-        Route::delete('user/delete/trabajo/{id}', [PersonaController::class, 'delete_Job_Personal'])->middleware('scopes:Estudiante');
-        Route::delete('admin/delete/trabajo/{cedula}/{id}', [PersonaController::class, 'delete_Job_Admin'])->middleware('scopes:Administrador');
-        ///////////////End Trabajo
-        
-        
-        
-        
-        Route::delete('user/delete/{id}', [UsuarioController::class, 'deleteuser_fromAdmin'])->middleware('scopes:Administrador');
-        Route::patch('user/validate/{id}', [UsuarioController::class, 'validate_user'])->middleware('scopes:Administrador');
-        
-        //student
-        Route::get('admin/persona/estudiante', [UsuarioController::class, 'get_students'])->middleware('scopes:Administrador');
-        Route::get('user/persona/estudiante/{carnet}', [UsuarioController::class, 'get_student']);
+    ///////////////Trabajo
+    Route::post('admin/persona/trabajo/agregar', [PersonaController::class, 'add_JobAdmin'])->middleware('scopes:Administrador');
+    Route::post('user/trabajo/agregar', [PersonaController::class, 'add_JobPersonal']);
 
-        Route::patch('usuario/persona/estudiante/actualizar', [UsuarioController::class, 'student_update']);
-    
+    Route::get('admin/persona/trabajo/{cedula}', [PersonaController::class, 'getJobs_Admin'])->middleware('scopes:Administrador');
+    Route::get('admin/persona/trabajo/{cedula}/{id}', [PersonaController::class, 'get_Job_Admin'])->middleware('scopes:Administrador');
 
-        //end student
+    Route::get('user/trabajo/{id}', [PersonaController::class, 'get_Job_Personal']);
+    Route::get('user/trabajo', [PersonaController::class, 'getJobs_Personal']);
 
-        //Beca //no quitar scope de estudiante...
-            Route::get('admin/persona/estudiante/beca/{carnet}', [UsuarioController::class, 'get_grant']);
+    Route::patch('user/editar/trabajo', [PersonaController::class, 'updateJob_Personal']);
+    Route::patch('admin/editar/trabajo', [PersonaController::class, 'update_Job_Admin'])->middleware('scopes:Administrador');
 
-            Route::post('user/person/student/beca/add', [UsuarioController::class, 'add_Beca'])->middleware('scopes:Estudiante');
-            Route::post('admin/user/person/student/beca/add', [UsuarioController::class, 'add_Beca_Admin'])->middleware('scopes:Administrador');
-
-            Route::patch('usuario/persona/estudiante/beca/actualizar', [UsuarioController::class, 'grant_update']);
-        //EndBeca
+    Route::delete('user/eliminar/trabajo/{id}', [PersonaController::class, 'delete_Job_Personal']);
+    Route::delete('admin/eliminar/trabajo/{cedula}/{id}', [PersonaController::class, 'delete_Job_Admin'])->middleware('scopes:Administrador');
+    ///////////////End Trabajo
 
 
 
 
-        
+    Route::delete('user/delete/{id}', [UsuarioController::class, 'deleteuser_fromAdmin'])->middleware('scopes:Administrador');
+    Route::patch('user/validate/{id}', [UsuarioController::class, 'validate_user'])->middleware('scopes:Administrador');
 
-        //parcial Kryssia
+    //student
+    Route::get('admin/persona/estudiante', [UsuarioController::class, 'get_students'])->middleware('scopes:Administrador');
+    Route::get('user/persona/estudiante/{carnet}', [UsuarioController::class, 'get_student']);
+
+    Route::patch('usuario/persona/estudiante/actualizar', [UsuarioController::class, 'student_update']);
 
 
+    //end student
 
+    //Beca //no quitar scope de estudiante...
+    Route::get('admin/persona/estudiante/beca/{carnet}', [UsuarioController::class, 'get_grant']);
+
+    Route::post('user/persona/estudiante/beca/agregar', [UsuarioController::class, 'add_Beca'])->middleware('scopes:Estudiante');
+    Route::post('admin/user/persona/estudiante/beca/agregar', [UsuarioController::class, 'add_Beca_Admin'])->middleware('scopes:Administrador');
+
+    Route::patch('usuario/persona/estudiante/beca/actualizar', [UsuarioController::class, 'grant_update']);
+    //EndBeca
 
 
 
