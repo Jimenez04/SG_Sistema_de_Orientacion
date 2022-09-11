@@ -23,7 +23,7 @@ class Persona extends Model
             'user_id',
             'trabajo_id',
         ];
-        protected $primaryKey = 'cedula';
+        protected $primaryKey =  'cedula'; 
 
         public function allPersons(){
             try {
