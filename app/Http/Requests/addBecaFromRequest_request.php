@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class agregarBecaRequest extends FormRequest
+class addBecaFromRequest_request extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,10 @@ class agregarBecaRequest extends FormRequest
     public function rules()
     {
         return [
-            'categoria_Beca' => 'required|numeric|min:0|max:5',
-            'asistencia_Socioeconomica' => 'string|max:40',
-            'participacion' => 'required|string',
+            'beca.id' => 'integer|exists:becas,id',
+            'beca.categoria_Beca' => 'required|numeric|min:0|max:5',
+            'beca.asistencia_Socioeconomica' => 'string|max:40',
+            'beca.participacion' => 'required|string',
         ];
     }
 
@@ -34,6 +35,9 @@ class agregarBecaRequest extends FormRequest
     {
         return [
             //user data
+            'beca.id.integer' => 'El id debe ser un entero.',
+            'beca.id.exists' => 'La beca no existe en el sistema.',
+
             'categoria_Beca.required' => 'La categoría  es requerida',
             'categoria_Beca.min' => 'La categoría  no es valida, debe tener al menos 0',
             'categoria_Beca.max' => 'La categoría  no es valida, debe tener maximo 5',

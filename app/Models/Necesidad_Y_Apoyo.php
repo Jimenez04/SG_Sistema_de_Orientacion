@@ -15,14 +15,24 @@ class Necesidad_Y_Apoyo extends Model
         'diagnostico',
         'profesional_Que_Diagnostica',
         'area_Profesional',
+        'descripcion_Seguimiento',
+        'descripcion_Atencion',
     ];
+
+    public function add_($numSolicitud, $request)
+    {
+        $necesidad = new Necesidad_Y_Apoyo($request['necesidad_Apoyo']);
+            if(SolicitudDeAdecuacion::where('numero_solicitud', $numSolicitud)->exists()){
+                $solicitud = (SolicitudDeAdecuacion::where('numero_solicitud', $numSolicitud)->first());
+                $solicitud->addRNecesidadY_Apoyo($necesidad);
+              return ['status' => true, 'message' => 'Creada correctamente'];
+            }else{
+                return ['status' => false, 'message' => 'Error interno'];
+            }
+    }
 
     public function SolicitudDeAdecuacion()
     {
         return $this->belongsTo(SolicitudDeAdecuacion::class, 'solicitud_Numero', 'numero_solicitud');	
-    }
-    public function Seguimiento()
-    { 
-        return $this->hasOne(Seguimiento::class, 'necesidad_Y_Apoyo_id', 'id');
     }
 }

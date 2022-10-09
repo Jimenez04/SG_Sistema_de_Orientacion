@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('item__bitacoras', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->longText('descripcion')->nullable();
-            $table->longText('acciones_realizadas')->nullable();
-            $table->longText('observaciones')->nullable();
-            $table->dateTime('fecha');
+        Schema::create('fechas_solicitudes', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre', 50);
+            $table->dateTime('desde')->nullable();
+            $table->dateTime('hasta')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item__bitacoras');
+        Schema::dropIfExists('fechas_solicitudes');
     }
 };

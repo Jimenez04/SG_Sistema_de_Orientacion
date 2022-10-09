@@ -18,25 +18,37 @@ class Enfermedad extends Model
         'rutina_Tratamiento',
     ];
 
-    public function add($object, $request){
-        if($object->Enfermedad->where('tipo_Enfermedad', $request['tipo_Enfermedad'])->first() == null){
-            if($object->addSickness($request)){
-                        return response()->json([
-                            "status" => true,
-                            "Message" => "Agregado correctamente",
-                        ],200);
-                }else{
-                    return response()->json([
-                    "status" => false,
-                    "error" => "Ocurrio un problema al agregar",
-                ],500);
+    public function addfromReques($object, $request){
+        foreach ($request['enfermedad'] as $enfermedad) {
+            if(array_key_exists('id', $enfermedad)){
+                $estado = $this->add($object->Persona, $enfermedad, $enfermedad['id']);
+            }else{
+                $estado =  $this->add($object->Persona, $enfermedad);
             }
-        }else{
-            return response()->json([
-                "status" => false,
-                "error" => "Esta enfermedad ya esta asociada",
-            ],409);
         }
+        return $estado;
+    }
+
+    public function add($object, $request, $id = null){
+        if($id != null){$this->update_e($object, $request);} 
+            if($object->Enfermedad->where('tipo_Enfermedad', $request['tipo_Enfermedad'])->first() == null){
+                if($object->addSickness($request)){
+                            return response()->json([
+                                "status" => true,
+                                "Message" => "Agregado correctamente",
+                            ],200);
+                    }else{
+                        return response()->json([
+                        "status" => false,
+                        "error" => "Ocurrio un problema al agregar",
+                    ],500);
+                }
+            }else{
+                return response()->json([
+                    "status" => false,
+                    "error" => "Esta enfermedad ya esta asociada",
+                ],409);
+            }
     }
 
     public function get_all($object){ 
@@ -72,25 +84,18 @@ class Enfermedad extends Model
     }
 
     public function update_e($object, $request){ 
-        if($object->Enfermedad->where('tipo_Enfermedad', $request['tipo_Enfermedad'])->first() == null){
-                $enfermedad = $object->Enfermedad->find($request['id']);    
-                if($enfermedad != null){
-                        $object->Enfermedad->find($request['id'])->update($request);
-                            return response()->json([
-                                "success" => true,
-                                "message" => "Datos de enfermedad actualizados correctamente",
-                                ],200);
-                }else{
+        $enfermedad = $object->Enfermedad->find($request['id']);    
+        if($enfermedad != null){
+                $object->Enfermedad->find($request['id'])->update($request);
                     return response()->json([
-                        "status" => false,
-                        "error" => "La enfermedad que intenta actualizar no existe",
-                    ],404);
-                }
+                        "success" => true,
+                        "message" => "Datos de enfermedad actualizados correctamente",
+                        ],200);
         }else{
             return response()->json([
                 "status" => false,
-                "error" => "Esta enfermedad ya esta asociada",
-            ],409);
+                "error" => "La enfermedad que intenta actualizar no existe",
+            ],404);
         }
     }
 

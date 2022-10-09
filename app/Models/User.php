@@ -126,7 +126,7 @@ class User extends Authenticatable implements MustVerifyEmail
                             $token = $user->createToken($user->email.'-'.now(), [$user->scope]);
                             return response()->json($token->accessToken, 200);
                 } else {
-                    return response()->json(['error' => 'Unauthorised'], 401); //Usuario o contraseña incorrectos o no existe
+                    return response()->json(['status' => "false", 'error' => 'Verifique los campos'], 401); //Usuario o contraseña incorrectos o no existe
                 }
         }catch (\Throwable $th) {
             return response()->json([

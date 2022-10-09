@@ -54,5 +54,18 @@ class Handler extends ExceptionHandler
             }
         });
     }
+
+    public function verified()
+    {
+        $this->renderable(function (AuthenticationException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'status_code' => 401,
+                    'success' => false,
+                    'message' => 'Usuario no autenticado'
+                ], 401);
+            }
+        });
+    }
     
 }

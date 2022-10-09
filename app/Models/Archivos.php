@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Archivos extends Model
 {
@@ -15,7 +16,26 @@ class Archivos extends Model
         'plan_De_Accion_Id',
         'url',
         'expedido_Por',
+        'nombre',
     ];
+
+    public function addfromReques($numsolicitud, $request){
+            if(SolicitudDeAdecuacion::where('numero_solicitud', $numsolicitud)->exists()){
+                $solicitud = (SolicitudDeAdecuacion::where('numero_solicitud', $numsolicitud)->first());
+            }else{
+                return ['status' => false, 'message' => 'Error interno'];
+            } 
+        foreach ($request['archivos'] as $archivo) {
+            //$link = Storage::disk('public')->put($archivo['nombrePDF'] . $numsolicitud . ".txt" ,$archivo['archivo64']);
+            $link = Storage::disk('local')->put('example.txt', 'Contents');
+            $archivo+=["url" => $link];
+            dd($archivo);
+            // $parientemodel =  new Pariente($pariente);
+            //$grupofamiliar->Pariente()->save($parientemodel); 
+        }
+        return ["status"=>true];
+        
+    }
 
     public function Solicitud_De_Adecuacion()
     {

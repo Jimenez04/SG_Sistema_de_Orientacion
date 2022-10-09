@@ -649,7 +649,7 @@ class Persona extends Model
                 $validated = $user == 'Estudiante' ?  $this->user_validatedRol() : $this->admin_validatedRol();
                 $email =  new Email();
                 if($user == 'Estudiante'){
-                        if($validated['status']){
+                    if($validated['status']){
                             return $email->get_all(Persona::find(Auth::user()->Persona->cedula));    
                         }
                 }else if($user == 'Administrador'){ 
@@ -849,7 +849,7 @@ class Persona extends Model
         return $persona->Estudiante;
     }
     public function user_validated($request){
-        if($request['cedula'] == Auth::user()->Persona->cedula){ 
+        if($request['cedula'] == Auth::user()->Persona->cedula || Auth::user()->role->role == 'Administrador' ){
             return  ['status'=>true];
         }else{
             return [
@@ -869,7 +869,7 @@ class Persona extends Model
         }
     }
     public function user_validatedRol(){
-        if("Estudiante" == Auth::user()->role->role){
+        if("Estudiante" == Auth::user()->role->role || "Administrador" == Auth::user()->role->role){
             return  ['status'=>true];
         }else{
             return [

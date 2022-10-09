@@ -218,17 +218,15 @@ class Estudiante extends Model
     //endbendcarreras
 
     //SolicitudDeAdecuacion
-    public function addSolicitudAdecuacion($carrera)
+    public function addSolicitudAdecuacion($request)
     {
-      return $this->SolicitudDeAdecuacion()->save($carrera);
-    }
-    public function getSolicitudAdecuacion()
-    {
-      return $this->SolicitudDeAdecuacion()->get()->first();
-    }
-    public function countSolicitudAdecuacion()
-    {
-        return $this->SolicitudDeAdecuacion()->count();
+      $solicitud = new SolicitudDeAdecuacion($request['solicitud']);
+        if(SolicitudDeAdecuacion::where('numero_solicitud', $request['solicitud']['numero_solicitud'])->exists()){
+          return ['status' => false, 'message' => 'La solicitud ya existe en el sistema'];
+        }else if($this->SolicitudDeAdecuacion()->save($solicitud)){
+          return ['status' => true, 'message' => 'Creada correctamente'];
+        }
+          return ['status' => false, 'message' => 'Error interno'];
     }
     //EndSolicitudDeAdecuacion
 

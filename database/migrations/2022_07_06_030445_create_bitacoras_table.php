@@ -24,9 +24,12 @@ return new class extends Migration
 
             $table->unsignedBigInteger('expediente_Solicitud_Id')->nullable();
             $table->foreign('expediente_Solicitud_Id')->references('id')->on('expediente__plan__de__accions');
+            
+            $table->unsignedBigInteger('estudiante_carnet')->nullable();
+            $table->foreign('estudiante_carnet')->references('carnet')->on('estudiantes');
        });
 
-            Schema::table('item__bitacoras', function (Blueprint $table) {
+        Schema::table('item__bitacoras', function (Blueprint $table) {
             $table->unsignedBigInteger('bitacora_Id')->nullable();
             $table->foreign('bitacora_Id')->references('id')->on('bitacoras');
         });

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\PersonaController;
 use App\Http\Controllers\Api\UsuarioController;
+use App\Http\Controllers\Api\SolicitudesAdecuacionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,11 +31,34 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('admin/user/cambiar-contrasena', [UsuarioController::class, 'change_password'])->middleware('scopes:Administrador');
     Route::post('admin/registrar', [UsuarioController::class, 'registerUserFromAdmin'])->middleware('scopes:Administrador');
 
+    //Solicitud de Adecuación.
+    Route::post('user/persona/estudiante/adecuacion', [SolicitudesAdecuacionController::class, 'createSolicitudDeAdecuacion']);
+    
+    Route::get('user/persona/estudiante/adecuacion', [SolicitudesAdecuacionController::class, 'index']);
+    
+    Route::get('user/persona/estudiante/adecuacion/{id}', [SolicitudesAdecuacionController::class, 'show']);
+
+    Route::get('user/admin/persona/estudiante/adecuacion/{carnet}', [SolicitudesAdecuacionController::class, 'showForCarnet'])->middleware('scope:Administrador');
+   
+
+
+
+  
+
+    
+
+
+    
+    
+    //End solicitud de Adecuación.
+
+    //Persona
     Route::get('persona', [PersonaController::class, 'index'])->middleware('scopes:Administrador');
     Route::get('persona/{cedula}', [PersonaController::class, 'get'])->middleware('scopes:Administrador');
     Route::post('persona', [PersonaController::class, 'Post'])->middleware('scopes:Administrador');
     Route::patch('persona/editar', [PersonaController::class, 'Pacth']);
     Route::patch('admin/persona/editar', [PersonaController::class, 'Pacth_Admin'])->middleware('scopes:Administrador');
+    //EndPersona    
 
     ///////////////Email
     Route::post('admin/persona/email/agregar', [PersonaController::class, 'addEmailAdmin'])->middleware('scopes:Administrador');
@@ -127,7 +151,5 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     Route::patch('usuario/persona/estudiante/beca/actualizar', [UsuarioController::class, 'grant_update']);
     //EndBeca
-
-
 
 });

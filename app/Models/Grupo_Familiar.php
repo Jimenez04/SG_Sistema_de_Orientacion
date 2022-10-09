@@ -17,6 +17,22 @@ class Grupo_Familiar extends Model
     ];
     protected $primaryKey = 'id';
 
+    public function addfromReques($solicitud, $request){
+        $grupofamiliar = new Grupo_Familiar($request['grupoFamiliar']);
+            if(SolicitudDeAdecuacion::where('numero_solicitud', $solicitud)->exists()){
+                $solicitud = (SolicitudDeAdecuacion::where('numero_solicitud', $solicitud)->first());
+            }else{
+                return ['status' => false, 'message' => 'Error interno'];
+            } 
+        $solicitud->Grupo_Familiar()->save($grupofamiliar);
+        foreach ($request['grupoFamiliar']['pariente'] as $pariente) {
+            $parientemodel =  new Pariente($pariente);
+            $grupofamiliar->Pariente()->save($parientemodel); 
+        }
+        return ["status"=>true];
+        
+    }
+
     public function Expediente_Plan_De_Accion()
     {
         return $this->belongsTo(Expediente_Plan_De_Accion::class, 'expediente_Solicitud_Id', 'id' );
