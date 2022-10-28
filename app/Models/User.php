@@ -138,9 +138,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function logOut()
         {
-            $user = Auth::user()->token();
-            $user->revoke();
-            return response()->json(['message' => 'Ha salido de sesión'], 200);
+            try{
+                $user = Auth::user()->token();
+                $user->revoke();
+                return response()->json(["status" => true, 'message' => 'Ha salido de sesión'], 200);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+        }
         }
         
     public function forget_Account($request)

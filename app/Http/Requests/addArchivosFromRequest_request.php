@@ -26,7 +26,7 @@ class addArchivosFromRequest_request extends FormRequest
         return [
             'archivos.*.expedidoPor' => 'required_with:archivos.*.archivo64|string|min:4|max:100',
             'archivos.*.archivo64' => 'required_with:archivos.*.expedidoPor|base64file|base64max:1000',
-            'archivos.*.nombrePDF' => 'required_with:archivos.*.archivo64|string|max:40',
+            'archivos.*.nombre' => 'required_with:archivos.*.archivo64|string|max:40',
         ];
     }
 

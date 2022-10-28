@@ -19,12 +19,11 @@ class Necesidad_Y_Apoyo extends Model
         'descripcion_Atencion',
     ];
 
-    public function add_($numSolicitud, $request)
+    public function add_($object, $request)
     {
         $necesidad = new Necesidad_Y_Apoyo($request['necesidad_Apoyo']);
-            if(SolicitudDeAdecuacion::where('numero_solicitud', $numSolicitud)->exists()){
-                $solicitud = (SolicitudDeAdecuacion::where('numero_solicitud', $numSolicitud)->first());
-                $solicitud->addRNecesidadY_Apoyo($necesidad);
+            if($object != null){
+                $object->addRNecesidadY_Apoyo($necesidad);
               return ['status' => true, 'message' => 'Creada correctamente'];
             }else{
                 return ['status' => false, 'message' => 'Error interno'];

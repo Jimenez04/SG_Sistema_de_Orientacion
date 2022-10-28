@@ -19,22 +19,17 @@ class Archivos extends Model
         'nombre',
     ];
 
-    public function addfromReques($numsolicitud, $request){
-            if(SolicitudDeAdecuacion::where('numero_solicitud', $numsolicitud)->exists()){
-                $solicitud = (SolicitudDeAdecuacion::where('numero_solicitud', $numsolicitud)->first());
-            }else{
+    public function addfromReques($object, $request){
+            if($object == null){
                 return ['status' => false, 'message' => 'Error interno'];
             } 
         foreach ($request['archivos'] as $archivo) {
-            //$link = Storage::disk('public')->put($archivo['nombrePDF'] . $numsolicitud . ".txt" ,$archivo['archivo64']);
-            $link = Storage::disk('local')->put('example.txt', 'Contents');
-            $archivo+=["url" => $link];
-            dd($archivo);
-            // $parientemodel =  new Pariente($pariente);
-            //$grupofamiliar->Pariente()->save($parientemodel); 
+            $namefile = $archivo['nombre'] . $object->numero_solicitud . ".txt";
+            Storage::disk('public')->put($namefile, $archivo['archivo64']);
+            $archivo+=["url" => $namefile];
+            $object->Archivos()->save(new Archivos($archivo)); 
         }
         return ["status"=>true];
-        
     }
 
     public function Solicitud_De_Adecuacion()

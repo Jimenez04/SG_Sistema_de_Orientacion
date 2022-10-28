@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NotificacionValidacionDeCuenta extends Mailable
+class ActualizacionEstadoSolicitud extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,17 +16,14 @@ class NotificacionValidacionDeCuenta extends Mailable
      *
      * @return void
      */
-     public $data;
-     public $mensaje1;
-     public $mensaje2;
-
-    public function __construct($request, $mensaje1, $mensaje2)
+    public $solicitud;
+    public $mensaje;
+    public function __construct($solicitud, $mensaje)
     {
-        $this->data = $request;
-        $this->mensaje1 = $mensaje1;
-        $this->mensaje2 = $mensaje2;
+        $this->solicitud = $solicitud;
+        $this->mensaje = $mensaje;
     }
- 
+
     /**
      * Build the message.
      *
@@ -34,6 +31,6 @@ class NotificacionValidacionDeCuenta extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.VerificacionCuenta');
+        return  $this->view('emails.request.updateStatus');
     }
 }

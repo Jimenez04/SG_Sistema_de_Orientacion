@@ -20,9 +20,9 @@ class NewNecesidadYApoyoRequest extends FormRequest
 
                 'necesidad_Apoyo.area_Profesional' =>  'required_with:necesidad_Apoyo.profesional_Que_Diagnostica,necesidad_Apoyo.descripcion_Seguimiento,necesidad_Apoyo.diagnostico,necesidad_Apoyo.descripcion_Atencion|min:6|max:254|string',
 
-                'necesidad_Apoyo.descripcion_Seguimiento' =>   'required_with:necesidad_Apoyo.area_Profesional,necesidad_Apoyo.diagnostico,necesidad_Apoyo.profesional_Que_Diagnostica,necesidad_Apoyo.descripcion_Atencion|min:6|max:254|string',
+                'necesidad_Apoyo.descripcion_Seguimiento' =>   'required_with:necesidad_Apoyo.descripcion_Atencion|min:6|max:254|string',
 
-                'necesidad_Apoyo.descripcion_Atencion' =>     'required_with:necesidad_Apoyo.area_Profesional,necesidad_Apoyo.diagnostico,necesidad_Apoyo.profesional_Que_Diagnostica,necesidad_Apoyo.descripcion_Seguimiento|min:6|max:254|string',
+                'necesidad_Apoyo.descripcion_Atencion' =>     'required_with:necesidad_Apoyo.descripcion_Seguimiento|min:6|max:254|string',
             ];
     }
 

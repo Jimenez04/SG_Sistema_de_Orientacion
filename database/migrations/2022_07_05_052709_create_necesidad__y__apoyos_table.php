@@ -18,8 +18,8 @@ return new class extends Migration
             $table->longText('diagnostico');
             $table->string('profesional_Que_Diagnostica')->nullable();
             $table->string('area_Profesional')->nullable();
-            $table->longText('descripcion_Seguimiento');
-            $table->longText('descripcion_Atencion');
+            $table->longText('descripcion_Seguimiento')->nullable();
+            $table->longText('descripcion_Atencion')->nullable();
             $table->timestamps();
         });
 

@@ -20,18 +20,22 @@ return new class extends Migration
         });
         Schema::table('bitacoras', function (Blueprint $table) {
             $table->unsignedBigInteger('revision_Solicitud_Id')->nullable();
-            $table->foreign('revision_Solicitud_Id')->references('id')->on('revision__solicituds');
+            $table->foreign('revision_Solicitud_Id')->references('id')->on('revision__solicituds')->onUpdate('cascade')
+            ->onDelete('cascade');;
 
             $table->unsignedBigInteger('expediente_Solicitud_Id')->nullable();
-            $table->foreign('expediente_Solicitud_Id')->references('id')->on('expediente__plan__de__accions');
+            $table->foreign('expediente_Solicitud_Id')->references('id')->on('expediente__plan__de__accions')->onUpdate('cascade')
+            ->onDelete('cascade');;
             
-            $table->unsignedBigInteger('estudiante_carnet')->nullable();
-            $table->foreign('estudiante_carnet')->references('carnet')->on('estudiantes');
+            $table->string('estudiante_carnet')->nullable();
+            $table->foreign('estudiante_carnet')->references('carnet')->on('estudiantes')->onUpdate('cascade')
+            ->onDelete('cascade');;
        });
 
         Schema::table('item__bitacoras', function (Blueprint $table) {
             $table->unsignedBigInteger('bitacora_Id')->nullable();
-            $table->foreign('bitacora_Id')->references('id')->on('bitacoras');
+            $table->foreign('bitacora_Id')->references('id')->on('bitacoras')->onUpdate('cascade')
+            ->onDelete('cascade');;
         });
 
     }

@@ -37,7 +37,8 @@ return new class extends Migration
         
         Schema::table('necesidad__y__apoyos',function (Blueprint $table){
             $table->string('solicitud_numero')->nullable();
-            $table->foreign('solicitud_numero')->references('numero_solicitud')->on('solicitud_de_adecuacions');
+            $table->foreign('solicitud_numero')->references('numero_solicitud')->on('solicitud_de_adecuacions')->onUpdate('cascade')
+            ->onDelete('cascade');;
         });
         
     }

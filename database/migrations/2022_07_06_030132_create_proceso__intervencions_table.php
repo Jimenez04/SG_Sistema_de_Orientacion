@@ -21,7 +21,8 @@ return new class extends Migration
         });
         Schema::table('referencias__especialistas', function (Blueprint $table) {
             $table->unsignedBigInteger('proceso__Intervencion_id')->nullable();
-            $table->foreign('proceso__Intervencion_id')->references('id')->on('proceso__intervencions');
+            $table->foreign('proceso__Intervencion_id')->references('id')->on('proceso__intervencions')->onUpdate('cascade')
+            ->onDelete('cascade');;
         });
         
     }

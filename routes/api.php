@@ -33,29 +33,47 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     //Solicitud de Adecuación.
     Route::post('user/persona/estudiante/adecuacion', [SolicitudesAdecuacionController::class, 'createSolicitudDeAdecuacion']);
+
+    Route::delete('user/persona/estudiante/adecuacion/delete/{numSolicitud}', [SolicitudesAdecuacionController::class, 'destroy']);
     
     Route::get('user/persona/estudiante/adecuacion', [SolicitudesAdecuacionController::class, 'index']);
     
     Route::get('user/persona/estudiante/adecuacion/{id}', [SolicitudesAdecuacionController::class, 'show']);
 
     Route::get('user/admin/persona/estudiante/adecuacion/{carnet}', [SolicitudesAdecuacionController::class, 'showForCarnet'])->middleware('scope:Administrador');
+
+    Route::patch('user/admin/persona/estudiante/adecuacion/{numSolicitud}/estado/actualizar', [SolicitudesAdecuacionController::class, 'updateState'])->middleware('scope:Administrador');
+
+    //Observación
+    Route::post('user/admin/persona/estudiante/adecuacion/{numsolicitud}/observacion', [SolicitudesAdecuacionController::class, 'addObservation'])->middleware('scope:Administrador');
    
+    Route::delete('user/admin/persona/estudiante/adecuacion/{numsolicitud}/observacion/delete/{id}', [SolicitudesAdecuacionController::class, 'delete_Observation'])->middleware('scope:Administrador');
 
-
-
-  
-
+    Route::get('user/admin/persona/estudiante/adecuacion/{numsolicitud}/observacion/', [SolicitudesAdecuacionController::class, 'getAll_Observation'])->middleware('scope:Administrador');
     
+    Route::get('user/admin/persona/estudiante/adecuacion/{numsolicitud}/observacion/{id}', [SolicitudesAdecuacionController::class, 'getObservation'])->middleware('scope:Administrador');
 
+    Route::patch('user/admin/persona/estudiante/adecuacion/{numsolicitud}/observacion/{id}/actualizar', [SolicitudesAdecuacionController::class, 'update_Observation'])->middleware('scope:Administrador');
+    //End   Observación
 
+    //Recomendaciones
+    Route::post('user/admin/persona/estudiante/adecuacion/{numsolicitud}/recomendacion', [SolicitudesAdecuacionController::class, 'addRecommendation'])->middleware('scope:Administrador');
+   
+    Route::delete('user/admin/persona/estudiante/adecuacion/{numsolicitud}/recomendacion/delete/{id}', [SolicitudesAdecuacionController::class, 'delete_Recommendation'])->middleware('scope:Administrador');
+
+    Route::get('user/admin/persona/estudiante/adecuacion/{numsolicitud}/recomendacion/', [SolicitudesAdecuacionController::class, 'getAll_Recommendation'])->middleware('scope:Administrador');
     
+    Route::get('user/admin/persona/estudiante/adecuacion/{numsolicitud}/recomendacion/{id}', [SolicitudesAdecuacionController::class, 'getRecommendation'])->middleware('scope:Administrador');
+
+    Route::patch('user/admin/persona/estudiante/adecuacion/{numsolicitud}/recomendacion/{id}/actualizar', [SolicitudesAdecuacionController::class, 'update_Recommendation'])->middleware('scope:Administrador');
+    //End   Recomendaciones
     
     //End solicitud de Adecuación.
 
     //Persona
     Route::get('persona', [PersonaController::class, 'index'])->middleware('scopes:Administrador');
     Route::get('persona/{cedula}', [PersonaController::class, 'get'])->middleware('scopes:Administrador');
-    Route::post('persona', [PersonaController::class, 'Post'])->middleware('scopes:Administrador');
+    Route::post('persona', [PersonaController::class, 'Post']);
     Route::patch('persona/editar', [PersonaController::class, 'Pacth']);
     Route::patch('admin/persona/editar', [PersonaController::class, 'Pacth_Admin'])->middleware('scopes:Administrador');
     //EndPersona    

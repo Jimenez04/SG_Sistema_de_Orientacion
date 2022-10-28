@@ -17,14 +17,12 @@ class Grupo_Familiar extends Model
     ];
     protected $primaryKey = 'id';
 
-    public function addfromReques($solicitud, $request){
+    public function addfromReques($object, $request){
         $grupofamiliar = new Grupo_Familiar($request['grupoFamiliar']);
-            if(SolicitudDeAdecuacion::where('numero_solicitud', $solicitud)->exists()){
-                $solicitud = (SolicitudDeAdecuacion::where('numero_solicitud', $solicitud)->first());
-            }else{
+            if($object == null){
                 return ['status' => false, 'message' => 'Error interno'];
             } 
-        $solicitud->Grupo_Familiar()->save($grupofamiliar);
+        $object->Grupo_Familiar()->save($grupofamiliar);
         foreach ($request['grupoFamiliar']['pariente'] as $pariente) {
             $parientemodel =  new Pariente($pariente);
             $grupofamiliar->Pariente()->save($parientemodel); 

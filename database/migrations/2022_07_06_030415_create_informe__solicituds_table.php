@@ -21,7 +21,8 @@ return new class extends Migration
         });
         Schema::table('item__informes', function (Blueprint $table) {
             $table->unsignedBigInteger('informe_Id')->nullable();
-            $table->foreign('informe_Id')->references('id')->on('informe__solicituds');
+            $table->foreign('informe_Id')->references('id')->on('informe__solicituds')->onUpdate('cascade')
+            ->onDelete('cascade');;
        });
     }
 

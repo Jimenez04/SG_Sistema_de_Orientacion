@@ -20,10 +20,12 @@ return new class extends Migration
 
         Schema::table('item__informes', function (Blueprint $table) {
             $table->unsignedBigInteger('revision_Solicitud_Id')->nullable();
-            $table->foreign('revision_Solicitud_Id')->references('id')->on('revision__solicituds');
+            $table->foreign('revision_Solicitud_Id')->references('id')->on('revision__solicituds')->onUpdate('cascade')
+            ->onDelete('cascade');;
 
             $table->unsignedBigInteger('expediente_Solicitud_Id')->nullable();
-            $table->foreign('expediente_Solicitud_Id')->references('id')->on('expediente__plan__de__accions');
+            $table->foreign('expediente_Solicitud_Id')->references('id')->on('expediente__plan__de__accions')->onUpdate('cascade')
+            ->onDelete('cascade');;
        });
     }
 

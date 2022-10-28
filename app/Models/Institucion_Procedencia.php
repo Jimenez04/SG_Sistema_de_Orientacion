@@ -15,12 +15,11 @@ class Institucion_Procedencia extends Model
         'solicitud_Numero',
     ];
 
-    public function add_($numSolicitud, $request)
+    public function add_($object, $request)
     {
         $institucion = new Institucion_Procedencia($request['institucion']);
-            if(SolicitudDeAdecuacion::where('numero_solicitud', $numSolicitud)->exists()){
-                $solicitud = (SolicitudDeAdecuacion::where('numero_solicitud', $numSolicitud)->first());
-                $solicitud->addInstitucion($institucion);
+            if($object != null){
+                $object->addInstitucion($institucion);
               return ['status' => true, 'message' => 'Creado correctamente'];
             }else{
                 return ['status' => false, 'message' => 'Error interno'];

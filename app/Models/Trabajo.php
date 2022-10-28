@@ -48,7 +48,7 @@ public function addfromReques($object, $request){
             return response()->json([
                 "status" => false,
                 "error" => "Ya tiene un trabajo asociado",
-            ],409);
+            ],404);
         }
     }
 
@@ -64,7 +64,7 @@ public function addfromReques($object, $request){
                 return response()->json([
                     "status" => false,
                     "error" => "No tiene ningun trabajo asociado",
-                ],409);
+                ],404);
             }
     }
 
