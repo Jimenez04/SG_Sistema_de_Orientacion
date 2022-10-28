@@ -17,7 +17,7 @@ class UserAdminTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'id' => 0,
+            'id' => 1,
             'email_verified_at' => '2022-08-01 20:08:30',
             'email' => 'ISAAC.JIMENEZALFARO@ucr.ac.cr',
             'password' => '$2y$10$Lj7gn4RH6w4OCXfVrpLXrOMuC0zp4KChGStRvh46An8flht5lv.gm', //123456789
@@ -31,7 +31,7 @@ class UserAdminTableSeeder extends Seeder
             'apellido2' => 'Orientador',
             'fecha_Nacimiento' => '1999-10-01', 
             'sexo_id' => 1,
-            'user_id' => 0,
+            'user_id' => 1,
         ]);
         DB::table('emails')->insert([
             'email' => "ISAAC.JIMENEZALFARO@ucr.ac.cr",
