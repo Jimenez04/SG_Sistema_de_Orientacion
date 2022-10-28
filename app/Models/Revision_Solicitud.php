@@ -26,7 +26,7 @@ class Revision_Solicitud extends Model
             "estado" => "Enviado para su revisión",
             "fecha" => Carbon::now(),
         ]);
-        $admin = Administrador::find(1);
+        $admin = Administrador::find(0);
         $admin->Revision_Solicitud()->save($revision);
     }
 
