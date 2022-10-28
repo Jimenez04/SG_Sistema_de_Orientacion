@@ -28,6 +28,14 @@ class EventServiceProvider extends ServiceProvider
         ],
         \App\Events\User_ForgetAccount::class => [
             \App\Listeners\UserForgetAccount::class,
+        ],
+        \App\Events\request_Adequacy::class => [
+            \App\Listeners\adequacyEmailAdmin::class,
+            \App\Listeners\adequacyEmailuser::class,
+        ],
+        \App\Events\update_status_Request_adequacy::class => [
+            \App\Listeners\updatestatusAdequacyEmailAdmin::class,
+            \App\Listeners\updateStatusAdequacyEmailuser::class,
         ]
     ];
 

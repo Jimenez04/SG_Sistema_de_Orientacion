@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('url');
             $table->string('expedido_Por',50)->nullable();
+            $table->string('nombre',200)->nullable();
             $table->timestamps();
         });
         Schema::table('archivos', function (Blueprint $table) {

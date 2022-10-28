@@ -21,7 +21,8 @@ return new class extends Migration
         });
         Schema::table('institucion__procedencias', function (Blueprint $table) {
             $table->string('solicitud_Numero')->nullable();
-            $table->foreign('solicitud_Numero')->references('numero_solicitud')->on('solicitud_de_adecuacions');
+            $table->foreign('solicitud_Numero')->references('numero_solicitud')->on('solicitud_de_adecuacions')->onUpdate('cascade')
+            ->onDelete('cascade');;
        });
     }
 

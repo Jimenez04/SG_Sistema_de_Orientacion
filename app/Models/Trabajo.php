@@ -18,7 +18,19 @@ protected $fillable = [
     'horario_Laboral',
 ];
 
-    public function add($object, $request){
+public function addfromReques($object, $request){
+    $trabajo = $request['trabajo'];
+    $estado = "";
+        if(array_key_exists('id', $trabajo)){
+            $estado = $this->add($object->Persona, $trabajo, $trabajo['id']);
+        }else{
+            $estado =  $this->add($object->Persona, $trabajo);
+        }
+    return $estado;
+}
+
+    public function add($object, $request, $id = null){
+        if($id != null){$this->update_e($object, $request);} 
         if($object->Trabajo == null){
             $job = $this->addJob($request);
             if($job->addperson($object->cedula)){
@@ -36,7 +48,7 @@ protected $fillable = [
             return response()->json([
                 "status" => false,
                 "error" => "Ya tiene un trabajo asociado",
-            ],409);
+            ],404);
         }
     }
 
@@ -52,7 +64,7 @@ protected $fillable = [
                 return response()->json([
                     "status" => false,
                     "error" => "No tiene ningun trabajo asociado",
-                ],409);
+                ],404);
             }
     }
 

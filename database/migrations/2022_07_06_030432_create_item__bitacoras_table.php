@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('item__bitacoras', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->longText('descripcion');
+            $table->longText('descripcion')->nullable();
+            $table->longText('acciones_realizadas')->nullable();
+            $table->longText('observaciones')->nullable();
             $table->dateTime('fecha');
             $table->timestamps();
         });

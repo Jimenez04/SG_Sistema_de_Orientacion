@@ -25,7 +25,7 @@ class agregarBeca_AdminRequest extends FormRequest
     {
         return [
             'cedula' => 'required|min:9|max:20',
-            'categoria_Beca' => 'required|numeric|min:0|    max:5',
+            'categoria_Beca' => 'required|numeric|min:0|max:5',
             'asistencia_Socioeconomica' => 'string|max:40',
             'participacion' => 'required|string',
         ];

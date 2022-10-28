@@ -19,6 +19,15 @@ class Beca extends Model
     ];
 
     //
+    public function addfromReques($object, $request){
+        $beca = new Beca($request['beca']);
+        if($object->Beca == null){
+            $object->Beca()->save($beca);
+        }else{
+            $object->Beca->update($request['beca']);
+        }
+       return ["status" => true];
+    }
 
     public function add($request){
             $beca = $this->addBeca($request);

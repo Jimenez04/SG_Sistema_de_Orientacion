@@ -22,7 +22,8 @@ return new class extends Migration
         });
         Schema::table('becas',function (Blueprint $table){
             $table->string('estudiante_carnet')->nullable();        
-            $table->foreign('estudiante_carnet')->references('carnet')->on('estudiantes');
+            $table->foreign('estudiante_carnet')->references('carnet')->on('estudiantes')->onUpdate('cascade')
+            ->onDelete('cascade');
         });
     }
 

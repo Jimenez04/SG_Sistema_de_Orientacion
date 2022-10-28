@@ -24,7 +24,7 @@ class agregarBecaRequest extends FormRequest
     public function rules()
     {
         return [
-            'categoria_Beca' => 'required|numeric|min:0|    max:5',
+            'categoria_Beca' => 'required|numeric|min:0|max:5',
             'asistencia_Socioeconomica' => 'string|max:40',
             'participacion' => 'required|string',
         ];

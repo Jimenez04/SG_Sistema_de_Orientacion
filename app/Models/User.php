@@ -126,7 +126,7 @@ class User extends Authenticatable implements MustVerifyEmail
                             $token = $user->createToken($user->email.'-'.now(), [$user->scope]);
                             return response()->json($token->accessToken, 200);
                 } else {
-                    return response()->json(['error' => 'Unauthorised'], 401); //Usuario o contraseña incorrectos o no existe
+                    return response()->json(['status' => "false", 'error' => 'Verifique los campos'], 401); //Usuario o contraseña incorrectos o no existe
                 }
         }catch (\Throwable $th) {
             return response()->json([
@@ -138,9 +138,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function logOut()
         {
-            $user = Auth::user()->token();
-            $user->revoke();
-            return response()->json(['message' => 'Ha salido de sesión'], 200);
+            try{
+                $user = Auth::user()->token();
+                $user->revoke();
+                return response()->json(["status" => true, 'message' => 'Ha salido de sesión'], 200);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+        }
         }
         
     public function forget_Account($request)

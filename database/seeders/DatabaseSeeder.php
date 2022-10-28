@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
          $this->call([
             UserAdminTableSeeder::class,
         ]);
+        $this->call([
+            fechasSolicitudesSeeder::class,
+        ]);
 
         // \App\Models\User::factory(10)->create();
 

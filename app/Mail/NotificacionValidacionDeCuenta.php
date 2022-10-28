@@ -16,7 +16,7 @@ class NotificacionValidacionDeCuenta extends Mailable
      *
      * @return void
      */
-    public $data;
+     public $data;
      public $mensaje1;
      public $mensaje2;
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Archivos extends Model
 {
@@ -15,7 +16,21 @@ class Archivos extends Model
         'plan_De_Accion_Id',
         'url',
         'expedido_Por',
+        'nombre',
     ];
+
+    public function addfromReques($object, $request){
+            if($object == null){
+                return ['status' => false, 'message' => 'Error interno'];
+            } 
+        foreach ($request['archivos'] as $archivo) {
+            $namefile = $archivo['nombre'] . $object->numero_solicitud . ".txt";
+            Storage::disk('public')->put($namefile, $archivo['archivo64']);
+            $archivo+=["url" => $namefile];
+            $object->Archivos()->save(new Archivos($archivo)); 
+        }
+        return ["status"=>true];
+    }
 
     public function Solicitud_De_Adecuacion()
     {
