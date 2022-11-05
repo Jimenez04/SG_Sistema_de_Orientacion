@@ -204,8 +204,8 @@ class UsuarioController extends Controller
 
         public function userInfo() 
         {
-        $user = auth()->user();
-        return response()->json(['user' => $user], 200);
+            $user = auth()->user();
+            return response()->json(['user' => $user], 200);
         }
         public function deleteuser_fromAdmin($id) 
         {

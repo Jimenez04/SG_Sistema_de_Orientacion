@@ -35,6 +35,11 @@ class PersonaController extends Controller
             return $this->Persona()->GetPerson($cedula);
         }
 
+        public function exist($cedula)
+        {
+            return $this->Persona()->existPerson($cedula);
+        }
+
 
                   /**
         * @OA\Post(

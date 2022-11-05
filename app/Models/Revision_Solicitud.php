@@ -200,6 +200,9 @@ class Revision_Solicitud extends Model
                     }
                     $revision->estado = $this->newStatus($status->nuevo_Estado);
                     $revision->save();
+                        if($this->newStatus($status->nuevo_Estado) == 'Rechazado'){
+                           $revision = $this->changeNumRequest($numSolicitud);
+                        }
                         update_status_Request_adequacy::dispatch($revision->Solicitud_Adecuacion, $status->descripcion_Rechazado);
                     return response()->json([
                         "status" => true,
@@ -212,6 +215,18 @@ class Revision_Solicitud extends Model
                     "error" => $th->getMessage(),
                     ],500);
             }
+        }
+
+        private function changeNumRequest($numSolicitud){
+            $solicitud = (SolicitudDeAdecuacion::where('numero_solicitud',$numSolicitud )->first());
+                for ($i=0; $i < 100; $i++) { 
+                        $busqueda = $i === 0 ? $numSolicitud . 'Rechazado' : $numSolicitud . 'Rechazado' . $i;
+                    if(!SolicitudDeAdecuacion::where('numero_solicitud',$busqueda)->exists()){
+                        $solicitud->update(['numero_solicitud' => $busqueda]);
+                        $solicitud->save();
+                    }
+                }
+            return $solicitud->Revision_Solicitud;
         }
 
         private function newStatus($status){

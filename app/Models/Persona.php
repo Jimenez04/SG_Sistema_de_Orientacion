@@ -68,6 +68,33 @@ class Persona extends Model
                     ],500);
             }
         }
+         public function existPerson($cedula){
+            try {
+                $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+                $data = $this->validate_cedula_DB($cedula, true);
+                    if(!$data['status']){
+                        return response()->json($data,400);
+                    }
+                    if($this->validate_cedula_DB($cedula)){
+                        $person = Persona::find($cedula);
+                        return response()->json([
+                        "status" => true,
+                        "message" => "Persona",
+                        "data" => ["nombre" => $person->nombre1 ." ". $person->nombre2, "apellido" => $person->apellido1]
+                        ],200);
+            }else{
+                return response()->json([
+                    "status" => false,
+                    "error" => "La persona no existe", 
+                    ],400);
+            }
+            } catch (\Throwable $th) {
+                return response()->json([
+                    "success" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
 
         public function newperson($request)
         {

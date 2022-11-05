@@ -120,7 +120,7 @@ class SolicitudDeAdecuacion extends Model
                       ],200);
                   }
                 } 
-                //$this->eliminarsolicitud($solicitudAdecuacion['solicitud']['numero_solicitud']);
+                $this->eliminarsolicitud($solicitudAdecuacion['solicitud']['numero_solicitud']);
                 return response()->json(['status' => false , 'message' => 'Error', 'data' => $state],400);  
               }else{
                 return response()->json([
@@ -184,10 +184,10 @@ class SolicitudDeAdecuacion extends Model
 
                                             //dd("Hola2");
 
-                                          return response()->json([
+                                          return [
                                             "status" => true,
-                                            "error" => "Solicitud creada correctamente",
-                                            ],200);
+                                            "error" => "Solicitud creada correctamente"
+                                          ];
                                   }
                                 }
                             }
