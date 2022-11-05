@@ -40,7 +40,6 @@ class SolicitudDeAdecuacion extends Mailable
         foreach ($this->archivos as $archivo) {
             $this->attachData($archivo['pdf'], $archivo['nombre']);
         }
-        // $this->attachData($this->archivo_solicitud->output(),"Hola.pdf");
         return $this;
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\PersonaController;
 use App\Http\Controllers\Api\UsuarioController;
 use App\Http\Controllers\Api\SolicitudesAdecuacionController;
+use App\Http\Controllers\API\SolicitudesPAIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,7 @@ Route::post('usuario/olvide-mi-contrasena', [UsuarioController::class, 'forget_A
 Route::middleware(['auth:api', 'verified'])->group(function () {
     // Route::middleware(['auth:api'])->group(function () {
     Route::get('usuario/salir', [UsuarioController::class, 'logOut']);
-    Route::get('obtener-usuarios', [UsuarioController::class, 'userInfo']);
+    Route::get('obtener-usuario', [UsuarioController::class, 'userInfo']);
     Route::post('user/cambiar-contrasena', [UsuarioController::class, 'change_password']);
     Route::post('admin/user/cambiar-contrasena', [UsuarioController::class, 'change_password'])->middleware('scopes:Administrador');
     Route::post('admin/registrar', [UsuarioController::class, 'registerUserFromAdmin'])->middleware('scopes:Administrador');
@@ -70,8 +71,23 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     
     //End solicitud de Adecuación.
 
+    //PAI
+    Route::post('user/persona/estudiante/pai', [SolicitudesPAIController::class, 'store']);
+
+    Route::delete('user/persona/estudiante/pai/delete/{numSolicitud}', [SolicitudesPAIController::class, 'destroy']);
+
+    Route::get('user/persona/estudiante/pai', [SolicitudesPAIController ::class, 'index']);
+
+    Route::get('user/persona/estudiante/pai/{numsolicitud}', [SolicitudesPAIController ::class, 'show']);
+
+    Route::get('user/admin/persona/estudiante/pai/{carnet}', [SolicitudesPAIController::class, 'showForCarnet'])->middleware('scope:Administrador');
+    
+
+    //End PAI
+
     //Persona
     Route::get('persona', [PersonaController::class, 'index'])->middleware('scopes:Administrador');
+    Route::get('persona/existe/{cedula}', [PersonaController::class, 'exist']);
     Route::get('persona/{cedula}', [PersonaController::class, 'get'])->middleware('scopes:Administrador');
     Route::post('persona', [PersonaController::class, 'Post']);
     Route::patch('persona/editar', [PersonaController::class, 'Pacth']);
@@ -161,7 +177,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     //end student
 
-    //Beca //no quitar scope de estudiante...
+    //Beca
     Route::get('admin/persona/estudiante/beca/{carnet}', [UsuarioController::class, 'get_grant']);
 
     Route::post('user/persona/estudiante/beca/agregar', [UsuarioController::class, 'add_Beca'])->middleware('scopes:Estudiante');

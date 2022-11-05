@@ -25,7 +25,7 @@ class addArchivosFromRequest_request extends FormRequest
     {
         return [
             'archivos.*.expedidoPor' => 'required_with:archivos.*.archivo64|string|min:4|max:100',
-            'archivos.*.archivo64' => 'required_with:archivos.*.expedidoPor|base64file|base64max:1000',
+            'archivos.*.archivo64' => 'required_with:archivos.*.expedidoPor|base64file|base64max:5000',
             'archivos.*.nombre' => 'required_with:archivos.*.archivo64|string|max:40',
         ];
     }
@@ -46,8 +46,8 @@ class addArchivosFromRequest_request extends FormRequest
 
             'archivos.*.archivo64.required_with' => 'El archivo es requerido.',
             'archivos.*.archivo64.base64file' => 'El archivo debe ser en formato "Base 64".',
-            'archivos.*.archivo64.base64size' => 'El archivo no debe pesar más de 1MB.',
-            'archivos.*.archivo64.base64max' => 'El archivo no debe pesar más de 1MB.',
+            'archivos.*.archivo64.base64size' => 'El archivo no debe pesar más de 5MB.',
+            'archivos.*.archivo64.base64max' => 'El archivo no debe pesar más de 5MB.',
 
             
         ];

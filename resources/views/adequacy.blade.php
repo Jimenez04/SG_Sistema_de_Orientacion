@@ -20,7 +20,7 @@ $img = base64_encode(file_get_contents($imgPath));
                 /* text-align: justify; */
                 /* text-justify: inter-word; */
                 font-weight: normal;
-                line-height : 15px;
+                line-height : 20px;
             }
             h1{
                 font-size: 14px;
@@ -36,11 +36,11 @@ $img = base64_encode(file_get_contents($imgPath));
             h3{
                 font-size: 12px;
                 font-weight: 400;
+                line-height : 5px;
             }
             p{
                 font-size: 12px;
                 white-space: pre-line;
-                
             }
             .container-footer-header{
                 height: 100px;
@@ -121,12 +121,10 @@ $img = base64_encode(file_get_contents($imgPath));
 
             <section>
                 <p>Yo {{$solicitud->Estudiante->Persona->nombre1 }} {{$solicitud->Estudiante->Persona->nombre2 }} {{$solicitud->Estudiante->Persona->apellido1 }} {{$solicitud->Estudiante->Persona->apellido2 }}, carné: {{$solicitud->Estudiante->carnet }}, por este medio presento mi solicitud de adscripción al Artículo 37, del reglamento de Regimen Académico Estudiantil para la aplicación de adecuaciones en la universidad.
-                </p>
-                <p> Adjunto para este proceso la siguiente documentación:
-                    - Diagnóstico o valoración.
-                    - Dictamen médico.
-                En caso de no adjuntar lo mencionado anteriormente, estoy plenamente consciente que mi solicitud puede ser rechazada de inmediato.
-                </p>
+                Adjunto para este proceso la siguiente documentación:</p>
+                <p style="text-indent: 40px;">- Diagnóstico o valoración.</p>
+                <p style="text-indent: 40px;">- Dictamen médico.</p>
+                <p>En caso de no adjuntar lo mencionado anteriormente, estoy plenamente consciente que mi solicitud puede ser rechazada de inmediato.</p>
             </section>
 
             <section>
