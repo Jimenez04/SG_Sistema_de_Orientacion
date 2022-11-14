@@ -18,13 +18,15 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('numero_solicitud')->unique();
             $table->string('razon_Solicitud');
+
             $table->string('carrera_Empadronada');
-            $table->boolean('carreras_simultaneas');
+            $table->string('nombre_segunda_carrera')->nullable();//
+            $table->string('carrera_empadronado_anterior')->nullable();//
+            
+            $table->dateTime('ano_ingreso_carrera'); //
+            $table->integer('nivel_carrera'); //
             $table->boolean('realizo_Traslado_Carrera');
-            $table->longText('descripcion');
-            $table->string('url_Archivo_Situacion_Academica_Actual')->nullable();
-            $table->string('url_Archivo_Dictamen_Medico')->nullable();
-            $table->string('url_Archivo_Diagnostico')->nullable();
+
             $table->timestamps();
             $table->string('estudiante_carnet',20)->nullable();
         });

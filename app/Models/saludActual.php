@@ -5,32 +5,33 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Necesidad_Y_Apoyo extends Model
+class saludActual extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'id',
-        'solicitud_Numero',
-        'diagnostico',
-        'area_Profesional',
-        'recibe_atencionyseguimiento',
-        'atencionyseguimiento',
+        'afectacionDesempeno',
+        'enfermedad',
+        'tratamiento',
+        'adecuacion_Solicitud_Id',
     ];
+
+    protected $primaryKey = 'id';
 
     public function add_($object, $request)
     {
-        $necesidad = new Necesidad_Y_Apoyo($request['necesidad_Apoyo']);
+        $salud = new saludActual($request['saludActual']);
             if($object != null){
-                $object->addRNecesidadY_Apoyo($necesidad);
+                $object->addsalud($salud);
               return ['status' => true, 'message' => 'Creada correctamente'];
             }else{
                 return ['status' => false, 'message' => 'Error interno'];
             }
     }
 
-    public function SolicitudDeAdecuacion()
+    public function Solicitud()
     {
-        return $this->belongsTo(SolicitudDeAdecuacion::class, 'solicitud_Numero', 'numero_solicitud');	
+        return $this->belongsTo(saludActual::class, 'adecuacion_Solicitud_Id', 'id');
     }
 }
