@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('adequacy');
+    return view('welcome');
     //return view('emails.request.newAdequacy');
 });
 
