@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('nombre');
             $table->dateTime('ano_egreso');
+            $table->dateTime('ano_ingreso_universidad');
             $table->timestamps();
         });
         Schema::table('institucion__procedencias', function (Blueprint $table) {

@@ -11,10 +11,8 @@ class Trabajo extends Model
 
 protected $fillable = [
     'id',
-    'trabajo_Actual',
     'actividad_Que_Desempena',
     'lugar_De_Trabajo',
-    'jornada_Trabajo',
     'horario_Laboral',
 ];
 

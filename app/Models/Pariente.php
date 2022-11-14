@@ -13,7 +13,7 @@ class Pariente extends Model
         'id',
         'persona_cedula',
         'tipo_Pariente',
-        'discapacidad_Si_Presenta', 
+        'ocupacion', 
         'grupo_Familiar_Id ', 
     ];
 

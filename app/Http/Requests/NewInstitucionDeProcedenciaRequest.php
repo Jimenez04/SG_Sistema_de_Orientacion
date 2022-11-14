@@ -32,6 +32,7 @@ class NewInstitucionDeProcedenciaRequest extends FormRequest
             return [
                 'institucion.nombre' => 'required|min:6|max:254|string',
                 'institucion.ano_egreso' => 'required|date_format:Y-m-d',
+                'institucion.ano_ingreso_universidad' => 'required|date_format:Y-m-d',
             ];
     }
 
@@ -45,6 +46,9 @@ class NewInstitucionDeProcedenciaRequest extends FormRequest
             
             'institucion.ano_egreso.required' => 'El año de egreso es requerido',
             'institucion.ano_egreso.date_format' => 'El año de egreso no tiene un formato valido',
+            
+            'institucion.ano_ingreso_universidad.required' => 'El año de egreso es requerido',
+            'institucion.ano_ingreso_universidad.date_format' => 'El año de egreso no tiene un formato valido',
         ];
     }
 }

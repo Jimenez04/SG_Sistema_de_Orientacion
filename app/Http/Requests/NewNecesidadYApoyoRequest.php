@@ -14,46 +14,38 @@ class NewNecesidadYApoyoRequest extends FormRequest
     public function rules()
     {
             return [
-                'necesidad_Apoyo.diagnostico' => 'required_with:necesidad_Apoyo.area_Profesional,necesidad_Apoyo.descripcion_Seguimiento,necesidad_Apoyo.profesional_Que_Diagnostica,necesidad_Apoyo.descripcion_Atencion|min:6|max:254|string',
+                'necesidad_Apoyo.diagnostico' => 'min:6|max:254|string', //4
 
-                'necesidad_Apoyo.profesional_Que_Diagnostica' => 'required_with:necesidad_Apoyo.area_Profesional,necesidad_Apoyo.descripcion_Seguimiento,necesidad_Apoyo.diagnostico,necesidad_Apoyo.descripcion_Atencion|min:6|max:254|string',
+                'necesidad_Apoyo.area_Profesional' =>  'min:6|max:254|string', //3
 
-                'necesidad_Apoyo.area_Profesional' =>  'required_with:necesidad_Apoyo.profesional_Que_Diagnostica,necesidad_Apoyo.descripcion_Seguimiento,necesidad_Apoyo.diagnostico,necesidad_Apoyo.descripcion_Atencion|min:6|max:254|string',
+                'necesidad_Apoyo.recibe_atencionyseguimiento' =>  'required_with:necesidad_Apoyo.diagnostico|numeric|min:0|max:1', //4
 
-                'necesidad_Apoyo.descripcion_Seguimiento' =>   'required_with:necesidad_Apoyo.descripcion_Atencion|min:6|max:254|string',
-
-                'necesidad_Apoyo.descripcion_Atencion' =>     'required_with:necesidad_Apoyo.descripcion_Seguimiento|min:6|max:254|string',
+                'necesidad_Apoyo.atencionyseguimiento' =>     'required_if:necesidad_Apoyo.recibe_atencionyseguimiento,==,1|min:6|string', //3
             ];
     }
 
     public function messages()
     {
         return [
-            'necesidad_Apoyo.diagnostico.required_with' =>  'El campo "Diagnóstico" es obligatorio.',
-            'necesidad_Apoyo.diagnostico.min' =>  'El campo “Diagnóstico” debe contener al menos 6 caracteres.
-            ',
+            //'necesidad_Apoyo.diagnostico.required' =>  'El campo "Diagnóstico" es obligatorio.',
+            'necesidad_Apoyo.diagnostico.min' =>  'El campo “Diagnóstico” debe contener al menos 6 caracteres.',
             'necesidad_Apoyo.diagnostico.max' =>  'El campo “Diagnóstico” debe contener menos  de 254 caracteres.',
             'necesidad_Apoyo.diagnostico.string' =>  'El campo “Diagnóstico” debe ser una cadena de caracteres.',
 
-            'necesidad_Apoyo.profesional_Que_Diagnostica.required_with' =>  'El campo "Profesional que diagnostica" es obligatorio.',
-            'necesidad_Apoyo.profesional_Que_Diagnostica.min' =>  'El campo “Profesional que diagnostica” debe contener al menos 6 caracteres.',
-            'necesidad_Apoyo.profesional_Que_Diagnostica.max' =>  'El campo "Profesional que diagnostica” debe contener menos de 254 caracteres.',
-            'necesidad_Apoyo.profesional_Que_Diagnostica.string' =>  'El campo “Profesional que diagnostica” debe ser una cadena de caracteres.',
-
-            'necesidad_Apoyo.area_Profesional.required_with' =>  'El campo "Área profesional" es obligatorio.',
+            //'necesidad_Apoyo.area_Profesional.required_with' =>  'El campo "Área profesional" es obligatorio.',
             'necesidad_Apoyo.area_Profesional.min' =>  'El campo “Área profesional” debe contener al menos 6 caracteres.',
             'necesidad_Apoyo.area_Profesional.max' =>  'El campo "El campo “Área profesional” debe contener menos de 254 caracteres.',
             'necesidad_Apoyo.area_Profesional.string' =>  'El campo “Área profesional” debe ser una cadena de caracteres.',
 
-            'necesidad_Apoyo.descripcion_Seguimiento.required_with' =>  'El campo "Descripción de seguimiento" es obligatorio.',
-            'necesidad_Apoyo.descripcion_Seguimiento.min' =>  'El campo “Descripción de seguimiento” debe contener al menos 6 caracteres.',
-            'necesidad_Apoyo.descripcion_Seguimiento.max' =>  'El campo "El campo “Descripción de seguimiento” debe contener menos de 254 caracteres.',
-            'necesidad_Apoyo.descripcion_Seguimiento.string' =>  'El campo “Descripción de seguimiento” debe ser una cadena de caracteres.',
-
-            'necesidad_Apoyo.descripcion_Atencion.required_with' =>  'El campo "Descripción de atención" es obligatorio.',
-            'necesidad_Apoyo.descripcion_Atencion.min' =>  'El campo “Descripción de atención” debe contener al menos 6 caracteres.',
-            'necesidad_Apoyo.descripcion_Atencion.max' =>  'El campo "El campo “Descripción de atención” debe contener menos de 254 caracteres.',
-            'necesidad_Apoyo.descripcion_Atencion.string' =>  'El campo “Descripción de atención” debe ser una cadena de caracteres.',
+            'necesidad_Apoyo.recibe_atencionyseguimiento.required' =>  'El campo "recibe atención y seguimiento" es obligatorio.',
+            'necesidad_Apoyo.recibe_atencionyseguimiento.min' =>  'El campo “recibe atención y seguimiento” debe ser falso o verdadero.',
+            'necesidad_Apoyo.recibe_atencionyseguimiento.max' =>  'El campo “recibe atención y seguimiento” debe ser falso o verdadero.',
+            'necesidad_Apoyo.recibe_atencionyseguimiento.numeric' =>  'El campo “recibe atención y seguimiento” debe ser un entero.',
+            
+            
+            'necesidad_Apoyo.atencionyseguimiento.required_if' =>  'El campo "Tipo atención y seguimiento" es obligatorio.',
+            'necesidad_Apoyo.atencionyseguimiento.min' =>  'El campo “Tipo atención y seguimiento” debe contener al menos 6 caracteres.',
+            'necesidad_Apoyo.atencionyseguimiento.string' =>  'El campo “Tipo atención y seguimiento” debe ser una cadena de caracteres.',
 
 
         ];

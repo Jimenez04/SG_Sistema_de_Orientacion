@@ -16,10 +16,9 @@ return new class extends Migration
         Schema::create('necesidad__y__apoyos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->longText('diagnostico');
-            $table->string('profesional_Que_Diagnostica')->nullable();
             $table->string('area_Profesional')->nullable();
-            $table->longText('descripcion_Seguimiento')->nullable();
-            $table->longText('descripcion_Atencion')->nullable();
+            $table->boolean('recibe_atencionyseguimiento');
+            $table->longText('atencionyseguimiento')->nullable();
             $table->timestamps();
         });
 

@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('becas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('categoria_Beca');
-            $table->string('asistencia_Socioeconomica')->nullable();
-            $table->string('participacion')->nullable();
+            $table->boolean('asistencia_Socioeconomica')->nullable();
+            $table->boolean('participacion')->nullable();
             $table->timestamps();
         });
         Schema::table('becas',function (Blueprint $table){

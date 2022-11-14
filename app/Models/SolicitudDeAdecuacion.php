@@ -17,12 +17,11 @@ class SolicitudDeAdecuacion extends Model
         'id',
         'razon_Solicitud',
         'carrera_Empadronada',
-        'carreras_simultaneas',
+        'nombre_segunda_carrera',
+        'carrera_empadronado_anterior',
+        'ano_ingreso_carrera',
+        'nivel_carrera',
         'realizo_Traslado_Carrera',
-        'descripcion',
-        'url_Archivo_Situacion_Academica_Actual',
-        'url_Archivo_Dictamen_Medico',
-        'url_Archivo_Diagnostico',
         'estudiante_carnet',
         'numero_solicitud'
     ];
@@ -88,7 +87,7 @@ class SolicitudDeAdecuacion extends Model
           } 
 
 
-      public function add1($cedula, $solicitudAdecuacion, $institucionProcedencia, $necesidadesY_Apoyo, $enfermedades, $trabajos, $familiares, $beca, $archivos){
+      public function add1($cedula, $solicitudAdecuacion, $institucionProcedencia, $necesidadesY_Apoyo, $familiares, $archivos, $salud){
         try{
           $state = "";
           if(fechasSolicitudes::find(1)->desde <= Carbon::now() && Carbon::now() <= fechasSolicitudes::find(1)->hasta){
@@ -112,7 +111,7 @@ class SolicitudDeAdecuacion extends Model
                       }
                 if($student !=null && $student instanceof Estudiante){
                   $solicitudAdecuacion['solicitud'] += ['numero_solicitud' => 'A' . Carbon::now()->year . 'M' .Carbon::now()->format('m') . 'E' . $student->persona_cedula . 'S' . $this->semestre()];
-                  $state = $this->create($student, $solicitudAdecuacion, $institucionProcedencia, $necesidadesY_Apoyo, $enfermedades, $trabajos, $familiares, $beca, $archivos);
+                  $state = $this->create($student, $solicitudAdecuacion, $institucionProcedencia, $necesidadesY_Apoyo, $familiares, $archivos, $salud);
                   if($state['status']){
                     return response()->json([
                       "status" => true,
@@ -137,7 +136,7 @@ class SolicitudDeAdecuacion extends Model
         }
     }
 
-    public function create($student, $solicitudAdecuacion, $institucionProcedencia, $necesidadesY_Apoyo, $enfermedades, $trabajo, $familiares, $beca, $archivos ){
+    public function create($student, $solicitudAdecuacion, $institucionProcedencia, $necesidadesY_Apoyo, $familiares, $archivos, $salud ){
       $state = $student->addSolicitudAdecuacion($solicitudAdecuacion);
       $solicitudadecuacionparcial = (SolicitudDeAdecuacion::where('numero_solicitud', $solicitudAdecuacion['solicitud']['numero_solicitud'])->first());
       if(
@@ -152,46 +151,33 @@ class SolicitudDeAdecuacion extends Model
               //true
               $state['status']
               ){
-                $enfermedad = new Enfermedad();
-                $state =  json_decode($enfermedad->addfromReques($student, $enfermedades)->getContent());
+                $saludActual = new saludActual();
+                $state =  $saludActual->add_($solicitudadecuacionparcial, $salud);
                   if(
                     //true
-                    $state->status || $state->error == "Esta enfermedad ya esta asociada"
+                    $state['status']
                     ){
                       $institucion = new Institucion_Procedencia();
                       $state = $institucion->add_($solicitudadecuacionparcial, $institucionProcedencia);
-                        if($state['status']){
-                                  if($trabajo != null){
-                                    $trabajomodel = new Trabajo();
-                                    $state = json_decode($trabajomodel->addfromReques($student, $trabajo)->getContent());
-                                  }else{
-                                    $state = json_decode((response()->json(["status" => true, "error" => "Ocurrio un problema al agregar"]))->getContent());
-                                  }
-                              if($state->status || $state->error == "Ya tiene un trabajo asociado"){
-                              $becamodel = new Beca();
-                              $state = $becamodel->addfromReques($student, $beca);
-                                if($state['status']){
-                                  $grupofamiliar = new Grupo_Familiar();
-                                  $state = $grupofamiliar->addfromReques($solicitudadecuacionparcial, $familiares);
-                                  if($state['status']){
-                                    $archivomodels = new Archivos();
-                                    $state = $archivomodels->addfromReques($solicitudadecuacionparcial, $archivos);
-                                        $revision = new Revision_Solicitud(); 
-                                        $revision->create_NewRequest($solicitudadecuacionparcial);
-                                          $bitacora = new Bitacora();
-                                          $bitacora->new_FromRequest($solicitudadecuacionparcial->Revision_Solicitud, "revision_Solicitud_Id", "Adecuacion");
-                                            $this->sendEmail($solicitudadecuacionparcial);
+                                    if($state['status']){
+                                      $grupofamiliar = new Grupo_Familiar();
+                                      $state = $grupofamiliar->addfromReques($solicitudadecuacionparcial, $familiares);
+                                      if($state['status']){
+                                        $archivomodels = new Archivos();
+                                        $state = $archivomodels->addfromReques($solicitudadecuacionparcial, $archivos);
+                                            $revision = new Revision_Solicitud(); 
+                                            $revision->create_NewRequest($solicitudadecuacionparcial);
+                                              $bitacora = new Bitacora();
+                                              $bitacora->new_FromRequest($solicitudadecuacionparcial->Revision_Solicitud, "revision_Solicitud_Id", "Adecuacion");
+                                                $this->sendEmail($solicitudadecuacionparcial);
 
-                                            //dd("Hola2");
-
-                                          return [
-                                            "status" => true,
-                                            "error" => "Solicitud creada correctamente"
-                                          ];
-                                  }
-                                }
-                            }
-                        }
+                                                //dd("Hola2");
+                                              return [
+                                                "status" => true,
+                                                "error" => "Solicitud creada correctamente"
+                                              ];
+                                      }
+                                    }
                     }
               }
       }
@@ -209,7 +195,7 @@ class SolicitudDeAdecuacion extends Model
     }
 
     public function makePDF($solicitud){
-      $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('adequacy', compact("solicitud"))->setPaper('a4');
+      $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('adequacy', compact("solicitud"))->setPaper('letter');
       return $pdf;
     }
 
@@ -275,6 +261,13 @@ class SolicitudDeAdecuacion extends Model
   }
   //End necesidad y Apoyo
 
+  //salud
+  public function addsalud($salud)
+  {
+    return $this->saludActual()->save($salud);
+  }
+  //end
+
    
   //relaciones
     public function Estudiante()
@@ -298,6 +291,10 @@ class SolicitudDeAdecuacion extends Model
     }
     public function Grupo_Familiar(){
         return $this->hasOne(Grupo_Familiar::class, 'adecuacion_Solicitud_Id', 'id');
+    }
+    public function saludActual()
+    {
+        return $this->hasOne(saludActual::class, 'adecuacion_Solicitud_Id', 'id');
     }
 
 

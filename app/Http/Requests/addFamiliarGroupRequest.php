@@ -27,7 +27,7 @@ class addFamiliarGroupRequest extends FormRequest
             'grupoFamiliar.descripcion_De_Discapacidades' => 'required|min:10|max:254|string',
 
             'grupoFamiliar.pariente.*.tipo_Pariente' => 'required|min:2|max:20|string',
-            'grupoFamiliar.pariente.*.discapacidad_Si_Presenta' => 'required|min:2|max:20|string',
+            'grupoFamiliar.pariente.*.ocupacion' => 'required|min:4|max:50|string',
             'grupoFamiliar.pariente.*.persona_cedula' => 'required|min:9|max:20|string|exists:personas,cedula',
         ];
     }
@@ -51,10 +51,10 @@ class addFamiliarGroupRequest extends FormRequest
             'grupoFamiliar.pariente.*.relacion.max'  =>  'El campo relación debe ser mayor a 8 caracteres.',
             'grupoFamiliar.pariente.*.relacion.min'  =>  'El campo relación debe ser menor a 21 caracteres.',
 
-            'grupoFamiliar.pariente.*.discapacidad_Si_Presenta.required'  =>  'El campo "presenta discapacidad" es obligatorio.',
-            'grupoFamiliar.pariente.*.discapacidad_Si_Presenta.string'  =>  'El campo "presenta discapacidad" debe ser una cadena de caracteres.',
-            'grupoFamiliar.pariente.*.discapacidad_Si_Presenta.max'  =>  'El campo "presenta discapacidad" debe ser mayor a 8 caracteres.',
-            'grupoFamiliar.pariente.*.discapacidad_Si_Presenta.min'  =>  'El campo "presenta discapacidad"debe ser menor a 21 caracteres.',
+            'grupoFamiliar.pariente.*.ocupacion.required'  =>  'El campo "ocupación" es obligatorio.',
+            'grupoFamiliar.pariente.*.ocupacion.string'  =>  'El campo "ocupación" debe ser una cadena de caracteres.',
+            'grupoFamiliar.pariente.*.ocupacion.max'  =>  'El campo "ocupación" debe ser mayor a 4 caracteres.',
+            'grupoFamiliar.pariente.*.ocupacion.min'  =>  'El campo "ocupación" debe ser menor a 21 caracteres.',
         ];
     }
 }

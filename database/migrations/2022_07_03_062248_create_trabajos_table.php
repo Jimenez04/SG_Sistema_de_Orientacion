@@ -15,10 +15,8 @@ return new class extends Migration
     {
         Schema::create('trabajos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string("trabajo_Actual", 40);
-            $table->longText("actividad_Que_Desempena");
+            $table->string("actividad_Que_Desempena",80);
             $table->string("lugar_De_Trabajo", 40);
-            $table->string("jornada_Trabajo", 40);
             $table->longText("horario_Laboral");
             $table->timestamps();
         });

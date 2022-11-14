@@ -25,9 +25,9 @@ class update_grantRequest extends FormRequest
     {
         return [
             'carnet' => 'required|min:4|max:20',
-            'categoria_Beca' => 'numeric|min:0|    max:5',
-            'asistencia_Socioeconomica' => 'string|max:40',
-            'participacion' => 'required|string',
+            'categoria_Beca' => 'numeric|min:0|max:5',
+            'asistencia_Socioeconomica' => 'required_if:categoria_Beca,>,0|numeric|min:0|max:1',
+            'participacion' => 'required_if:categoria_Beca,>,0|numeric|min:0|max:1',
         ];
     }
 
@@ -42,10 +42,14 @@ class update_grantRequest extends FormRequest
             'categoria_Beca.min' => 'La categoría  no es valida, debe tener al menos 0',
             'categoria_Beca.max' => 'La categoría  no es valida, debe tener maximo 5',
 
-            'asistencia_Socioeconomica.max' => 'La asistencia socieconomica sobrepasa 40 caracteres',
-            'asistencia_Socioeconomica.string' => 'La asistencia socieconomica debe ser una cadena de caracteres',
+            'asistencia_Socioeconomica.required_if' => 'La asistencia socieconomica es requerida',
+            'asistencia_Socioeconomica.max' => 'La asistencia socieconomica debe ser 1 0 2',
+            'asistencia_Socioeconomica.min' => 'La asistencia socieconomica debe ser 1 0 2',
             
-            'participacion.string' => 'La participacion debe ser una cadena de caracteres',
+            'participacion.required_if' => 'La participacion es requerida',
+            'participacion.max' => 'La participacion debe ser 1 0 2',
+            'participacion.min' => 'La participacion debe ser 1 0 2',
+
 
         ];
     }

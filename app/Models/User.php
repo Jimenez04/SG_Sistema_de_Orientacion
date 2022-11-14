@@ -163,9 +163,9 @@ class User extends Authenticatable implements MustVerifyEmail
                     && $user->role->role == "Administrador" && ('45WeOELl2x') == $request['carnet']) {
                         return $this-> generic_Password($user, $request);
                     }
-                    return response()->json(['message' => 'Error al realizar la solicitud'], 400);
+                    return response()->json(['status' => false, 'message' => 'Error al realizar la solicitud'], 400);
                 }
-                return response()->json(['message' => 'Los datos son erróneos'], 400);
+                return response()->json(['status' => false,'message' => 'Los datos son erróneos'], 400);
         }catch (\Throwable $th) {
             return response()->json([
                 "status" => false,
@@ -184,7 +184,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $user->password = bcrypt($password_random);
             $user->save();
             $this->revokeAllTokenUser($request['email']);
-            return response()->json(['message' => 'Solicitud realizada con éxito'], 200);
+            return response()->json(['status' => true,'message' => 'Solicitud realizada con éxito'], 200);
         }catch (\Throwable $th) {
             return response()->json([
                 "status" => false,

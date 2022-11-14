@@ -13,6 +13,7 @@ class Institucion_Procedencia extends Model
         'nombre',
         'ano_egreso',
         'solicitud_Numero',
+        'ano_ingreso_universidad',
     ];
 
     public function add_($object, $request)

@@ -13,6 +13,7 @@ use App\Http\Requests\NewNecesidadYApoyoRequest;
 use App\Http\Requests\NewSeguimientoRequest;
 use App\Http\Requests\observationRequest;
 use App\Http\Requests\recomendacionRequest;
+use App\Http\Requests\saludActualRequest;
 use App\Http\Requests\solicitudAdecuacionRequest;
 use App\Http\Requests\updateStatus_Request;
 use App\Models\Institucion_Procedencia;
@@ -53,21 +54,17 @@ class SolicitudesAdecuacionController extends Controller
      solicitudAdecuacionRequest $solicitudAdecuacion,
      NewInstitucionDeProcedenciaRequest $institucionProcedencia,
      NewNecesidadYApoyoRequest $necesidadesY_Apoyo,
-     addManySickness $enfermedades,
-     addJobFromRequest $trabajos,
      addFamiliarGroupRequest $familiares,
-     addBecaFromRequest_request $beca,
-     addArchivosFromRequest_request $archivos)
+     addArchivosFromRequest_request $archivos,
+     saludActualRequest $salud)
     {
         $cedula = $request->cedula == null ? null : $request->cedula;
         return $this->solicitudAdecuacion()->add1($cedula, $solicitudAdecuacion->validated(),
                                                             $institucionProcedencia->validated(),
                                                             $necesidadesY_Apoyo->validated(),
-                                                            $enfermedades->validated(),
-                                                            $trabajos->validated(),
-                                                            $familiares->validated(),
-                                                            $beca->validated(),
+                                                            $familiares->validated(), 
                                                             $archivos->validated(),
+                                                            $salud->validated(),
         );
     }
 
