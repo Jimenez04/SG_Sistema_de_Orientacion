@@ -1,11 +1,11 @@
 <?php
 use Carbon\Carbon;    
-use App\Models\SolicitudDeAdecuacion;
+//use App\Models\SolicitudDeAdecuacion;
 use App\Models\Persona;
 $imgPath = public_path('storage\img\firma-horizontal-dos-lineas-cmky.jpg');
 $img = base64_encode(file_get_contents($imgPath));
 
-$solicitud = SolicitudDeAdecuacion::all()->first();
+//$solicitud = SolicitudDeAdecuacion::all()->first();
 ?>
 <html>
     <head>
