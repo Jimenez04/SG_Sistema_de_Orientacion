@@ -29,6 +29,6 @@ class adequacyEmailuser
      */
     public function handle(request_Adequacy $event)
     {
-        Mail::to($event->solicitud->Estudiante->Persona->User->email)->send(new SolicitudDeAdecuacion($event->solicitud, $event->archivos, $event->mensaje_User));;
+        Mail::to($event->solicitud->Estudiante->Persona->User->email)->send(new SolicitudDeAdecuacion($event->solicitud, $event->archivos, $event->mensaje_User));
     }
 }

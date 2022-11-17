@@ -119,7 +119,6 @@ class SolicitudDeAdecuacion extends Model
                       ],200);
                   }
                 } 
-                $this->eliminarsolicitud($solicitudAdecuacion['solicitud']['numero_solicitud']);
                 return response()->json(['status' => false , 'message' => 'Error', 'data' => $state],400);  
               }else{
                 return response()->json([
@@ -170,8 +169,6 @@ class SolicitudDeAdecuacion extends Model
                                               $bitacora = new Bitacora();
                                               $bitacora->new_FromRequest($solicitudadecuacionparcial->Revision_Solicitud, "revision_Solicitud_Id", "Adecuacion");
                                                 $this->sendEmail($solicitudadecuacionparcial);
-
-                                                //dd("Hola2");
                                               return [
                                                 "status" => true,
                                                 "error" => "Solicitud creada correctamente"

@@ -34,6 +34,6 @@ class OlvideMiContrasena extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.OlvideMiClave');
+        return $this->view('emails.OlvideMiClave')->subject("Olvidé mi contraseña");
     }
 }

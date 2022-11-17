@@ -53,8 +53,8 @@ class addFamiliarGroupRequest extends FormRequest
 
             'grupoFamiliar.pariente.*.ocupacion.required'  =>  'El campo "ocupación" es obligatorio.',
             'grupoFamiliar.pariente.*.ocupacion.string'  =>  'El campo "ocupación" debe ser una cadena de caracteres.',
-            'grupoFamiliar.pariente.*.ocupacion.max'  =>  'El campo "ocupación" debe ser mayor a 4 caracteres.',
-            'grupoFamiliar.pariente.*.ocupacion.min'  =>  'El campo "ocupación" debe ser menor a 21 caracteres.',
+            'grupoFamiliar.pariente.*.ocupacion.min'  =>  'El campo "ocupación" debe ser mayor a 4 caracteres.',
+            'grupoFamiliar.pariente.*.ocupacion.max'  =>  'El campo "ocupación" no debe ser menor a 21 caracteres.',
         ];
     }
 }

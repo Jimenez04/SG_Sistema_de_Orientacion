@@ -54,7 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
     
 
-    public function newUser($request, $is_Admin = false){
+    public function newUser($request){
         try {
             if($this->validate_Email($request['email'])){
                 return response()->json([
@@ -122,7 +122,7 @@ class User extends Authenticatable implements MustVerifyEmail
                                 return response()->json(['status' => false, 'message' => "Usuario no validado"], 200);
                             }
                             $token = $user->createToken($user->email.'-'.now(), [$user->scope]);
-                            return response()->json(['status' => true, $token->accessToken], 200);
+                            return response()->json(['status' => true,'token' => $token->accessToken], 200);
                 } else {
                     return response()->json(['status' => "false", 'error' => 'Verifique los campos'], 401); //Usuario o contraseña incorrectos o no existe
                 }

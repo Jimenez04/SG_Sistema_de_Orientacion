@@ -35,7 +35,7 @@ class SolicitudDeAdecuacion extends Mailable
      */
     public function build()
     { 
-        $this->view('emails.request.newAdequacy');
+        $this->view('emails.request.newAdequacy')->subject("Notificación, nueva Solicitud de adecuación");
         //$this->view('adequacy');
         foreach ($this->archivos as $archivo) {
             $this->attachData($archivo['pdf'], $archivo['nombre']);

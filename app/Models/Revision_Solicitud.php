@@ -206,7 +206,7 @@ class Revision_Solicitud extends Model
                         update_status_Request_adequacy::dispatch($revision->Solicitud_Adecuacion, $status->descripcion_Rechazado);
                     return response()->json([
                         "status" => true,
-                        "error" => "El nuevo estado a sido actualizado",
+                        "message" => "El nuevo estado a sido actualizado",
                         ],200);
                 
             } catch (\Throwable $th) {
