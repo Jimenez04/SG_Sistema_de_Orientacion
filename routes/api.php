@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\BitacoraController;
 use App\Http\Controllers\Api\PersonaController;
 use App\Http\Controllers\Api\UsuarioController;
 use App\Http\Controllers\Api\SolicitudesAdecuacionController;
@@ -74,16 +75,29 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     //PAI
     Route::post('user/persona/estudiante/pai', [SolicitudesPAIController::class, 'store']);
 
-    Route::delete('user/persona/estudiante/pai/delete/{numSolicitud}', [SolicitudesPAIController::class, 'destroy']);
+    Route::delete('user/persona/estudiante/pai/delete/{numSolicitud}', [SolicitudesPAIController::class, 'destroy'])->middleware('scope:Administrador');
 
     Route::get('user/persona/estudiante/pai', [SolicitudesPAIController ::class, 'index']);
 
-    Route::get('user/persona/estudiante/pai/{numsolicitud}', [SolicitudesPAIController ::class, 'show']);
+    Route::get('user/persona/estudiante/pai/{id}', [SolicitudesPAIController ::class, 'show']);
 
     Route::get('user/admin/persona/estudiante/pai/{carnet}', [SolicitudesPAIController::class, 'showForCarnet'])->middleware('scope:Administrador');
     
+    Route::patch('user/admin/persona/estudiante/pai/{numSolicitud}/estado/actualizar', [SolicitudesPAIController::class, 'updateState'])->middleware('scope:Administrador');
+
+
+//resume
+    Route::post('user/persona/admin/pai/{numsolicitud}/continuar', [SolicitudesPAIController::class, 'resume'])->middleware('scope:Administrador');
+    Route::get('user/persona/admin/pai/banco/preguntas', [SolicitudesPAIController::class, 'question']);
 
     //End PAI
+
+    //Bitacora
+    Route::post('user/estudiante/solicitud/bitacora/{id}/agregar', [BitacoraController::class, 'store'])->middleware('scope:Administrador');
+    Route::patch('user/estudiante/solicitud/bitacora/{id}/item/{itemid}/editar', [BitacoraController::class, 'update'])->middleware('scope:Administrador');
+    Route::get('user/estudiante/solicitud/bitacora/{id}', [BitacoraController::class, 'index'])->middleware('scope:Administrador');
+    Route::get('user/estudiante/solicitud/bitacora/{id}/item/{itemid}', [BitacoraController::class, 'show'])->middleware('scope:Administrador');
+    //End Bitacora
 
     //Persona
     Route::get('persona', [PersonaController::class, 'index'])->middleware('scopes:Administrador');

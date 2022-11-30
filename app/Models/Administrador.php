@@ -39,9 +39,9 @@ class Administrador extends Model
       return $this->hasMany(Revision_Solicitud::class, 'administrador_Id', 'id');
     }
     
-    public function Expediente_PAI()
+    public function PlanDeAccionIndividual()
     {
-        return $this->hasMany(Expediente_Plan_De_Accion::class, 'administrador_Id', 'id');	
+        return $this->hasMany(Plan_De_Accion_Individual::class, 'administrador_Id', 'id');	
     }
     public function Persona()
     {

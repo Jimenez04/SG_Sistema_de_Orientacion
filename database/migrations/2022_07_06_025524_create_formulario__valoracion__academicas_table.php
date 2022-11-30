@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('formulario__valoracion__academicas', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->integer('respuesta');
             $table->timestamps();
         });

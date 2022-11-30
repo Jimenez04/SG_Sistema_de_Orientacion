@@ -11,7 +11,7 @@ class Item_Informe extends Model
     protected $fillable = [
         'id',
         'revision_Solicitud_Id',
-        'expediente_Solicitud_Id',
+        'pai_Solicitud_Id',
         'informe_Id',
         	
     ];
@@ -24,8 +24,8 @@ class Item_Informe extends Model
     public function Revision_Solicitud(){
         return $this->belongsTo(Revision_Solicitud::class, 'revision_Solicitud_Id', 'id');
     }
-    public function Expediente_Plan_De_Accion()
+    public function Plan_De_Accion()
     {
-        return $this->belongsTo(Expediente_Plan_De_Accion::class, 'expediente_Solicitud_Id', 'id' );
+        return $this->belongsTo(Plan_De_Accion_Individual::class, 'pai_Solicitud_Id', 'id' );
     }
 }

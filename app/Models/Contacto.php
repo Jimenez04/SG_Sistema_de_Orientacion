@@ -107,8 +107,4 @@ public function delete_e($object, $id){
         return $this->belongsTo(Persona::class, 'persona_cedula', 'cedula');
     }
 
-     public function Vida_Estudiantil()
-    {
-         return $this->hasMany(Vida_Estudiantil::class, 'vida_Estudiantil_Id', 'id');
-    }
 }

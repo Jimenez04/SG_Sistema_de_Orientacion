@@ -27,6 +27,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             fechasSolicitudesSeeder::class,
         ]);
+        
+        $this->call([
+            preguntasPlanDeAccionSeeder::class,
+        ]);
 
         // \App\Models\User::factory(10)->create();
 

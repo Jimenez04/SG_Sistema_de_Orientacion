@@ -36,6 +36,18 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\update_status_Request_adequacy::class => [
             \App\Listeners\updatestatusAdequacyEmailAdmin::class,
             \App\Listeners\updateStatusAdequacyEmailuser::class,
+        ],
+        \App\Events\request_PAI::class => [
+            \App\Listeners\request_PAIEmailAdmin::class,
+            \App\Listeners\request_PAIuser::class,
+        ],
+        \App\Events\update_statu_PAI::class => [
+            \App\Listeners\update_statut_PAIEmailAdmin::class,
+            \App\Listeners\update_statu_PAIuser::class,
+        ],
+        \App\Events\resume_PAI::class => [
+            \App\Listeners\resume_PAIEmailAdmin::class,
+            \App\Listeners\resume_PAIuser::class,
         ]
     ];
 

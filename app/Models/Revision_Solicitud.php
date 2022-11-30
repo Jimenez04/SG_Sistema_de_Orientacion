@@ -198,12 +198,12 @@ class Revision_Solicitud extends Model
                             "error" => "Esta solicitud ya no puede ser editada",
                             ],400);
                     }
-                    $revision->estado = $this->newStatus($status->nuevo_Estado);
+                    $revision->estado = $this->newStatus($status['nuevo_Estado']);
                     $revision->save();
-                        if($this->newStatus($status->nuevo_Estado) == 'Rechazado'){
+                        if($this->newStatus($status['nuevo_Estado']) == 'Rechazado'){
                            $revision = $this->changeNumRequest($numSolicitud);
                         }
-                        update_status_Request_adequacy::dispatch($revision->Solicitud_Adecuacion, $status->descripcion_Rechazado);
+                        update_status_Request_adequacy::dispatch($revision->Solicitud_Adecuacion, $status['descripcion_Rechazado']);
                     return response()->json([
                         "status" => true,
                         "message" => "El nuevo estado a sido actualizado",
@@ -224,6 +224,7 @@ class Revision_Solicitud extends Model
                     if(!SolicitudDeAdecuacion::where('numero_solicitud',$busqueda)->exists()){
                         $solicitud->update(['numero_solicitud' => $busqueda]);
                         $solicitud->save();
+                        $i=101;
                     }
                 }
             return $solicitud->Revision_Solicitud;
@@ -258,6 +259,8 @@ class Revision_Solicitud extends Model
     public function Solicitud_Adecuacion(){
         return $this->belongsTo(SolicitudDeAdecuacion::class, 'solicitud_Numero', 'numero_solicitud');
     }
+
+    
 
     public function Administrador()
     {

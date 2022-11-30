@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('docente');
             $table->string('nombre_Curso');
             $table->integer('numero_De_Matriculas');
-            $table->integer('numero_De_Culminaciones');
-            $table->longText('aspectos_Y_Condiciones_Rezago');
-            $table->integer('actitud_Estudiante');
+            $table->integer('numero_De_Culminaciones')->nullable();
+            $table->longText('aspectos_Y_Condiciones_Rezago')->nullable();
+            $table->integer('actitud_Estudiante')->nullable();
             $table->longText('resumen_No_Aprobar_El_Curso');
             $table->timestamps();
         });
@@ -31,13 +31,15 @@ return new class extends Migration
             $table->foreign('pregunta_Id')->references('id')->on('preguntas__valoracions');
             
             $table->unsignedBigInteger('curso__Rezago_Id')->nullable();
-            $table->foreign('curso__Rezago_Id')->references('id')->on('curso__rezagos');
+            $table->foreign('curso__Rezago_Id')->references('id')->on('curso__rezagos')->onUpdate('cascade')
+            ->onDelete('cascade');
 
        });
 
        Schema::table('actitud__estudiantes', function (Blueprint $table) {
         $table->unsignedBigInteger('curso_Rezago_Id')->nullable();
-        $table->foreign('curso_Rezago_Id')->references('id')->on('curso__rezagos');
+        $table->foreign('curso_Rezago_Id')->references('id')->on('curso__rezagos')->onUpdate('cascade')
+        ->onDelete('cascade');
         });
     }
 

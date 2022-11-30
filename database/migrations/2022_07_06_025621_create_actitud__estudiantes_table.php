@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('actitud__estudiantes', function (Blueprint $table) {
-            $table->string('influencia_En_El_Curso',20);    
-            $table->longText('descripcion');
+            $table->longText('descripcion')->nullable();
             $table->timestamps();
         });
     }

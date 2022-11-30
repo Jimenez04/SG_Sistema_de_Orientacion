@@ -10,18 +10,33 @@ class Formulario_Valoracion_Academica extends Model
     use HasFactory;
 
     protected $fillable = [
-        'curso_Rezago_Id',  
+        'curso__Rezago_Id',  
         'pregunta_Id',
         'respuesta',
-
+        'id'
     ];
-    protected $primaryKey = ['curso_Rezago_Id', 'pregunta_Id'];
 
+    public function addfromReques($object, $request){
+            if($object == null){
+                return ['status' => false, 'message' => 'Error interno'];
+            } 
+            $this->limpiar($object);
+        foreach ($request['cuestionario'] as $pregunta) {
+            $form = new Formulario_Valoracion_Academica($pregunta);
+            $object->Curso_Rezago->Formulario_Valoracion_Academica()->save($form); 
+        }
+    return ["status"=>true];
+}
 
+        public function limpiar($object){
+            if($object->Curso_Rezago->Formulario_Valoracion_Academica != null){
+                $object->Curso_Rezago->Formulario_Valoracion_Academica()->delete();
+            }
+        }
 
     public function Curso_Rezago()
     {
-        return $this->belongsTo(Curso_Rezago::class, 'curso_Rezago_Id', 'id');
+        return $this->belongsTo(Curso_Rezago::class, 'curso__Rezago_Id', 'id');
     }
     public function Preguntas_Valoracion()
     {

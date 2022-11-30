@@ -119,10 +119,4 @@ class Email extends Model
     {
         return $this->belongsTo(Persona::class, 'persona_cedula', 'cedula');
     }
-
-     public function vida_Estudiantil()
-    {
-         return $this->belongsTo(vida_Estudiantil::class, 'vida_Estudiantil_Id', 'id');
-    }
-
 }
