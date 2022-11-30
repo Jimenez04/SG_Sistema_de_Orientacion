@@ -30,11 +30,6 @@ class Grupo_Familiar extends Model
         return ["status"=>true];
         
     }
-
-    public function Expediente_Plan_De_Accion()
-    {
-        return $this->belongsTo(Expediente_Plan_De_Accion::class, 'expediente_Solicitud_Id', 'id' );
-    }
     public function Solicitud_De_Adecuacion()
     {
         return $this->belongsTo(Solicitud_De_Adecuacion::class, 'adecuacion_Solicitud_Id', 'id');

@@ -12,7 +12,6 @@ class Curso_Rezago extends Model
     protected $fillable = [
         'id',  
         'solicitud_Numero',
-        'curso_Id',
         'nombre_Curso',
         'grupo',  
         'docente',
@@ -25,6 +24,58 @@ class Curso_Rezago extends Model
     ];
 
     protected $primaryKey = 'id';
+
+    public function add($object, $request){
+        $curso = new Curso_Rezago($request);
+    if($object->Curso_Rezago()->save($curso)){ 
+        $actitud = new Actitud_Estudiante();
+        $object->Curso_Rezago->Actitud_Estudiante()->save($actitud);  
+                    return [
+                        "status" => true,
+                    ];
+            }else{
+                return [
+                "status" => false, "message" => "Error al crear el curso"
+                        ];
+            }
+    }
+
+    public function i_update($object, $request){
+    if($object->Curso_Rezago->update($request)){ 
+                    return [
+                        "status" => true,
+                    ];
+            }else{
+                return [
+                "status" => false,"message" => "Error al actualizar el curso"
+                        ];
+            }
+    }
+
+    public function add_ActitudEstudiante($object, $request){
+    if($object->Curso_Rezago->Actitud_Estudiante->update($request)){ 
+                    return [
+                        "status" => true,
+                    ];
+            }else{
+                return [
+                "status" => false, "message" => "Error al crear la actitud"
+                        ];
+            }
+    }
+    
+    public function add_Formulario($object, $request){
+        $formulario = new Formulario_Valoracion_Academica();
+        if($formulario->addfromReques($object,$request)){ 
+                    return [
+                        "status" => true,
+                    ];
+            }else{
+                return [
+                "status" => false, "message" => "Error al crear."
+                        ];
+            }
+    }
 
 
 
@@ -43,6 +94,6 @@ class Curso_Rezago extends Model
     }
     public function Formulario_Valoracion_Academica()
     {
-        return $this->hasOne(Formulario_Valoracion_Academica::class, 'curso_Rezago_Id', 'id');
+        return $this->hasMany(Formulario_Valoracion_Academica::class, 'curso__Rezago_Id', 'id');
     }
 }

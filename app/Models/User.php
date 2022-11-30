@@ -54,7 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
     
 
-    public function newUser($request, $is_Admin = false){
+    public function newUser($request){
         try {
             if($this->validate_Email($request['email'])){
                 return response()->json([
@@ -81,15 +81,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
                                 StudentSaved::dispatch($request);
 
-                                if($is_Admin){
                                     return response()->json([
                                         "status" => true,
                                         "Message" => "El usuario fue creado correctamente",
-                                        ],200);
-                                }
-                                    return response()->json([
-                                        "status" => true,
-                                        "token" =>$this->generatetoken($request),
+                                        //"token" =>$this->generatetoken($request),
                                         ],200);
                         }         
         }catch (\Throwable $th) {
@@ -123,8 +118,11 @@ class User extends Authenticatable implements MustVerifyEmail
                             $user->scope = $userRole->role;
                         }
                             $this->revokeAllTokenUser($request['email']);
+                            if($user->email_verified_at == null){
+                                return response()->json(['status' => false, 'message' => "Usuario no validado"], 200);
+                            }
                             $token = $user->createToken($user->email.'-'.now(), [$user->scope]);
-                            return response()->json($token->accessToken, 200);
+                            return response()->json(['status' => true,'token' => $token->accessToken], 200);
                 } else {
                     return response()->json(['status' => "false", 'error' => 'Verifique los campos'], 401); //Usuario o contraseña incorrectos o no existe
                 }

@@ -93,7 +93,7 @@ class UsuarioController extends Controller
 
         public function registerUserFromAdmin(CreateUserFromAdminRequest $request)
         {
-             return $this->User()->newUser($request->validated(), $request->validated('is_admin'));
+             return $this->User()->newUser($request->validated());
         }
     
         /**

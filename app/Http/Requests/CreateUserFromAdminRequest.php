@@ -40,7 +40,6 @@ class CreateUserFromAdminRequest extends FormRequest
             'password_' => 'required|min:6|max:25|same:c_password',
             'c_password' => 'required|min:6|max:25',
 
-            'is_admin' => 'required|boolean',
         ];
     }
 
@@ -95,12 +94,6 @@ class CreateUserFromAdminRequest extends FormRequest
             'c_password.max' => 'La contraseña debe tener menos de 25 caracteres',
             'password_.same' => 'La contraseña y su confirmación deben coincidir',
 
-            //is_Admin
-
-            'is_admin.boolean' => 'El tipo de dato no es valido, "ADMIN"',
-            'is_admin.required' => 'El tipo de dato no es valido, "ADMIN"',
-            'is_admin.min' => 'El tipo de dato no es valido, "ADMIN"',
-            'is_admin.max' => 'El tipo de dato no es valido, "ADMIN"',
         ];
     }
 }

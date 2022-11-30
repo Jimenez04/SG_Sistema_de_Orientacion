@@ -31,6 +31,6 @@ class ActualizacionEstadoSolicitud extends Mailable
      */
     public function build()
     {
-        return  $this->view('emails.request.updateStatus');
+        return  $this->view('emails.request.updateStatus')->subject("Actualización de estado, solicitud de adecuación");
     }
 }

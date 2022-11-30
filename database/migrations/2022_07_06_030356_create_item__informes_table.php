@@ -23,8 +23,8 @@ return new class extends Migration
             $table->foreign('revision_Solicitud_Id')->references('id')->on('revision__solicituds')->onUpdate('cascade')
             ->onDelete('cascade');;
 
-            $table->unsignedBigInteger('expediente_Solicitud_Id')->nullable();
-            $table->foreign('expediente_Solicitud_Id')->references('id')->on('expediente__plan__de__accions')->onUpdate('cascade')
+            $table->unsignedBigInteger('pai_Solicitud_Id')->nullable();
+            $table->foreign('pai_Solicitud_Id')->references('id')->on('plan__de__accion__individuals')->onUpdate('cascade')
             ->onDelete('cascade');;
        });
     }

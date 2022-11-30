@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('salud__fisica__emocionals', function (Blueprint $table) {
-            $table->longText('descipcion');
+            $table->longText('descipcion')->nullable();
             $table->timestamps();
         });
     }

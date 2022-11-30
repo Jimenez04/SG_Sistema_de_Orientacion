@@ -40,6 +40,8 @@ class Estudiante extends Model
                           'carnet_S' => $request['carnet'],
                         ]);
                         $estudiante->save();
+                        $bitacoraparcial = new Bitacora();
+                          $bitacoraparcial->newfromPerson($estudiante);
                           return response()->json([
                               "status" => true,
                               "message" => "Estudiante creado correctamente. OK",
@@ -61,7 +63,7 @@ class Estudiante extends Model
 
         public function get_all(){ 
           if($this->admin_validatedRol()){
-                $list = Estudiante::get();  
+                $list = Estudiante::all();  
                 if($list != null){
                     return response()->json([
                         "success" => true,
@@ -82,10 +84,15 @@ class Estudiante extends Model
       public function get($carnet){ 
         $data= null;
         if($this->admin_validatedRol()['status']){
-          $data = Estudiante::find($carnet)->first();
+          $data = Estudiante::with(['Persona', 'Persona.Email', 'Persona.Contacto'])->find($carnet);
+          $id_bitacora = $data->Bitacora->id;
+          $data = json_decode($data, true);
+          $data += ['id_bitacora' => $id_bitacora];
         }else if($this->user_validatedRol()['status']){
-          $data = Auth::user()->Persona->Estudiante;
+          $carnetinterno = Auth::user()->Persona->Estudiante->carnet;
+          $data = Estudiante::with(['Persona', 'Persona.Email', 'Persona.Contacto'])->find($carnetinterno);
         }
+
         if($data != null){
           return response()->json([
               "success" => true,
@@ -230,21 +237,22 @@ class Estudiante extends Model
     }
     //EndSolicitudDeAdecuacion
 
-
-        //SolicitudPAI
-        public function addSolicitudPAI($carrera)
-        {
-          return $this->SolicitudPAI()->save($carrera);
+     //SolicitudPAI
+     public function addSolicitudPAI($request)
+     {
+       $solicitud = new Plan_De_Accion_Individual($request['solicitud']);
+       if(Plan_De_Accion_Individual::where('numero_Solicitud', $request['solicitud']['numero_Solicitud'])->exists()){
+         return ['status' => false, 'message' => 'La solicitud ya existe en el sistema'];
+        }else if($this->SolicitudPAI()->save($solicitud)){
+          return ['status' => true, 'message' => 'Creada correctamente'];
+         }
+           return ['status' => false, 'message' => 'Error interno'];
+     }
+     //EndPAI
+        public function agregarProfesorConsejero($profesorconsejero){
+          $this->profesor_Consejero = $profesorconsejero->profesor_Consejero;
+          $this->save();
         }
-        public function getSolicitudPAI()
-        {
-          return $this->SolicitudPAI()->get()->first();
-        }
-        public function countSolicitudPAI()
-        {
-            return $this->SolicitudPAI()->count();
-        }
-        //EndSolicitudDeAdecuacion
 
         public function primaryKey()
         {
@@ -260,6 +268,10 @@ class Estudiante extends Model
         public function Carrera()
         {
           return $this->hasMany(Carrera::class, 'estudiante_carnet', 'carnet');
+    }
+    public function Bitacora()
+    {
+        return $this->hasOne(Bitacora::class, 'estudiante_carnet', 'carnet' );
     }
     public function SolicitudDeAdecuacion()
     {

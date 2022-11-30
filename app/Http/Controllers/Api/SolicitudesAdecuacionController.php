@@ -234,7 +234,7 @@ class SolicitudesAdecuacionController extends Controller
      */
     public function updateState($numSolicitud, updateStatus_Request $status)
     {
-        return $this->revisionSolicitud()->updateStatus($numSolicitud, $status);
+        return $this->revisionSolicitud()->updateStatus($numSolicitud, $status->validated());
     }
 
     
