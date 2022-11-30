@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\API\BitacoraController;
+use App\Http\Controllers\Api\BitacoraController;
 use App\Http\Controllers\Api\PersonaController;
 use App\Http\Controllers\Api\UsuarioController;
 use App\Http\Controllers\Api\SolicitudesAdecuacionController;
-use App\Http\Controllers\API\SolicitudesPAIController;
+use App\Http\Controllers\Api\SolicitudesPAIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;

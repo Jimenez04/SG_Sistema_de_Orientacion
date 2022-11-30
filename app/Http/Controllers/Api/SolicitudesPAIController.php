@@ -8,7 +8,6 @@ use App\Http\Requests\resumePAI_request;
 use App\Http\Requests\updateStatusPAI_request;
 use App\Models\Plan_De_Accion_Individual;
 use App\Models\Preguntas_Valoracion;
-use Dotenv\Validator;
 use Illuminate\Http\Request;
 
 class SolicitudesPAIController extends Controller
