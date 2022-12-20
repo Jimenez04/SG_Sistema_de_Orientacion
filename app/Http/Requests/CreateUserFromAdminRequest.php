@@ -28,6 +28,7 @@ class CreateUserFromAdminRequest extends FormRequest
         return [
             //personal data
             'cedula' => 'required|unique:personas|min:9|max:20',
+            'carnet' => 'required|unique:estudiantes|min:4|max:20',
             'nombre1' => 'required|min:3|max:20|string',
             'nombre2' => 'min:3|max:20|string|nullable',
             'apellido1' => 'required|min:3|max:20|string',
@@ -51,6 +52,11 @@ class CreateUserFromAdminRequest extends FormRequest
             'cedula.min' => 'La cedula no es valida, debe tener al menos 9 caracteres',
             'cedula.max' => 'La cedula no es valida, debe tener maximo 20 caracteres',
             'cedula.unique' => 'La cedula ya se encuentra registrada',
+
+            'carnet.required' => 'El carnet es requerido',
+            'carnet.min' => 'El carnet no es valido, debe tener al menos 4 caracteres',
+            'carnet.max' => 'El carnet no es valido, debe tener maximo 20 caracteres',
+            'carnet.unique' => 'El carnet ya se encuentra registrado',
             
             'nombre1.required' => 'El primer nombre es requerido',
             'nombre1.min' => 'El primer nombre no es valido, debe tener al menos 3 caracteres',

@@ -96,7 +96,7 @@ class Persona extends Model
             }
         }
 
-        public function newperson($request)
+        public function newperson($request, $onlyperson = false)
         {
             try {
                 $cedula = (trim(stripslashes(htmlspecialchars($request['cedula'])))); 
@@ -107,6 +107,8 @@ class Persona extends Model
                                 "error" => "La cédula ya esta asociada a un usuario", //Persona ocupada
                                 ],409);
                         }
+                        $persona = new Persona();
+                        $persona->addEmail($cedula, $request['email']); //En caso que sea un nuevo usuario
                         return response()->json([
                             "status" => 3,
                             "error" => "La cédula ya se encuentra en uso", //persona existente, sin usuario
@@ -122,19 +124,23 @@ class Persona extends Model
                     ]);
                     $persona->save();
 
-                    $estudiante = new Estudiante();
-                    $response = $estudiante->add($request);
-                    $response = json_decode($response->getContent());
+                   if(!$onlyperson){
+                        $estudiante = new Estudiante();
+                        $response = $estudiante->add($request);
+                        $response = json_decode($response->getContent());
 
-                    if(!$response->status){
-                        $persona->delete();
-                        return response()->json($response);
-                    }else if($response->status == 3 || $response->status){
-                            $estudiante = Estudiante::find($request['carnet']);
-                                $persona->associateStudent($cedula, $estudiante);
-                    }         
+                        if(!$response->status){
+                            $persona->delete();
+                            return response()->json($response);
+                        }else if($response->status == 3 || $response->status){
+                                $estudiante = Estudiante::find($request['carnet']);
+                                    $persona->associateStudent($cedula, $estudiante);
+                        } 
+                        $persona->addEmail($cedula, $request['email']); //En caso que sea un nuevo usuario
+                   }
+                            
                     
-                    $persona->addEmail($cedula, $request['email']); //En caso que sea un nuevo usuario
+                    
                     $persona->addSex($request['sexo_id'], $cedula);
 
                         return response()->json([

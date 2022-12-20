@@ -42,7 +42,7 @@ class Beca extends Model
             $beca = $object->Beca;  
             if($beca != null){
                 return response()->json([
-                    "success" => true,
+                    "status" => true,
                     "message" => "Lista de becas",
                     "data" => $beca
                     ],200);
@@ -54,8 +54,14 @@ class Beca extends Model
             }
     }
 
-    public function get($carnet){ 
+    public function get($carnet = null){ 
         if($this->admin_validatedRol()['status']){
+            if($carnet == null || $carnet == " "){
+                return response()->json([
+                    "status" => false,
+                    "error" => "Ingrese un carnet de estudiante",
+                ],404);
+            }
             $object = Estudiante::find($carnet);
         }else{
             $object = Auth::user()->Persona->Estudiante;
@@ -63,7 +69,7 @@ class Beca extends Model
             $beca = $object->Beca;
             if($beca != null){
                 return response()->json([
-                    "success" => true,
+                    "status" => true,
                     "message" => "Beca",
                     "data" => $beca
                     ],200);
@@ -78,7 +84,7 @@ class Beca extends Model
     public function update_e($request){ 
         $object ='';
         if($this->admin_validatedRol()['status']){
-          $object = Estudiante::find($request['carnet']);
+                $object = Estudiante::find($request['carnet']);
         }else{
             $object = Auth::user()->Persona->Estudiante;
             $request['carnet'] = $object->carnet;
@@ -86,7 +92,7 @@ class Beca extends Model
         if($object->Beca != null){ 
                         $object->Beca->update($request);
                             return response()->json([
-                                "success" => true,
+                                "status" => true,
                                 "message" => "Datos de beca actualizados correctamente",
                                 ],200);
         }else{
@@ -103,7 +109,7 @@ class Beca extends Model
                 if($beca != null){
                         $beca->delete();
                         return response()->json([
-                            "success" => true,
+                            "status" => true,
                             "message" => "Beca eliminada correctamente",
                             ],200);
                 }else{

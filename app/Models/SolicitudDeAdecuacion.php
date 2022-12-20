@@ -36,7 +36,6 @@ class SolicitudDeAdecuacion extends Model
               $solicitudes = $student ? $user->Persona->Estudiante->SolicitudDeAdecuacion : SolicitudDeAdecuacion::all();
                 if($solicitudes == null){
                     return response()->json(['status' => false, 'message' => 'No posee solicitudes de adecuación'], 400);
-
                   }
                   if($student){
                       $solicitudes = $solicitudes ->map(function ($item){
@@ -48,6 +47,7 @@ class SolicitudDeAdecuacion extends Model
                               'nivel_carrera' => $item->nivel_carrera,
                               'realizo_Traslado_Carrera' => $item->realizo_Traslado_Carrera,
                               'estado' => $item->Revision_Solicitud->estado,
+                              'fecha' => Carbon::parse($item->Revision_Solicitud->fecha)->format('d-m-Y'),
                           ]);
                       });
                   }
@@ -69,7 +69,7 @@ class SolicitudDeAdecuacion extends Model
             }
           $user = Auth::User();
           $student = $user->role->role =='Estudiante' ? true : false;
-          $solicitud = $student ? ($user->Persona->Estudiante->SolicitudDeAdecuacion)->find($id) : SolicitudDeAdecuacion::with(['Revision_Solicitud','saludActual','Necesidad_Y_Apoyo','Institucion_Procedencia','Grupo_Familiar','Grupo_Familiar.Pariente'])->find($id); //archivos
+          $solicitud = $student ? ($user->Persona->Estudiante->SolicitudDeAdecuacion)->find($id) : SolicitudDeAdecuacion::with(['Revision_Solicitud','saludActual','Necesidad_Y_Apoyo','Institucion_Procedencia','Grupo_Familiar','Grupo_Familiar.Pariente', 'Archivos'])->find($id); //archivos
             if($solicitud == null){
                 return response()->json(['status' => false, 'message' => 'La solicitud de adecuación no existe'], 400);
             }
@@ -80,6 +80,7 @@ class SolicitudDeAdecuacion extends Model
                 $solicitud += ['salud_actuals' => $solicitudparcial->saludActual];
                 $solicitud += ['necesidad__y__apoyos' => $solicitudparcial->Necesidad_Y_Apoyo];
                 $solicitud += ['institucion__procedencias' => $solicitudparcial->Institucion_Procedencia];
+                $solicitud += ['archivos' => $solicitudparcial->Archivos];
                 $solicitud += ['grupo__familiars' => $solicitudparcial->Grupo_Familiar,['pariente' => $solicitudparcial->Grupo_Familiar->Pariente]];
                 //$solicitud += ['archivos' => $solicitudparcial->Revision_Solicitud];
                 }
@@ -129,6 +130,7 @@ class SolicitudDeAdecuacion extends Model
                   'Institucion_Procedencia' => $item->Institucion_Procedencia,
                   'grupo__familiars' => [$item->Grupo_Familiar,[$item->Grupo_Familiar->Pariente]],
                   'id_Bitacora' => $item->Revision_Solicitud->Bitacora->id,
+                  'archivos' => $item->Archivos,
               ]);
           });
           return response()->json(['status' => true , 'message' => 'Consulta realizada con éxito', 'data' => $solicitud],200);  

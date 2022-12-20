@@ -20,6 +20,7 @@ class Archivos extends Model
     ];
 
     public function addfromReques($object, $request){
+        try {
             if($object == null){
                 return ['status' => false, 'message' => 'Error interno'];
             } 
@@ -27,9 +28,14 @@ class Archivos extends Model
             $namefile = $archivo['nombre'] . $object->numero_solicitud . ".txt";
             Storage::disk('public')->put($namefile, $archivo['archivo64']);
             $archivo+=["url" => $namefile];
+            $archivo+=["expedido_Por" => $archivo['expedidoPor']];
             $object->Archivos()->save(new Archivos($archivo)); 
         }
         return ["status"=>true];
+        } catch (\Throwable $th) {
+            return false;
+        }
+            
     }
 
     public function Solicitud_De_Adecuacion()

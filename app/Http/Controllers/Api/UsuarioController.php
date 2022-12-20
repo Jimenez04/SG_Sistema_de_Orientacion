@@ -163,7 +163,7 @@ class UsuarioController extends Controller
             return $this->Estudiante()->get_all();
         }
         
-        public function get_student($carnet)
+        public function get_student($carnet = null)
         {
             return $this->Estudiante()->get($carnet);
         }
@@ -178,7 +178,6 @@ class UsuarioController extends Controller
         //Grant
         public function add_Beca(agregarBecaRequest $request)
         {
-            dd(Auth::User()->api_token);
             return $this->Estudiante()->addbeca("",$request->validated());
         }
         
@@ -187,7 +186,7 @@ class UsuarioController extends Controller
             return $this->Estudiante()->addbeca($request->validated()['cedula'],$request->validated());
         }
 
-        public function get_grant($carnet)
+        public function get_grant($carnet = null)
         {
             return $this->Beca()->get($carnet);
         }
@@ -201,11 +200,20 @@ class UsuarioController extends Controller
         {
             return $this->User()->email_verified_at($id);
         }
+        public function validate_user_revoke($id)
+        {
+            return $this->User()->email_verified_at_revoke($id);
+        }
 
         public function userInfo() 
         {
-            $user = auth()->user();
-            return response()->json(['user' => $user], 200);
+            $user = auth()->user()->id;
+            if("Administrador" == Auth::user()->role->role){
+               $user = User::with('Persona')->find($user);
+                return response()->json(['user' => $user], 200);
+            }
+            $user = User::with('Persona', 'Persona.Estudiante')->find($user);
+           return response()->json(['user' => $user], 200);
         }
         public function deleteuser_fromAdmin($id) 
         {

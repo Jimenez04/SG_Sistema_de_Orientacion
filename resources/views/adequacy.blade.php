@@ -571,25 +571,25 @@ $img = base64_encode(file_get_contents($imgPath));
                                 <tr>
                                     <td class="texto-inicial fila-uno"  >
                                         <h2>Diagnóstico: </h2> 
-                                        <h3>{{$solicitud->Necesidad_Y_Apoyo->diagnostico}}</h3> 
+                                        <h3>{{$solicitud->Necesidad_Y_Apoyo != null ? $solicitud->Necesidad_Y_Apoyo->diagnostico : 'No indica'}}</h3> 
                                     </td>
                                 </tr>
                             <tr>
                                     <td>
                                         <h2>Área de especialización del profesional que diagnóstica: </h2>
-                                        <h3>{{$solicitud->Necesidad_Y_Apoyo->area_Profesional != null ? $solicitud->Necesidad_Y_Apoyo->area_Profesional : "No índica" }}</h3>
+                                        <h3>{{$solicitud->Necesidad_Y_Apoyo != null ? $solicitud->Necesidad_Y_Apoyo->area_Profesional : "No índica" }}</h3>
                                     </td>
                             </tr>
                             <tr>
                                     <td>
                                         <h2>¿Recibe atención y seguimiento por parte de algún especialista?</h2>
-                                        <h3>{{$solicitud->Necesidad_Y_Apoyo->recibe_atencionyseguimiento ? "Si(X) No(  )": "Si(  ) No(X)"}}</h3>
+                                        <h3>{{$solicitud->Necesidad_Y_Apoyo != null ? $solicitud->Necesidad_Y_Apoyo->recibe_atencionyseguimiento ? "Si(X) No(  )": "Si(  ) No(X)" : "Si(  ) No(X)"}}</h3>
                                     </td>
                             </tr>
                             <tr>
                                 <td>
                                     <h2>Tipo: </h2>
-                                    <h3>{{$solicitud->Necesidad_Y_Apoyo->atencionyseguimiento!= null ? $solicitud->Necesidad_Y_Apoyo->atencionyseguimiento: "No aplica"}}</h3>
+                                    <h3>{{$solicitud->Necesidad_Y_Apoyo != null ? $solicitud->Necesidad_Y_Apoyo->atencionyseguimiento: "No aplica"}}</h3>
                                 </td>
                         </tr>
                         </table>
