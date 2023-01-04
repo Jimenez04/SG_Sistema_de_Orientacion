@@ -33,9 +33,10 @@ class SolicitudDeAdecuacion extends Model
               $user = Auth::User();
               $student = $user->role->role =='Estudiante' ? true : false;
 
-              $solicitudes = $student ? $user->Persona->Estudiante->SolicitudDeAdecuacion : SolicitudDeAdecuacion::all();
+              $solicitudes = $student ? $user->Persona->Estudiante->SolicitudDeAdecuacion->sortByDesc('created_at') : SolicitudDeAdecuacion::with(['Revision_Solicitud'])->get()->sortByDesc('created_at');
                 if($solicitudes == null){
                     return response()->json(['status' => false, 'message' => 'No posee solicitudes de adecuación'], 400);
+
                   }
                   if($student){
                       $solicitudes = $solicitudes ->map(function ($item){
@@ -47,7 +48,7 @@ class SolicitudDeAdecuacion extends Model
                               'nivel_carrera' => $item->nivel_carrera,
                               'realizo_Traslado_Carrera' => $item->realizo_Traslado_Carrera,
                               'estado' => $item->Revision_Solicitud->estado,
-                              'fecha' => Carbon::parse($item->Revision_Solicitud->fecha)->format('d-m-Y'),
+                               'fecha' => Carbon::parse($item->Revision_Solicitud->fecha)->format('d-m-Y'),
                           ]);
                       });
                   }
@@ -69,7 +70,7 @@ class SolicitudDeAdecuacion extends Model
             }
           $user = Auth::User();
           $student = $user->role->role =='Estudiante' ? true : false;
-          $solicitud = $student ? ($user->Persona->Estudiante->SolicitudDeAdecuacion)->find($id) : SolicitudDeAdecuacion::with(['Revision_Solicitud','saludActual','Necesidad_Y_Apoyo','Institucion_Procedencia','Grupo_Familiar','Grupo_Familiar.Pariente', 'Archivos'])->find($id); //archivos
+          $solicitud = $student ? ($user->Persona->Estudiante->SolicitudDeAdecuacion)->find($id) : SolicitudDeAdecuacion::with(['Revision_Solicitud','saludActual','Institucion_Procedencia','Grupo_Familiar','Grupo_Familiar.Pariente', 'Archivos'])->find($id); //archivos
             if($solicitud == null){
                 return response()->json(['status' => false, 'message' => 'La solicitud de adecuación no existe'], 400);
             }
@@ -85,9 +86,11 @@ class SolicitudDeAdecuacion extends Model
                 //$solicitud += ['archivos' => $solicitudparcial->Revision_Solicitud];
                 }
                 else{
-                  $id_bitacora = $solicitud->Revision_Solicitud->Bitacora->id;
+                   $id_bitacora = $solicitud->Revision_Solicitud->Bitacora->id;
+                  $necesidad = $solicitud->Necesidad_Y_Apoyo;
                   $solicitud = json_decode($solicitud, true);
                   $solicitud += ['id_bitacora' => $id_bitacora];
+                  $solicitud += ['necesidad__y__apoyos' => $necesidad];
               }
 
           return response()->json(['status' => true , 'message' => 'Consulta realizada con éxito', 'data' => $solicitud],200);  
@@ -112,25 +115,13 @@ class SolicitudDeAdecuacion extends Model
                 return response()->json(['status' => false, 'message' => 'No posee solicitudes de adecuación'], 400);
             }
             $solicitud = $estudiante->SolicitudDeAdecuacion->map(function ($item){
-              return collect([
-                  'item' => [
-                      'razon_Solicitud' => $item->razon_Solicitud ,
-                      'carrera_Empadronada' => $item->carrera_Empadronada,
-                      'nombre_segunda_carrera' => $item->nombre_segunda_carrera,
-                      'carrera_empadronado_anterior' => $item->carrera_empadronado_anterior,
-                      'ano_ingreso_carrera' => $item->ano_ingreso_carrera,
-                      'nivel_carrera' => $item->nivel_carrera,
-                      'realizo_Traslado_Carrera' => $item->realizo_Traslado_Carrera,
+             return  collect([
+
+                      'id' => $item->id ,
                       'estudiante_carnet' => $item->estudiante_carnet,
                       'numero_solicitud' => $item->numero_solicitud, 
-                ],
-                  'Revision_Solicitud' => $item->Revision_Solicitud,
-                  'saludActual' => $item->saludActual,
-                  'Necesidad_Y_Apoyo' => $item->Necesidad_Y_Apoyo,
-                  'Institucion_Procedencia' => $item->Institucion_Procedencia,
-                  'grupo__familiars' => [$item->Grupo_Familiar,[$item->Grupo_Familiar->Pariente]],
-                  'id_Bitacora' => $item->Revision_Solicitud->Bitacora->id,
-                  'archivos' => $item->Archivos,
+                
+                  'revision__solicitud' => $item->Revision_Solicitud,
               ]);
           });
           return response()->json(['status' => true , 'message' => 'Consulta realizada con éxito', 'data' => $solicitud],200);  
@@ -177,6 +168,7 @@ class SolicitudDeAdecuacion extends Model
                       ],200);
                   }
                 } 
+                $this->eliminarsolicitud($solicitudAdecuacion['solicitud']['numero_solicitud']);
                 return response()->json(['status' => false , 'message' => 'Error', 'data' => $state],400);  
               }else{
                 return response()->json([
@@ -186,6 +178,7 @@ class SolicitudDeAdecuacion extends Model
                   ],400);
               }
       }catch(\Throwable $th) {
+        $this->eliminarsolicitud($solicitudAdecuacion['solicitud']['numero_solicitud']);
         return response()->json([
             "status" => false,
             "error" => $th->getMessage(),

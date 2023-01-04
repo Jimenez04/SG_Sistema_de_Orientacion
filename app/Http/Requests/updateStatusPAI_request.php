@@ -28,7 +28,7 @@ class updateStatusPAI_request extends FormRequest
 
                 'descripcion_Rechazado' => 'required_if:nuevo_Estado,==,4|min:6|string',
 
-                'mensaje' => 'required_if:nuevo_Estado,==,3,nuevo_Estado,==,2,nuevo_Estado,==,1|||min:6|string',
+                'mensaje' => 'required_if:nuevo_Estado,==,3,nuevo_Estado,==,2,nuevo_Estado,==,1|min:6|string',
 
             ];
     }

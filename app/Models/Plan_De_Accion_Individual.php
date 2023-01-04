@@ -38,13 +38,13 @@ class Plan_De_Accion_Individual extends Model
               $user = Auth::User();
               $student = $user->role->role =='Estudiante' ? true : false;
 
-              $solicitudes = $student ? $user->Persona->Estudiante->SolicitudPAI :  Plan_De_Accion_Individual::with(['Curso_Rezago'])->get();
+              $solicitudes = $student ? $user->Persona->Estudiante->SolicitudPAI->sortByDesc('created_at') :  Plan_De_Accion_Individual::with(['Curso_Rezago'])->get()->sortByDesc('created_at');
                 
               if($solicitudes == null){
                     return response()->json(['status' => false, 'message' => 'No posee solicitudes de tipo PAI'], 400);
                 }
                 if($student){
-                    $solicitudes = $solicitudes ->map(function ($item){
+                    $solicitudes = $solicitudes->map(function ($item){
                         return collect([
                             'id' => $item->id,
                             'numero_Solicitud' => $item->numero_Solicitud,
@@ -82,20 +82,18 @@ class Plan_De_Accion_Individual extends Model
                 return response()->json(['status' => false, 'message' => 'La solicitud PAI no existe'], 400);
             }
             if($student){
-                $solicitud = $solicitud ->map(function ($item){
-                    return collect([
-                        'id' => $item->id,
-                        'numero_Solicitud' => $item->numero_Solicitud,
-                        'nombre_Carrera' => $item->nombre_Carrera,
-                        'semestre' => $item->semestre,
-                        'estado' => $item->estado,
-                        'Curso_Rezago' => $item->Curso_Rezago->resumen_No_Aprobar_El_Curso,
-                        'nombre_Curso' => $item->Curso_Rezago->nombre_Curso,
-                        'numero_De_Matriculas' => $item->Curso_Rezago->numero_De_Matriculas,
-                        'grupo' => $item->Curso_Rezago->grupo,
-                        'docente' => $item->Curso_Rezago->docente,
-                    ]);
-                });
+                $solicitudparcial = $solicitud;
+                    $solicitud = [];
+                    $solicitud += ['id' => $solicitudparcial->id];
+                    $solicitud += ['numero_Solicitud' => $solicitudparcial->numero_Solicitud];
+                    $solicitud += ['estado' => $solicitudparcial->estado];
+                    $solicitud += ['semestre' => $solicitudparcial->semestre];
+                    $solicitud += ['nombre_Carrera' => $solicitudparcial->nombre_Carrera];
+                    $solicitud += ['nombre_Curso' => $solicitudparcial->Curso_Rezago->nombre_Curso];
+                    $solicitud += ['numero_De_Matriculas' => $solicitudparcial->Curso_Rezago->numero_De_Matriculas];
+                    $solicitud += ['resumen_No_Aprobar_El_Curso' => $solicitudparcial->Curso_Rezago->resumen_No_Aprobar_El_Curso];
+                    $solicitud += ['grupo' => $solicitudparcial->Curso_Rezago->grupo];
+                    $solicitud += ['docente' => $solicitudparcial->Curso_Rezago->docente];
             }else{
                 $id_bitacora = $solicitud->Bitacora->id;
                 $solicitud = json_decode($solicitud, true);
@@ -125,7 +123,6 @@ class Plan_De_Accion_Individual extends Model
 
               $solicitud = $estudiante->SolicitudPAI->map(function ($item){
                 return collect([
-                    'item' => [
                     'id' => $item->id,
                     'numero_Solicitud' =>$item->numero_Solicitud,
                     'semestre' =>$item->semestre,
@@ -137,9 +134,8 @@ class Plan_De_Accion_Individual extends Model
                     'salud_Como_Impedimento' =>$item->salud_Como_Impedimento,
                     'comentarios_Presentes_Reunion' =>$item->comentarios_Presentes_Reunion,
                     'estado' =>$item->estado,
-                    'profesional_VidaEstudiantil' =>$item->profesional_VidaEstudiantil
-                ],
-                    'Curso' => $item->Curso_Rezago,
+                    'profesional_VidaEstudiantil' =>$item->profesional_VidaEstudiantil,
+                    'curso__rezago' => $item->Curso_Rezago,
                     'Formulario' => $item->Curso_Rezago->Formulario_Valoracion_Academica,
                     'Actitud' => $item->Curso_Rezago->Actitud_Estudiante,
                     'Salud' => $item->Salud_Fisica_Emocional,
@@ -209,6 +205,7 @@ class Plan_De_Accion_Individual extends Model
                                             ],200);
                                         }
                               }
+                              $this->eliminarsolicitud($solicitudPAI['solicitud']['numero_Solicitud']);
                         return response()->json(['status' => false , 'message' => 'Error', 'data' => $state],400);  
                     }else{
                         return response()->json([
@@ -335,14 +332,14 @@ class Plan_De_Accion_Individual extends Model
                 if(!Plan_De_Accion_Individual::where('numero_Solicitud', $numsolicitud)->exists()){
                     return response()->json([
                       "status" => false,
-                      "error" => "La solicitud ingresada no existe en el sistema",
+                      "message" => "La solicitud ingresada no existe en el sistema",
                       ],500);
                 }
                 $solicitud = (Plan_De_Accion_Individual::where('numero_Solicitud',$numsolicitud )->first());
                     if($solicitud->estado == 'Rechazado' || $solicitud->estado == 'Terminado'){
                         return response()->json([
                             "status" => false,
-                            "error" => "Esta solicitud ya no puede ser editada",
+                            "message" => "Esta solicitud ya no puede ser editada",
                             ],400);
                     }
                     $solicitud->Estudiante->agregarProfesorConsejero(new Estudiante($request['Estudiante'])); 
@@ -365,7 +362,7 @@ class Plan_De_Accion_Individual extends Model
                                                                   $this->sendEmail($solicitud, 'update');
                                                             return response()->json([
                                                                 "status" => true,
-                                                                "error" => 'Solicitud actualizada correctamente',
+                                                                "message" => 'Solicitud actualizada correctamente',
                                                                 ],200);
                                                     }
                                                 }
@@ -456,7 +453,7 @@ class Plan_De_Accion_Individual extends Model
                         $i=101;
                     }
                 }
-            return $solicitud->Revision_Solicitud;
+            return $solicitud;
         }
         
         public function verificarID($id){

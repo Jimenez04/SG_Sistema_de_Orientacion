@@ -188,22 +188,24 @@ class Revision_Solicitud extends Model
                 if(!SolicitudDeAdecuacion::where('numero_solicitud', $numSolicitud)->exists()){
                     return response()->json([
                       "status" => false,
-                      "error" => "La solicitud ingresada no existe en el sistema",
+                      "message" => "La solicitud ingresada no existe en el sistema",
                       ],500);
                 }
                 $revision = (SolicitudDeAdecuacion::where('numero_solicitud',$numSolicitud )->first())->Revision_Solicitud;
                     if($revision->estado == 'Rechazado' || $revision->estado == 'Terminado'){
                         return response()->json([
                             "status" => false,
-                            "error" => "Esta solicitud ya no puede ser editada",
+                            "message" => "Esta solicitud ya no puede ser editada",
                             ],400);
                     }
                     $revision->estado = $this->newStatus($status['nuevo_Estado']);
                     $revision->save();
                         if($this->newStatus($status['nuevo_Estado']) == 'Rechazado'){
                            $revision = $this->changeNumRequest($numSolicitud);
+                            update_status_Request_adequacy::dispatch($revision->Solicitud_Adecuacion, $status['descripcion_Rechazado']);
+                        }else{
+                        update_status_Request_adequacy::dispatch($revision->Solicitud_Adecuacion, null);
                         }
-                        update_status_Request_adequacy::dispatch($revision->Solicitud_Adecuacion, $status['descripcion_Rechazado']);
                     return response()->json([
                         "status" => true,
                         "message" => "El nuevo estado a sido actualizado",
@@ -212,7 +214,7 @@ class Revision_Solicitud extends Model
             } catch (\Throwable $th) {
                 return response()->json([
                     "status" => false,
-                    "error" => $th->getMessage(),
+                    "message" => $th->getMessage(),
                     ],500);
             }
         }

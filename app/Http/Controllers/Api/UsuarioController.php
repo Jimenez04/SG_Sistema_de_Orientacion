@@ -172,6 +172,10 @@ class UsuarioController extends Controller
         {
             return $this->Estudiante()->update_e($request->validated());
         }
+         public function existStudent($cedula)
+        {
+            return $this->Estudiante()->existStudent($cedula);
+        }
        //End student
         
        
@@ -200,6 +204,7 @@ class UsuarioController extends Controller
         {
             return $this->User()->email_verified_at($id);
         }
+        
         public function validate_user_revoke($id)
         {
             return $this->User()->email_verified_at_revoke($id);
@@ -208,12 +213,12 @@ class UsuarioController extends Controller
         public function userInfo() 
         {
             $user = auth()->user()->id;
-            if("Administrador" == Auth::user()->role->role){
-               $user = User::with('Persona')->find($user);
-                return response()->json(['user' => $user], 200);
-            }
-            $user = User::with('Persona', 'Persona.Estudiante')->find($user);
-           return response()->json(['user' => $user], 200);
+             if("Administrador" == Auth::user()->role->role){
+                $user = User::with('Persona')->find($user);
+                 return response()->json(['user' => $user], 200);
+             }
+             $user = User::with('Persona', 'Persona.Estudiante')->find($user);
+            return response()->json(['user' => $user], 200);
         }
         public function deleteuser_fromAdmin($id) 
         {

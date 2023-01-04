@@ -27,9 +27,7 @@ class solicitudAdecuacionRequest extends FormRequest
                 'solicitud.razon_Solicitud' => 'required|min:10|max:254|string',
 
                 'solicitud.carrera_Empadronada' => 'required|string|min:4|max:255',
-
                 'solicitud.ano_ingreso_carrera' => 'required|date_format:Y-m-d',
-                
                 'solicitud.nivel_carrera' => 'required|numeric|min:0|max:100',
 
                 'solicitud.nombre_segunda_carrera' => 'string|min:4|max:250',

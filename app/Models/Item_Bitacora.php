@@ -39,11 +39,12 @@ class Item_Bitacora extends Model
     }
 
             public function get_all($id){ 
-                $object = Bitacora::find($id);
+                 $object = Bitacora::find($id);
                 if($object == null){
-                    return response()->json(['status' => false, 'message' => "No existe la solicitud"]);
+                    return response()->json(['status' => false, 'message' => "No existe."]);
                 }
-                $input = $object->item_Bitacora;  
+                $input = $object->item_Bitacora->sortByDesc('created_at');  
+                
                 if($input != null){
                     return response()->json([
                         "status" => true,
@@ -53,7 +54,7 @@ class Item_Bitacora extends Model
                 }else{
                     return response()->json([
                         "status" => false,
-                        "error" => "No tiene ningun email asociado",
+                        "message" => "No existe",
                     ],409);
                 }
         }
@@ -113,7 +114,7 @@ class Item_Bitacora extends Model
                         $item->update($request);
                         $item->save();
                             return response()->json([
-                                "success" => true,
+                                "status" => true,
                                 "message" => "Entrada actualizada correctamente",
                                 ],200);
                 }else{

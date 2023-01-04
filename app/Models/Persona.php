@@ -124,7 +124,8 @@ class Persona extends Model
                     ]);
                     $persona->save();
 
-                   if(!$onlyperson){
+
+                    if(!$onlyperson){
                         $estudiante = new Estudiante();
                         $response = $estudiante->add($request);
                         $response = json_decode($response->getContent());
@@ -137,9 +138,7 @@ class Persona extends Model
                                     $persona->associateStudent($cedula, $estudiante);
                         } 
                         $persona->addEmail($cedula, $request['email']); //En caso que sea un nuevo usuario
-                   }
-                            
-                    
+                   }      
                     
                     $persona->addSex($request['sexo_id'], $cedula);
 

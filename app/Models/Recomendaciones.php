@@ -32,7 +32,7 @@ class Recomendaciones extends Model
         }
 
         public function get_all($object){ 
-                $recomendaciones = $object->Recomendaciones;  
+                $recomendaciones = $object->Recomendaciones->sortByDesc('updated_at');;  
                 if($recomendaciones != null){
                     return response()->json([
                         "success" => true,
@@ -91,7 +91,7 @@ class Recomendaciones extends Model
             if($recomendaciones != null){
                     $recomendaciones->update($request);
                         return response()->json([
-                            "success" => true,
+                            "status" => true,
                             "message" => "Recomendación actualizada correctamente",
                             ],200);
             }else{

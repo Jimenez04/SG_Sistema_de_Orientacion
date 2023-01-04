@@ -30,7 +30,7 @@ class resume_PAIEmailAdmin
     {
         Mail::to(env('MAIL_FROM_ADDRESS'))
         //->cc(['orientacion.sg@ucr.ac.cr','vidaestudiantil.sg@ucr.ac.cr'])
-        ->cc(['jose.040199@gmail.com','jose.040199@hotmail.com'])
+       // ->cc(['jose.040199@gmail.com','jose.040199@hotmail.com'])
        ->send(new resumePAI($event->solicitud, $event->archivos,$event->mensaje_Admin));
     }
 }

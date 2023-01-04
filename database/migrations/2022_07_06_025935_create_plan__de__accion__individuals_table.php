@@ -31,7 +31,8 @@ return new class extends Migration
             
         Schema::table('plan__de__accion__individuals',function (Blueprint $table){
             $table->string('estudiante_Carnet')->nullable();
-            $table->foreign('estudiante_Carnet')->references('carnet')->on('estudiantes');
+            $table->foreign('estudiante_Carnet')->references('carnet')->on('estudiantes')->onUpdate('cascade')
+            ->onDelete('cascade');
             
             $table->unsignedBigInteger('administrador_Id')->nullable();
             $table->foreign('administrador_Id')->references('id')->on('administradors')->onUpdate('cascade')
