@@ -5,7 +5,7 @@ use Carbon\Carbon;
 $imgPath = public_path('storage/img/firma-horizontal-dos-lineas-cmky.jpg');
 $img = base64_encode(file_get_contents($imgPath));
 //$solicitud = Plan_De_Accion_Individual::all()->first();
-$solicitud = (Plan_De_Accion_Individual::where('numero_Solicitud','PAI_A2022M11E504250352SII' )->first());
+//$solicitud = (Plan_De_Accion_Individual::where('numero_Solicitud','PAI_A2022M11E504250352SII' )->first());
 ?>
 <html>
     <head>

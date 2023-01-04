@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\API\BitacoraController;
+use App\Http\Controllers\Api\BitacoraController;
 use App\Http\Controllers\Api\PersonaController;
 use App\Http\Controllers\Api\UsuarioController;
 use App\Http\Controllers\Api\SolicitudesAdecuacionController;
-use App\Http\Controllers\API\SolicitudesPAIController;
+use App\Http\Controllers\Api\SolicitudesPAIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +26,13 @@ Route::post('login', [UsuarioController::class, 'login']);
 Route::post('usuario/olvide-mi-contrasena', [UsuarioController::class, 'forget_Account']);
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
-    // Route::middleware(['auth:api'])->group(function () {
+        Route::get('/validate-token', function () {
+            $user = Auth::user();
+            $userRole = $user->Role()->first();
+            $role = $userRole->role;
+                return ['success' => true, 'scope' => $role];
+        }); 
+
     Route::get('usuario/salir', [UsuarioController::class, 'logOut']);
     Route::get('obtener-usuario', [UsuarioController::class, 'userInfo']);
     Route::post('user/cambiar-contrasena', [UsuarioController::class, 'change_password']);
@@ -180,11 +186,12 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
 
     Route::delete('user/delete/{id}', [UsuarioController::class, 'deleteuser_fromAdmin'])->middleware('scopes:Administrador');
-    Route::patch('user/validate/{id}', [UsuarioController::class, 'validate_user'])->middleware('scopes:Administrador');
+    Route::patch('user/validar/{id}', [UsuarioController::class, 'validate_user'])->middleware('scopes:Administrador');
+    Route::patch('user/revoke/{id}', [UsuarioController::class, 'validate_user_revoke'])->middleware('scopes:Administrador');
 
     //student
     Route::get('admin/persona/estudiante', [UsuarioController::class, 'get_students'])->middleware('scopes:Administrador');
-    Route::get('user/persona/estudiante/{carnet}', [UsuarioController::class, 'get_student']);
+    Route::get('user/persona/estudiante/{carnet?}', [UsuarioController::class, 'get_student']);
 
     Route::patch('usuario/persona/estudiante/actualizar', [UsuarioController::class, 'student_update']);
 
@@ -192,7 +199,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     //end student
 
     //Beca
-    Route::get('admin/persona/estudiante/beca/{carnet}', [UsuarioController::class, 'get_grant']);
+    Route::get('user/persona/beca/estudiante/{carnet?}', [UsuarioController::class, 'get_grant']);
 
     Route::post('user/persona/estudiante/beca/agregar', [UsuarioController::class, 'add_Beca'])->middleware('scopes:Estudiante');
     Route::post('admin/user/persona/estudiante/beca/agregar', [UsuarioController::class, 'add_Beca_Admin'])->middleware('scopes:Administrador');

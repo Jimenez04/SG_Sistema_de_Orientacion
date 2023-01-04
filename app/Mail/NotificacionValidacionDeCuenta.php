@@ -34,6 +34,6 @@ class NotificacionValidacionDeCuenta extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.VerificacionCuenta')->subject("Notificación, nueva cuenta de estudiante creada con éxito");
+        return $this->view('emails.VerificacionCuenta')->subject("Notificación, Cuenta Estudiante");
     }
 }

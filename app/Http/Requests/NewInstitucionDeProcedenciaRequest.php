@@ -39,8 +39,8 @@ class NewInstitucionDeProcedenciaRequest extends FormRequest
     public function messages()
     {
         return [
-            'institucion.nombre.required' => 'El campo de carreras simultáneas es requerido.',
-            'institucion.nombre.string' => 'El campo de carreras simultáneas debe ser un número entre 0 y 1.',
+            'institucion.nombre.required' => 'El nombre de la institución es requerido.',
+            'institucion.nombre.string' => 'El campo nombre de la institución debe ser una cadena de caracteres.',
             'institucion.nombre.min' => 'El campo nombre no debe ser menor a 6 caracteres.',
             'institucion.nombre.max' => 'El campo nombre no puede ser mayor a 254 caracteres.',
             

@@ -205,7 +205,7 @@ class Plan_De_Accion_Individual extends Model
                                         if($state['status']){
                                         return response()->json([
                                             "status" => true,
-                                            "error" => 'Solicitud creada correctamente',
+                                            "message" => 'Solicitud creada correctamente',
                                             ],200);
                                         }
                               }

@@ -89,7 +89,7 @@ class PersonaController extends Controller
         */
         public function Post(CreatePersonRequest $request)
         {
-            return $this->Persona()->newPerson($request->validated());
+            return $this->Persona()->newPerson($request->validated(), true);
         }
         public function Pacth(update_Personal_Information_request $request)
         {

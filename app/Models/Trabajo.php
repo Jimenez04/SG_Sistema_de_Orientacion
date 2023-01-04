@@ -54,7 +54,7 @@ public function addfromReques($object, $request){
             $trabajo = $object->Trabajo;  
             if($trabajo != null){
                 return response()->json([
-                    "success" => true,
+                    "status" => true,
                     "message" => "Lista de trabajos",
                     "data" => $trabajo
                     ],200);
@@ -70,7 +70,7 @@ public function addfromReques($object, $request){
             $trabajo = $object->Trabajo->id == $id ? $object->Trabajo : null;
             if($trabajo != null){
                 return response()->json([
-                    "success" => true,
+                    "status" => true,
                     "message" => "Trabajo",
                     "data" => $trabajo
                     ],200);
@@ -88,7 +88,7 @@ public function addfromReques($object, $request){
                 if($trabajo != null){
                         $object->Trabajo->update($request);
                             return response()->json([
-                                "success" => true,
+                                "status" => true,
                                 "message" => "Datos del trabajo actualizados correctamente",
                                 ],200);
                 }else{
@@ -113,7 +113,7 @@ public function addfromReques($object, $request){
                         $object->save();
                         Trabajo::find($trabajo->id)->delete();
                         return response()->json([
-                            "success" => true,
+                            "status" => true,
                             "message" => "Trabajo eliminado correctamente",
                             ],200);
                 }else{

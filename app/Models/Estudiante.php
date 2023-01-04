@@ -63,7 +63,7 @@ class Estudiante extends Model
 
         public function get_all(){ 
           if($this->admin_validatedRol()){
-                $list = Estudiante::all();  
+                $list = Estudiante::with(['Persona', 'Persona.User'])->get();  
                 if($list != null){
                     return response()->json([
                         "success" => true,
@@ -84,10 +84,17 @@ class Estudiante extends Model
       public function get($carnet){ 
         $data= null;
         if($this->admin_validatedRol()['status']){
-          $data = Estudiante::with(['Persona', 'Persona.Email', 'Persona.Contacto'])->find($carnet);
-          $id_bitacora = $data->Bitacora->id;
-          $data = json_decode($data, true);
-          $data += ['id_bitacora' => $id_bitacora];
+          if($carnet == null){
+            $id = Auth::user()->Persona->Administrador->id;
+              $data = Administrador::with(['Persona', 'Persona.Email', 'Persona.Contacto', 'Persona.User'])->find($id);
+            }else{
+                 $data = Estudiante::with(['Persona', 'Persona.Email', 'Persona.Contacto'])->find($carnet);
+                    if($data != null){
+                      $id_bitacora = $data->Bitacora->id;
+                      $data = json_decode($data, true);
+                      $data += ['id_bitacora' => $id_bitacora];
+                    }
+            }
         }else if($this->user_validatedRol()['status']){
           $carnetinterno = Auth::user()->Persona->Estudiante->carnet;
           $data = Estudiante::with(['Persona', 'Persona.Email', 'Persona.Contacto'])->find($carnetinterno);

@@ -29,10 +29,10 @@ class UserValidate
 
     public function __construct($request)
     {
-         $this->admin_Mensaje1 = "Se le notifica que ha completado el proceso de validación de la cuenta asociada a:" . $request->Persona['nombre1'] . " " .  $request->Persona['nombre2'] . ", carnet: " . $request->Persona->Estudiante->carnet_S . ".";
+         $this->admin_Mensaje1 = $request->email_verified_at != null ? "Se le notifica que ha completado el proceso de validación de la cuenta asociada a: " . $request->Persona['nombre1'] . " " .  $request->Persona['nombre2'] . ", carnet: " . $request->Persona->Estudiante->carnet_S . "." : "Se le notifica que la cuenta asociada a:" . $request->Persona['nombre1'] . " " .  $request->Persona['nombre2'] . ", carnet: " . $request->Persona->Estudiante->carnet_S . ", ha sido suspendida.";
          $this->Admin_Mensaje2 = "Si usted no realizo dicha acción, comuníquese con las oficinas de informática.";
 
-         $this->user_Mensaje1 = "Se le notifica que su cuenta ha sido validada, ya puede disfrutar de los beneficios que ofrece la oficina de orientación.";
+         $this->user_Mensaje1 =  $request->email_verified_at != null ? "Se le notifica que su cuenta ha sido validada, ya puede disfrutar de los beneficios que ofrece la oficina de orientación." : "Se le notifica que su cuenta ha sido suspendida, asociada a: " . $request->Persona['nombre1'] . " " .  $request->Persona['nombre2'] . ", carnet: " . $request->Persona->Estudiante->carnet_S . "."; ;
          $this->user_Mensaje2 = "Ante cualquier consulta, puede llamar directamente a las oficinas de orientación, o bien, asistir de forma presencial.";
         $this->data = $request;
     }

@@ -124,7 +124,7 @@ class User extends Authenticatable implements MustVerifyEmail
                             $token = $user->createToken($user->email.'-'.now(), [$user->scope]);
                             return response()->json(['status' => true,'token' => $token->accessToken], 200);
                 } else {
-                    return response()->json(['status' => "false", 'error' => 'Verifique los campos'], 401); //Usuario o contraseña incorrectos o no existe
+                    return response()->json(['status' => false, 'error' => 'Verifique los campos'], 401); //Usuario o contraseña incorrectos o no existe
                 }
         }catch (\Throwable $th) {
             return response()->json([
@@ -306,6 +306,41 @@ class User extends Authenticatable implements MustVerifyEmail
                                         $user->save();
                                         UserValidate::dispatch($user);
                                         return response()->json(['message'=> "El usuario ha sido verificado con éxito ", 'data' => $user],200);
+                                    }else{
+                                        return response()->json(['message'=> "Este usuario no puede ser actualizado"],400);
+                                    }
+                        }
+                    return response()->json($validated,403);
+            }catch (\Throwable $th) {
+                return response()->json([
+                    "status" => false,
+                    "error" => $th->getMessage(),
+                    ],500);
+            }
+        }
+
+        public function email_verified_at_revoke($id)
+        {
+            try{
+                $isnumeric = json_decode($this->verificarID($id)->getContent());
+                    if(!$isnumeric->status){
+                        return response()->json($isnumeric,400);
+                    }
+                    $validated =  $this->admin_validatedRol();
+                        if($validated['status']){ 
+                            $data = $this->validate_user($id, true);
+                                if(!$data){
+                                    return response()->json(['message' => "El usuario no existe"],400);
+                                }
+                                    $user = User::find($id);
+                                    if($user->Role->role != "Administrador"){
+                                        if($user->email_verified_at == null){
+                                            return response()->json(['message'=> "El usuario ya se encuentra de baja"], 409);
+                                        }
+                                        $user->email_verified_at = null;
+                                        $user->save();
+                                        UserValidate::dispatch($user);
+                                        return response()->json(['message'=> "La acción se realizo con éxito ", 'data' => $user],200);
                                     }else{
                                         return response()->json(['message'=> "Este usuario no puede ser actualizado"],400);
                                     }
