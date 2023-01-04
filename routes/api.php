@@ -5,8 +5,6 @@ use App\Http\Controllers\Api\PersonaController;
 use App\Http\Controllers\Api\UsuarioController;
 use App\Http\Controllers\Api\SolicitudesAdecuacionController;
 use App\Http\Controllers\Api\SolicitudesPAIController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,13 +24,12 @@ Route::post('login', [UsuarioController::class, 'login']);
 Route::post('usuario/olvide-mi-contrasena', [UsuarioController::class, 'forget_Account']);
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
-        Route::get('/validate-token', function () {
-            $user = Auth::user();
+    Route::get('/validate-token', function () {
+           $user = Auth::user();
             $userRole = $user->Role()->first();
             $role = $userRole->role;
                 return ['success' => true, 'scope' => $role];
-        }); 
-
+    }); 
     Route::get('usuario/salir', [UsuarioController::class, 'logOut']);
     Route::get('obtener-usuario', [UsuarioController::class, 'userInfo']);
     Route::post('user/cambiar-contrasena', [UsuarioController::class, 'change_password']);
@@ -51,6 +48,8 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('user/admin/persona/estudiante/adecuacion/{carnet}', [SolicitudesAdecuacionController::class, 'showForCarnet'])->middleware('scope:Administrador');
 
     Route::patch('user/admin/persona/estudiante/adecuacion/{numSolicitud}/estado/actualizar', [SolicitudesAdecuacionController::class, 'updateState'])->middleware('scope:Administrador');
+
+     Route::get('user/adecuacion/{numSolicitud}/archivos', [SolicitudesAdecuacionController::class, 'obtenerarchivos']);
 
     //Observación
     Route::post('user/admin/persona/estudiante/adecuacion/{numsolicitud}/observacion', [SolicitudesAdecuacionController::class, 'addObservation'])->middleware('scope:Administrador');
@@ -90,6 +89,8 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('user/admin/persona/estudiante/pai/{carnet}', [SolicitudesPAIController::class, 'showForCarnet'])->middleware('scope:Administrador');
     
     Route::patch('user/admin/persona/estudiante/pai/{numSolicitud}/estado/actualizar', [SolicitudesPAIController::class, 'updateState'])->middleware('scope:Administrador');
+    
+    Route::get('user/pai/{numSolicitud}/archivos', [SolicitudesPAIController::class, 'obtenerarchivos']);
 
 
 //resume
@@ -187,7 +188,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     Route::delete('user/delete/{id}', [UsuarioController::class, 'deleteuser_fromAdmin'])->middleware('scopes:Administrador');
     Route::patch('user/validar/{id}', [UsuarioController::class, 'validate_user'])->middleware('scopes:Administrador');
-    Route::patch('user/revoke/{id}', [UsuarioController::class, 'validate_user_revoke'])->middleware('scopes:Administrador');
+     Route::patch('user/revoke/{id}', [UsuarioController::class, 'validate_user_revoke'])->middleware('scopes:Administrador');
 
     //student
     Route::get('admin/persona/estudiante', [UsuarioController::class, 'get_students'])->middleware('scopes:Administrador');
@@ -195,6 +196,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     Route::patch('usuario/persona/estudiante/actualizar', [UsuarioController::class, 'student_update']);
 
+    Route::get('admin/estudiante/existe/{cedula}', [UsuarioController::class, 'existStudent'])->middleware('scopes:Administrador');
 
     //end student
 

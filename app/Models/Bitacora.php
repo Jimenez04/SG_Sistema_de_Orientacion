@@ -44,7 +44,7 @@ class Bitacora extends Model
                 break;
         }
         
-        $descripcion = "Se da inicio a la solicitud número: ". $numerosolicitud .", el día:". Carbon::now() ." , por el estudiante: $estudiante->carnet. La presente se encuentra en estaba de aprobación.";
+       $descripcion = "Se da inicio a la solicitud número: ". $numerosolicitud .", el día: ". Carbon::now() ." , por el estudiante: $estudiante->carnet. La presente se encuentra en estado de aprobación.";
 
         $accionesrealizadas = "Inicio de la solicitud número: ". $numerosolicitud .", notificación al estudiante de su solicitud, notificación al estudiante del estado actual de su solicitud.";
 

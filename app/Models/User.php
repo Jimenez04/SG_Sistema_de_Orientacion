@@ -304,6 +304,7 @@ class User extends Authenticatable implements MustVerifyEmail
                                         }
                                         $user->email_verified_at = Carbon::now();
                                         $user->save();
+                                        
                                         UserValidate::dispatch($user);
                                         return response()->json(['message'=> "El usuario ha sido verificado con éxito ", 'data' => $user],200);
                                     }else{
@@ -318,8 +319,8 @@ class User extends Authenticatable implements MustVerifyEmail
                     ],500);
             }
         }
-
-        public function email_verified_at_revoke($id)
+        
+         public function email_verified_at_revoke($id)
         {
             try{
                 $isnumeric = json_decode($this->verificarID($id)->getContent());

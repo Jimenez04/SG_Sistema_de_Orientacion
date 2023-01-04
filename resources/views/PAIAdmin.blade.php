@@ -272,13 +272,22 @@ $img = base64_encode(file_get_contents($imgPath));
                                     <tr class="pregunta">
                                         <td colspan="1" style="width: 80%;">{{$question->pregunta}}:</td>
 
-                                        @for ($i = 1; $i < 6; ++$i)
-                                            @if ($solicitud->Curso_Rezago->Formulario_Valoracion_Academica()->where('pregunta_Id', $question->id)->first()->respuesta == $i)
-                                                <td colspan="1" style="width: 4%;" class="center">X</td>
-                                            @else
-                                                <td colspan="1" style="width: 4%;" class="center"></td>
-                                            @endif
-                                        @endfor
+    
+                                       @if ($solicitud->Curso_Rezago->Formulario_Valoracion_Academica()->where('pregunta_Id', $question->id)->exists())
+                                            @for ($i = 1; $i < 6; ++$i)
+                                                @if ($solicitud->Curso_Rezago->Formulario_Valoracion_Academica()->where('pregunta_Id', $question->id)->first()->respuesta == $i)
+                                                    <td colspan="1" style="width: 4%;" class="center">X</td>
+                                                @else
+                                                    <td colspan="1" style="width: 4%;" class="center"></td>
+                                                @endif
+                                            @endfor
+                                        @else
+                                        <td colspan="1" style="width: 4%;" class="center"></td>
+                                        <td colspan="1" style="width: 4%;" class="center"></td>
+                                        <td colspan="1" style="width: 4%;" class="center"></td>
+                                        <td colspan="1" style="width: 4%;" class="center"></td>
+                                        <td colspan="1" style="width: 4%;" class="center"></td>
+                                        @endif
                                     </tr>
                             @endforeach
                     @endforeach

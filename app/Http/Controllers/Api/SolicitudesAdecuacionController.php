@@ -21,6 +21,7 @@ use App\Models\Revision_Solicitud;
 use App\Models\SolicitudDeAdecuacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Archivos;
 
 class SolicitudesAdecuacionController extends Controller
 {
@@ -36,6 +37,10 @@ class SolicitudesAdecuacionController extends Controller
     public function revisionSolicitud()
     {
         return $revisionSolicitud = new Revision_Solicitud();
+    }
+    public function archivos()
+    {
+        return $archivos = new Archivos();
     }
 
     public function index()
@@ -237,5 +242,9 @@ class SolicitudesAdecuacionController extends Controller
         return $this->revisionSolicitud()->updateStatus($numSolicitud, $status->validated());
     }
 
+    public function obtenerarchivos($numSolicitud)
+    {
+        return $this->archivos()->obtenerarchivos($numSolicitud,'adecuacion' );
+    }
     
 }

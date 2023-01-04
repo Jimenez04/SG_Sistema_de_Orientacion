@@ -52,7 +52,7 @@ class CreateUserFromAdminRequest extends FormRequest
             'cedula.min' => 'La cedula no es valida, debe tener al menos 9 caracteres',
             'cedula.max' => 'La cedula no es valida, debe tener maximo 20 caracteres',
             'cedula.unique' => 'La cedula ya se encuentra registrada',
-
+            
             'carnet.required' => 'El carnet es requerido',
             'carnet.min' => 'El carnet no es valido, debe tener al menos 4 caracteres',
             'carnet.max' => 'El carnet no es valido, debe tener maximo 20 caracteres',

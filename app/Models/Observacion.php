@@ -33,7 +33,7 @@ class Observacion extends Model
     }
 
     public function get_all($object){ 
-            $observaciones = $object->Observacion;  
+            $observaciones = $object->Observacion->sortByDesc('updated_at');;  
             if($observaciones != null){
                 return response()->json([
                     "success" => true,
@@ -92,7 +92,7 @@ class Observacion extends Model
         if($observacion != null){
                 $observacion->update($request);
                     return response()->json([
-                        "success" => true,
+                        "status" => true,
                         "message" => "Observación actualizada correctamente",
                         ],200);
         }else{

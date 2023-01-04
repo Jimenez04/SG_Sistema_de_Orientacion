@@ -9,12 +9,18 @@ use App\Http\Requests\updateStatusPAI_request;
 use App\Models\Plan_De_Accion_Individual;
 use App\Models\Preguntas_Valoracion;
 use Illuminate\Http\Request;
+use App\Models\Archivos;
+use App\Models\Categoria;
 
 class SolicitudesPAIController extends Controller
 {
     public function solicitudPAI()
     {
         return $solicitud = new Plan_De_Accion_Individual();
+    }
+     public function archivos()
+    {
+        return $archivos = new Archivos();
     }
 
     /**
@@ -34,7 +40,7 @@ class SolicitudesPAIController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, newPAI_request $PAI)
-    {
+    { 
         $cedula = $request->cedula == null ? null : $request->cedula;
         return $this->solicitudPAI()->newPAI($cedula, $PAI->validated());
     }
@@ -114,6 +120,11 @@ class SolicitudesPAIController extends Controller
             $banco = $preguntas->map(function ($preguntas) {
                 return $preguntas->only(['id', 'pregunta', 'categoria_Id']);
             });
-        return ['Preguntas' => $banco];
+          $categorias = Categoria::all();
+        return ['Preguntas' => $banco,'categorias' => $categorias];
+    }
+     public function obtenerarchivos($numSolicitud)
+    {
+        return $this->archivos()->obtenerarchivos($numSolicitud, 'pai' );
     }
 }

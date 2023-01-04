@@ -25,9 +25,9 @@ class changePasswordRequest extends FormRequest
     {
         return [
             'email' => 'required|email|regex:/(.*)@ucr.ac.cr/i',
-            'old_password_' => 'required|min:6|max:25',
             'new_password_' => 'required|min:6|max:25|same:new_c_password_',
             'new_c_password_' => 'required|min:6|max:25',
+            'old_password_' => 'required|min:6|max:25',
         ];
     }
 
@@ -39,18 +39,20 @@ class changePasswordRequest extends FormRequest
             'email.email' => 'El email no es valido',
             'email.unique' => 'El email ya se encuentra registrado',
 
-            'old_password_.required' => 'La contraseña es requerida',
-            'old_password_.min' => 'La contraseña debe tener al menos 6 caracteres',
-            'old_password_.max' => 'La contraseña debe tener menos de 25 caracteres',
+            'new_password_.required' => 'La nueva contraseña es requerida',
+            'new_password_.min' => 'La nueva contraseña debe tener al menos 6 caracteres',
+            'new_password_.max' => 'La nueva contraseña debe tener menos de 25 caracteres',
             
-            'new_password_.required' => 'La contraseña es requerida',
-            'new_password_.min' => 'La contraseña debe tener al menos 6 caracteres',
-            'new_password_.max' => 'La contraseña debe tener menos de 25 caracteres',
-            
-            'new_c_password.required' => 'La contraseña es requerida',
-            'new_c_password.min' => 'La contraseña debe tener al menos 6 caracteres',
-            'new_c_password.max' => 'La contraseña debe tener menos de 25 caracteres',
+            'new_c_password_.required' => 'La contraseña de confirmación es requerida',
+            'new_c_password_.min' => 'La contraseña de confirmación debe tener al menos 6 caracteres',
+            'new_c_password_.max' => 'La contraseña de confirmación debe tener menos de 25 caracteres',
             'new_password_.same' => 'La contraseña y su confirmación deben coincidir',
+             'new_c_password_.same' => 'La contraseña y su confirmación deben coincidir',
+             
+            'old_password_.required' => 'La última contraseña es requerida',
+            'old_password_.min' => 'La última contraseña debe tener al menos 6 caracteres',
+            'old_password_.max' => 'La última contraseña debe tener menos de 25 caracteres',
+            
         ];
     }
 }

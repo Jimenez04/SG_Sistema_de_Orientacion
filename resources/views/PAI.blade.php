@@ -119,7 +119,7 @@ $img = base64_encode(file_get_contents($imgPath));
             <section class="section-header-text" style="width:100%;">
                 <div>
                     <h3>Fecha: {{Carbon::now()->format('d-m-Y')}} </h3>
-                    <h3>MSc. Warner Moreno Moreno</h3>
+                    <h3>MSc. Marta Bustamante Mora</h3>
                     <h3>Director</h3>
                     <h3>Sede Guanacaste</h3>
                 </div>
@@ -133,12 +133,14 @@ $img = base64_encode(file_get_contents($imgPath));
                     <?php
                     if(Carbon::now()->month >= 8 && Carbon::now()->month <=  12){
                         $ano = Carbon::now()->year + 1;
-                     } 
+                     }else{
+                        $ano = Carbon::now()->year;
+                     }  
                    
                     ?>
                 <h2>Estimado señor/a</h2>
                 <p>Reciba un cordial saludo, a la vez y de acuerdo con lo establecido en el art. 36, 36 bis y 36 ter del Reglamento de Régimen Académico Estudiantil, solicito acogerme a un plan de acción individual para el curso {{$solicitud->Curso_Rezago->nombre_Curso}} para que se aplique en el {{$solicitud->semestre}} ciclo del {{$ano}}.
-                El motivo por el cual solicito el PAl, es que he llevado el curso X veces en ciclos anteriores, por lo que me encuentro en condición de rezago.</p>
+                El motivo por el cual solicito el PAl, es que he llevado el curso {{$solicitud->Curso_Rezago->numero_De_Matriculas}} veces en ciclos anteriores, por lo que me encuentro en condición de rezago.</p>
                 <h2>Considero que las razones por las cuales no he podido aprobar el curso son:</h2>
                     <p>{{$solicitud->Curso_Rezago->resumen_No_Aprobar_El_Curso}}</p>
 

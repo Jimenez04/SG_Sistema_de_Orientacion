@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Events\StudentSaved;
 use App\Mail\NotificacionNuevaCuentaEstudiante;
-use App\Mail\NotificaciónNuevaCuentaEstudiante;
 use Illuminate\Support\Facades\Mail;
 
 class SendEmailStudent

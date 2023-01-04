@@ -84,7 +84,7 @@ class Beca extends Model
     public function update_e($request){ 
         $object ='';
         if($this->admin_validatedRol()['status']){
-                $object = Estudiante::find($request['carnet']);
+          $object = Estudiante::find($request['carnet']);
         }else{
             $object = Auth::user()->Persona->Estudiante;
             $request['carnet'] = $object->carnet;
@@ -115,7 +115,7 @@ class Beca extends Model
                 }else{
                     return response()->json([
                         "status" => false,
-                        "error" => "El ítem no existe en su perfil.",
+                        "error" => "El 赤tem no existe en su perfil.",
                     ],404);
                 }
         }else{

@@ -63,7 +63,7 @@ class Estudiante extends Model
 
         public function get_all(){ 
           if($this->admin_validatedRol()){
-                $list = Estudiante::with(['Persona', 'Persona.User'])->get();  
+                 $list = Estudiante::with(['Persona', 'Persona.User'])->get();  
                 if($list != null){
                     return response()->json([
                         "success" => true,
@@ -85,7 +85,7 @@ class Estudiante extends Model
         $data= null;
         if($this->admin_validatedRol()['status']){
           if($carnet == null){
-            $id = Auth::user()->Persona->Administrador->id;
+              $id = Auth::user()->Persona->Administrador->id;
               $data = Administrador::with(['Persona', 'Persona.Email', 'Persona.Contacto', 'Persona.User'])->find($id);
             }else{
                  $data = Estudiante::with(['Persona', 'Persona.Email', 'Persona.Contacto'])->find($carnet);
@@ -113,10 +113,51 @@ class Estudiante extends Model
           ],404);
       }
     }
+    
+    public function existStudent($cedula){
+      try {
+          $cedula = (trim(stripslashes(htmlspecialchars($cedula)))); 
+          $data = $this->validate_cedula_DB($cedula, true);
+              if(!$data['status']){
+                  return response()->json($data,400);
+              }
+              $person = new Persona();
+              if($person->validate_cedula_DB($cedula)){
+                  $person = Persona::find($cedula);
+                  if($person->Estudiante != null){
+                    return response()->json([
+                      "status" => true,
+                      "message" => "Estudiante en el sistema",
+                       'data' => ['nombre' => $person->nombre1 . " " . $person->nombre2 . " " . $person->apellido1 . " " .$person->apellido2, 'carnet' => $person->Estudiante->carnet] 
+                      ],200);
+                  }
+              return response()->json([
+              "status" => false,
+              "message" => "Es estudiante no existe en el sistema", 
+              ],400);
+      }else{
+          return response()->json([
+              "status" => false,
+              "message" => "Es estudiante no existe en el sistema", 
+              ],400);
+      }
+      } catch (\Throwable $th) {
+          return response()->json([
+              "success" => false,
+              "error" => $th->getMessage(),
+              ],500);
+      }
+  }
 
     public function update_e($request){ 
       $object ='';
       if($this->admin_validatedRol()['status']){
+          if($request['carnet'] == null){
+            return response()->json([
+              "status" => false,
+              "error" => "Ingrese un carnet",
+            ],400);
+          }
         $object = Estudiante::find($request['carnet']);
       }else{
           $object = Auth::user()->Persona->Estudiante;
