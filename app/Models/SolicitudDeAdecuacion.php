@@ -168,7 +168,7 @@ class SolicitudDeAdecuacion extends Model
                       ],200);
                   }
                 } 
-                $this->eliminarsolicitud($solicitudAdecuacion['solicitud']['numero_solicitud']);
+                //$this->eliminarsolicitud($solicitudAdecuacion['solicitud']['numero_solicitud']);
                 return response()->json(['status' => false , 'message' => 'Error', 'data' => $state],400);  
               }else{
                 return response()->json([

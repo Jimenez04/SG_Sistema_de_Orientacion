@@ -205,7 +205,7 @@ class Plan_De_Accion_Individual extends Model
                                             ],200);
                                         }
                               }
-                              $this->eliminarsolicitud($solicitudPAI['solicitud']['numero_Solicitud']);
+                              //$this->eliminarsolicitud($solicitudPAI['solicitud']['numero_Solicitud']);
                         return response()->json(['status' => false , 'message' => 'Error', 'data' => $state],400);  
                     }else{
                         return response()->json([
