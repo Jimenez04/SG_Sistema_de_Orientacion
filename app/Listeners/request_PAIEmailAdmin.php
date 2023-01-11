@@ -28,10 +28,10 @@ class request_PAIEmailAdmin
      */
     public function handle(request_PAI $event)
     {
-        if(env('APP_ENV' == 'local')){
+        if(env('APP_ENV') == 'local'){
             Mail::to(env('MAIL_FROM_ADDRESS'))
             ->send(new requestPAI($event->solicitud, $event->archivos,$event->mensaje_Admin));  
-        }else if(env('APP_ENV' == 'production')){
+        }else if(env('APP_ENV') == 'production'){
             Mail::to(env('MAIL_FROM_ADDRESS'))
             ->cc(['orientacion.sg@ucr.ac.cr','vidaestudiantil.sg@ucr.ac.cr'])
             ->send(new requestPAI($event->solicitud, $event->archivos,$event->mensaje_Admin));   
